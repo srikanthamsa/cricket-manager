@@ -80,11 +80,20 @@ const TeamIcon = ({ name, size = 16 }: { name: string, size?: number }) => {
   }
 };
 
+/* ─── Helpers ────────────────────────────────────────────────────────────── */
+function getMatchGradient(color1: string, color2: string) {
+  return `linear-gradient(to right, ${color1}40 0%, ${color1}10 33%, transparent 50%, ${color2}10 67%, ${color2}40 100%)`;
+}
+
+function getTeamGradient(color: string) {
+  return `linear-gradient(to right, ${color}30 0%, transparent 60%)`;
+}
+
 /* ─── Header sub-component ───────────────────────────────────────────────── */
 const Header = ({ title, subtitle }: { title: string; subtitle: string }) => (
-  <div className="px-6 pt-12 pb-6 bg-black rounded-b-3xl mb-4">
-    <h2 className="text-sm font-semibold text-slate-400 tracking-wide mb-1">{subtitle}</h2>
-    <h1 className="text-3xl font-semibold text-white leading-none tracking-tight">{title}</h1>
+  <div className="px-8 pt-14 pb-8 bg-black rounded-b-[3rem] mb-6 shadow-2xl">
+    <h2 className="text-sm font-bold text-slate-400 tracking-wider mb-2 uppercase">{subtitle}</h2>
+    <h1 className="text-4xl font-semibold text-white leading-none tracking-tight">{title}</h1>
   </div>
 );
 
@@ -96,7 +105,7 @@ function SetupScreen() {
       <h1 className="text-3xl font-semibold tracking-tight text-white mb-2">Setup Required</h1>
       <p className="text-sm text-slate-400 font-medium mb-8 max-w-xs leading-relaxed">
         Add your Supabase credentials to{' '}
-        <code className="bg-white/10 px-1.5 py-0.5 rounded-lg text-xs font-mono text-slate-200">.env.local</code>{' '}
+        <code className="bg-white/10 px-2 py-1 rounded-full text-xs font-mono text-slate-200">.env.local</code>{' '}
         to enable real-time sync.
       </p>
       <div className="w-full max-w-sm text-left space-y-4 border-t border-white/10 pt-6">
@@ -108,8 +117,8 @@ function SetupScreen() {
           'Fill in SUPABASE_URL and SUPABASE_ANON_KEY',
           'Restart the dev server',
         ].map((s, i) => (
-          <div key={i} className="flex items-start gap-4 bg-white/5 p-3 rounded-2xl">
-            <span className="text-indigo-400 font-medium text-sm mt-0.5">
+          <div key={i} className="flex items-start gap-4 bg-white/5 p-4 rounded-full">
+            <span className="text-indigo-400 font-bold text-sm mt-0.5 ml-2">
               0{i + 1}
             </span>
             <p className="text-sm text-slate-300 font-medium leading-snug">{s}</p>
@@ -216,11 +225,11 @@ function CricketApp() {
   }
 
   return (
-    <div className="min-h-screen bg-black font-sans pb-28 max-w-md mx-auto relative overflow-x-hidden text-slate-200 selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-black font-sans pb-32 max-w-md mx-auto relative overflow-x-hidden text-slate-200 selection:bg-indigo-500/30">
 
       {/* ── Hero banner (home only) ── */}
       {activeTab === 'home' && (
-        <div className="relative h-[22rem] w-full flex flex-col justify-end rounded-b-[2rem] overflow-hidden">
+        <div className="relative h-[24rem] w-full flex flex-col justify-end rounded-b-[3.5rem] overflow-hidden shadow-2xl">
           <div className="absolute inset-0 z-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -228,16 +237,16 @@ function CricketApp() {
               className="w-full h-full object-cover opacity-60"
               alt="Cricket ground"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
           </div>
-          <div className="relative z-10 px-6 pb-8">
-            <p className="text-slate-300 text-xs font-semibold tracking-widest mb-2 uppercase">Mini IPL · 5-Over League</p>
+          <div className="relative z-10 px-8 pb-10">
+            <p className="text-white/80 text-xs font-bold tracking-widest mb-2 uppercase">Mini IPL · 5-Over League</p>
             <h1 className="text-white text-5xl font-semibold tracking-tight leading-none mb-6">
               The Season
             </h1>
-            <div className="flex items-center gap-4 text-xs font-medium uppercase tracking-wide">
+            <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest bg-black/40 w-max px-5 py-2.5 rounded-full backdrop-blur-md">
               <span className="text-indigo-400 flex items-center gap-1.5"><Activity size={14} /> {matches.length}/20 Played</span>
-              <span className="text-slate-400">{20 - matches.length} Remaining</span>
+              <span className="text-slate-300">{20 - matches.length} Remaining</span>
             </div>
           </div>
         </div>
@@ -247,63 +256,79 @@ function CricketApp() {
       {activeTab === 'home' && (
         <div className="pt-8">
           <div className="px-6 mb-12">
-            <h3 className="text-xl font-semibold tracking-tight mb-2 text-white">Next Match</h3>
-            <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+            <h3 className="text-2xl font-semibold tracking-tight mb-3 text-white">Next Match</h3>
+            <p className="text-slate-400 text-sm mb-6 leading-relaxed px-1">
               The legendary 5-over derby continues. Who takes the points today?
             </p>
             {nextFixture ? (
-              <button
-                onClick={() => openScoreModal(nextFixture.team1, nextFixture.team2)}
-                className="w-full py-5 rounded-2xl border border-white/10 bg-white/5 text-white font-medium flex items-center justify-between px-6 hover:bg-white/10 active:bg-white/5 transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-indigo-400"><Plus size={18} /></span>
-                  <span className="text-sm">Record Result</span>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs font-semibold tracking-wide text-slate-300 uppercase">{nextFixture.team1} vs {nextFixture.team2}</span>
-                </div>
-              </button>
+              (() => {
+                const c1 = FALLBACK_TEAMS.find(t => t.name === nextFixture.team1)?.color || '#fff';
+                const c2 = FALLBACK_TEAMS.find(t => t.name === nextFixture.team2)?.color || '#fff';
+                return (
+                  <button
+                    onClick={() => openScoreModal(nextFixture.team1, nextFixture.team2)}
+                    style={{ background: getMatchGradient(c1, c2) }}
+                    className="w-full py-6 rounded-[2.5rem] border border-white/5 text-white font-semibold flex flex-col items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl"
+                  >
+                    <div className="flex items-center gap-4 w-full justify-center px-6">
+                      <span className="text-lg font-bold tracking-wide uppercase">{nextFixture.team1}</span>
+                      <span className="text-[10px] font-black text-white/50 uppercase tracking-widest bg-black/30 px-3 py-1 rounded-full">VS</span>
+                      <span className="text-lg font-bold tracking-wide uppercase">{nextFixture.team2}</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-black/40 px-5 py-2 rounded-full text-xs font-bold tracking-widest text-white/90 uppercase mt-2">
+                      <Plus size={14} /> Record Result
+                    </div>
+                  </button>
+                );
+              })()
             ) : (
-              <div className="w-full py-5 rounded-2xl bg-white/5 text-slate-400 font-medium text-center text-sm">
+              <div className="w-full py-6 rounded-[2.5rem] bg-white/5 text-slate-400 font-bold tracking-wide text-center text-sm shadow-xl">
                 All 20 matches played 🏆
               </div>
             )}
           </div>
 
           <div>
-            <div className="px-6 mb-4">
-              <h3 className="text-xl font-semibold tracking-tight text-white">Recent Results</h3>
+            <div className="px-6 mb-5">
+              <h3 className="text-2xl font-semibold tracking-tight text-white">Recent Results</h3>
             </div>
-            <div className="flex flex-col px-6 gap-3">
+            <div className="flex flex-col px-6 gap-4">
               {matches.length === 0 ? (
-                <div className="py-12 text-center text-slate-500 font-medium text-sm bg-white/5 rounded-3xl">
+                <div className="py-12 text-center text-slate-500 font-medium text-sm bg-white/5 rounded-[3rem]">
                   No matches played yet
                 </div>
               ) : (
-                matches.slice(0, 10).map(m => (
-                  <div key={m.id} className="px-5 py-4 bg-white/5 rounded-2xl flex items-center justify-between hover:bg-white/10 transition-colors">
-                    <div className="flex items-center gap-6">
-                      <div className="flex flex-col items-center">
-                        <div className={`text-white transition-opacity ${m.winner === m.team1 ? 'opacity-100 text-indigo-400' : 'opacity-40'}`}>
-                          <TeamIcon name={m.team1} size={20} />
+                matches.slice(0, 10).map(m => {
+                  const c1 = FALLBACK_TEAMS.find(t => t.name === m.team1)?.color || '#fff';
+                  const c2 = FALLBACK_TEAMS.find(t => t.name === m.team2)?.color || '#fff';
+                  return (
+                    <div 
+                      key={m.id} 
+                      style={{ background: getMatchGradient(c1, c2) }}
+                      className="px-6 py-5 rounded-[2.5rem] flex items-center justify-between hover:scale-[1.01] transition-transform shadow-lg border border-white/5"
+                    >
+                      <div className="flex items-center gap-5 flex-1">
+                        <div className="flex flex-col items-center w-12">
+                          <div className={`text-white transition-opacity ${m.winner === m.team1 ? 'opacity-100' : 'opacity-40'}`}>
+                            <TeamIcon name={m.team1} size={22} />
+                          </div>
+                          <span className="text-sm font-bold mt-2 text-white">{m.score1}</span>
                         </div>
-                        <span className="text-sm font-semibold mt-2 text-slate-300">{m.score1}</span>
+                        <span className="text-[10px] font-black text-white/40 uppercase tracking-widest bg-black/20 px-2 py-1 rounded-full">VS</span>
+                        <div className="flex flex-col items-center w-12">
+                          <div className={`text-white transition-opacity ${m.winner === m.team2 ? 'opacity-100' : 'opacity-40'}`}>
+                            <TeamIcon name={m.team2} size={22} />
+                          </div>
+                          <span className="text-sm font-bold mt-2 text-white">{m.score2}</span>
+                        </div>
                       </div>
-                      <span className="text-[10px] font-semibold text-slate-600 uppercase tracking-widest">VS</span>
-                      <div className="flex flex-col items-center">
-                        <div className={`text-white transition-opacity ${m.winner === m.team2 ? 'opacity-100 text-indigo-400' : 'opacity-40'}`}>
-                          <TeamIcon name={m.team2} size={20} />
-                        </div>
-                        <span className="text-sm font-semibold mt-2 text-slate-300">{m.score2}</span>
+                      <div className="text-right flex flex-col items-end gap-1">
+                        <p className="text-[11px] font-bold tracking-widest text-white bg-black/40 px-3 py-1.5 rounded-full uppercase">{m.winner} Won</p>
+                        <p className="text-[10px] font-semibold text-white/50 tracking-wide mr-1">{new Date(m.timestamp).toLocaleDateString()}</p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-xs font-semibold tracking-wide text-white mb-1">{m.winner} Won</p>
-                      <p className="text-[10px] font-medium text-slate-500">{new Date(m.timestamp).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </div>
@@ -316,8 +341,8 @@ function CricketApp() {
           <Header subtitle="Tournament Schedule" title="Fixtures" />
 
           <div className="mt-8 px-6">
-            <p className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Leg 1 — First Round</p>
-            <div className="flex flex-col gap-3 mb-10">
+            <p className="text-[11px] font-bold tracking-widest text-slate-500 mb-4 ml-2 uppercase">Leg 1 — First Round</p>
+            <div className="flex flex-col gap-4 mb-12">
               {FIXTURE_LIST.filter(f => f.leg === 1).map(fixture => {
                 const result = getFixtureResult(fixture, matches);
                 const t1 = FALLBACK_TEAMS.find(t => t.name === fixture.team1)!;
@@ -326,38 +351,39 @@ function CricketApp() {
                   <div
                     key={fixture.id}
                     onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)}
-                    className={`px-5 py-4 bg-white/5 rounded-2xl flex items-center justify-between ${!result ? 'cursor-pointer hover:bg-white/10 transition-colors' : ''}`}
+                    style={{ background: getMatchGradient(t1.color, t2.color) }}
+                    className={`px-6 py-5 rounded-[2.5rem] flex items-center justify-between border border-white/5 shadow-lg ${!result ? 'cursor-pointer hover:scale-[1.01] transition-transform' : ''}`}
                   >
                     <div className="flex flex-col items-start gap-1 flex-1">
                       <div className="flex items-center gap-3">
-                        <div className={result?.winner === t1.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t1.name} size={18} /></div>
-                        <span className={`font-semibold text-sm ${result?.winner === t1.name ? 'text-white' : 'text-slate-300'}`}>{t1.name}</span>
+                        <div className="text-white"><TeamIcon name={t1.name} size={20} /></div>
+                        <span className="font-bold text-base text-white">{t1.name}</span>
                       </div>
-                      <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Home</span>
+                      <span className="text-[9px] font-black tracking-widest text-white/60 uppercase ml-8 bg-black/20 px-2 py-0.5 rounded-full">Home</span>
                     </div>
                     <div className="text-center px-4 flex-shrink-0">
                       {result ? (
-                        <div className="text-center bg-black/40 px-3 py-1.5 rounded-xl">
-                          <p className="text-lg font-semibold text-white leading-none">{result.score1}–{result.score2}</p>
+                        <div className="text-center bg-black/60 px-4 py-2 rounded-full shadow-inner">
+                          <p className="text-lg font-bold text-white leading-none">{result.score1}–{result.score2}</p>
                         </div>
                       ) : (
-                        <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-widest">vs</p>
+                        <p className="text-[10px] font-black text-white/50 uppercase tracking-widest bg-black/30 px-3 py-1 rounded-full">vs</p>
                       )}
                     </div>
                     <div className="flex flex-col items-end gap-1 flex-1">
                       <div className="flex items-center gap-3 flex-row-reverse">
-                        <div className={result?.winner === t2.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t2.name} size={18} /></div>
-                        <span className={`font-semibold text-sm ${result?.winner === t2.name ? 'text-white' : 'text-slate-300'}`}>{t2.name}</span>
+                        <div className="text-white"><TeamIcon name={t2.name} size={20} /></div>
+                        <span className="font-bold text-base text-white">{t2.name}</span>
                       </div>
-                      <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Away</span>
+                      <span className="text-[9px] font-black tracking-widest text-white/60 uppercase mr-8 bg-black/20 px-2 py-0.5 rounded-full">Away</span>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <p className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Leg 2 — Return Fixtures</p>
-            <div className="flex flex-col gap-3 mb-10">
+            <p className="text-[11px] font-bold tracking-widest text-slate-500 mb-4 ml-2 uppercase">Leg 2 — Return Fixtures</p>
+            <div className="flex flex-col gap-4 mb-12">
               {FIXTURE_LIST.filter(f => f.leg === 2).map(fixture => {
                 const result = getFixtureResult(fixture, matches);
                 const t1 = FALLBACK_TEAMS.find(t => t.name === fixture.team1)!;
@@ -366,75 +392,82 @@ function CricketApp() {
                   <div
                     key={fixture.id}
                     onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)}
-                    className={`px-5 py-4 bg-white/5 rounded-2xl flex items-center justify-between ${!result ? 'cursor-pointer hover:bg-white/10 transition-colors' : ''}`}
+                    style={{ background: getMatchGradient(t1.color, t2.color) }}
+                    className={`px-6 py-5 rounded-[2.5rem] flex items-center justify-between border border-white/5 shadow-lg ${!result ? 'cursor-pointer hover:scale-[1.01] transition-transform' : ''}`}
                   >
                     <div className="flex flex-col items-start gap-1 flex-1">
                       <div className="flex items-center gap-3">
-                        <div className={result?.winner === t1.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t1.name} size={18} /></div>
-                        <span className={`font-semibold text-sm ${result?.winner === t1.name ? 'text-white' : 'text-slate-300'}`}>{t1.name}</span>
+                        <div className="text-white"><TeamIcon name={t1.name} size={20} /></div>
+                        <span className="font-bold text-base text-white">{t1.name}</span>
                       </div>
-                      <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Home</span>
+                      <span className="text-[9px] font-black tracking-widest text-white/60 uppercase ml-8 bg-black/20 px-2 py-0.5 rounded-full">Home</span>
                     </div>
                     <div className="text-center px-4 flex-shrink-0">
                       {result ? (
-                        <div className="text-center bg-black/40 px-3 py-1.5 rounded-xl">
-                          <p className="text-lg font-semibold text-white leading-none">{result.score1}–{result.score2}</p>
+                        <div className="text-center bg-black/60 px-4 py-2 rounded-full shadow-inner">
+                          <p className="text-lg font-bold text-white leading-none">{result.score1}–{result.score2}</p>
                         </div>
                       ) : (
-                        <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-widest">vs</p>
+                        <p className="text-[10px] font-black text-white/50 uppercase tracking-widest bg-black/30 px-3 py-1 rounded-full">vs</p>
                       )}
                     </div>
                     <div className="flex flex-col items-end gap-1 flex-1">
                       <div className="flex items-center gap-3 flex-row-reverse">
-                        <div className={result?.winner === t2.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t2.name} size={18} /></div>
-                        <span className={`font-semibold text-sm ${result?.winner === t2.name ? 'text-white' : 'text-slate-300'}`}>{t2.name}</span>
+                        <div className="text-white"><TeamIcon name={t2.name} size={20} /></div>
+                        <span className="font-bold text-base text-white">{t2.name}</span>
                       </div>
-                      <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Away</span>
+                      <span className="text-[9px] font-black tracking-widest text-white/60 uppercase mr-8 bg-black/20 px-2 py-0.5 rounded-full">Away</span>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <p className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Playoffs</p>
-            <div className="flex flex-col gap-3">
-              <div className="px-5 py-5 bg-white/5 rounded-2xl">
-                <p className="text-xs font-semibold text-slate-500 mb-4 uppercase tracking-wide">Qualifier <span className="text-slate-600 ml-1 normal-case font-medium">(2nd vs 3rd)</span></p>
+            <p className="text-[11px] font-bold tracking-widest text-slate-500 mb-4 ml-2 uppercase">Playoffs</p>
+            <div className="flex flex-col gap-4">
+              <div 
+                className="px-6 py-6 rounded-[2.5rem] border border-white/5 shadow-lg"
+                style={{ background: getMatchGradient(standings[1]?.color || '#555', standings[2]?.color || '#555') }}
+              >
+                <p className="text-xs font-bold text-white/80 mb-5 uppercase tracking-widest bg-black/40 w-max px-4 py-1.5 rounded-full">Qualifier <span className="text-white/50 ml-1 normal-case font-semibold">(2nd vs 3rd)</span></p>
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col items-start gap-1 flex-1">
                     <div className="flex items-center gap-3">
-                      <div className="text-slate-300"><TeamIcon name={standings[1]?.name ?? ''} size={20} /></div>
-                      <span className="font-semibold text-lg text-white">{standings[1]?.name ?? 'TBD'}</span>
+                      <div className="text-white"><TeamIcon name={standings[1]?.name ?? ''} size={22} /></div>
+                      <span className="font-bold text-xl text-white">{standings[1]?.name ?? 'TBD'}</span>
                     </div>
-                    <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase mt-1">Home</span>
+                    <span className="text-[9px] font-black tracking-widest text-white/60 uppercase mt-1 ml-9 bg-black/20 px-2 py-0.5 rounded-full">Home</span>
                   </div>
-                  <span className="text-slate-600 font-bold text-xs uppercase tracking-widest">VS</span>
+                  <span className="text-white/50 font-black text-[10px] uppercase tracking-widest bg-black/30 px-3 py-1 rounded-full">VS</span>
                   <div className="flex flex-col items-end gap-1 flex-1">
                     <div className="flex items-center gap-3 flex-row-reverse">
-                      <div className="text-slate-300"><TeamIcon name={standings[2]?.name ?? ''} size={20} /></div>
-                      <span className="font-semibold text-lg text-white">{standings[2]?.name ?? 'TBD'}</span>
+                      <div className="text-white"><TeamIcon name={standings[2]?.name ?? ''} size={22} /></div>
+                      <span className="font-bold text-xl text-white">{standings[2]?.name ?? 'TBD'}</span>
                     </div>
-                    <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase mt-1">Away</span>
+                    <span className="text-[9px] font-black tracking-widest text-white/60 uppercase mt-1 mr-9 bg-black/20 px-2 py-0.5 rounded-full">Away</span>
                   </div>
                 </div>
               </div>
-              <div className="px-5 py-5 bg-indigo-600 rounded-2xl">
-                <p className="text-xs font-semibold text-white mb-4 uppercase tracking-wide">Grand Final <span className="text-indigo-200 ml-1 normal-case font-medium">(1st vs Q Winner)</span></p>
+              <div 
+                className="px-6 py-6 rounded-[2.5rem] border border-white/10 shadow-2xl"
+                style={{ background: getMatchGradient(standings[0]?.color || '#4f46e5', '#888') }}
+              >
+                <p className="text-xs font-bold text-white mb-5 uppercase tracking-widest bg-black/50 w-max px-4 py-1.5 rounded-full shadow-inner">Grand Final <span className="text-white/60 ml-1 normal-case font-semibold">(1st vs Q Winner)</span></p>
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col items-start gap-1 flex-1">
                     <div className="flex items-center gap-3">
-                      <div className="text-white"><TeamIcon name={standings[0]?.name ?? ''} size={20} /></div>
-                      <span className="font-semibold text-lg text-white">{standings[0]?.name ?? 'TBD'}</span>
+                      <div className="text-white"><TeamIcon name={standings[0]?.name ?? ''} size={22} /></div>
+                      <span className="font-bold text-xl text-white">{standings[0]?.name ?? 'TBD'}</span>
                     </div>
-                    <span className="text-[9px] font-bold tracking-widest text-indigo-300 uppercase mt-1">Home</span>
+                    <span className="text-[9px] font-black tracking-widest text-white/60 uppercase mt-1 ml-9 bg-black/20 px-2 py-0.5 rounded-full">Home</span>
                   </div>
-                  <span className="text-indigo-400 font-bold text-xs uppercase tracking-widest">VS</span>
+                  <span className="text-white/50 font-black text-[10px] uppercase tracking-widest bg-black/30 px-3 py-1 rounded-full">VS</span>
                   <div className="flex flex-col items-end gap-1 flex-1">
                     <div className="flex items-center gap-3 flex-row-reverse">
-                      <div className="text-white"><Trophy size={20} /></div>
-                      <span className="font-medium text-lg text-white">Winner</span>
+                      <div className="text-white"><Trophy size={22} /></div>
+                      <span className="font-bold text-xl text-white">Winner</span>
                     </div>
-                    <span className="text-[9px] font-bold tracking-widest text-indigo-300 uppercase mt-1">Away</span>
+                    <span className="text-[9px] font-black tracking-widest text-white/60 uppercase mt-1 mr-9 bg-black/20 px-2 py-0.5 rounded-full">Away</span>
                   </div>
                 </div>
               </div>
@@ -449,33 +482,37 @@ function CricketApp() {
           <Header subtitle="Leaderboard" title="Standings" />
           
           <div className="mt-6 mb-12 px-6">
-            <div className="bg-white/5 rounded-[2rem] p-2">
-              <div className="grid grid-cols-6 px-4 py-4 text-[10px] font-semibold tracking-widest text-slate-500 uppercase">
+            <div className="bg-white/5 rounded-[3rem] p-3 shadow-xl">
+              <div className="grid grid-cols-6 px-4 py-4 text-[10px] font-black tracking-widest text-slate-400 uppercase">
                 <div className="col-span-3">Team</div>
                 <div className="text-center">P</div>
                 <div className="text-center">W</div>
                 <div className="text-right">PTS</div>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 {standings.map((team: any, idx) => (
-                  <div key={team.name} className="grid grid-cols-6 px-4 py-4 items-center bg-black/40 rounded-3xl hover:bg-white/5 transition-colors">
+                  <div 
+                    key={team.name} 
+                    style={{ background: getTeamGradient(team.color || '#555') }}
+                    className="grid grid-cols-6 px-5 py-5 items-center bg-black/40 rounded-[2.5rem] hover:scale-[1.01] transition-transform shadow-md"
+                  >
                     <div className="col-span-3 flex items-center gap-4">
-                      <span className="text-xs font-semibold text-slate-500 w-3">{idx + 1}</span>
-                      <div className="text-slate-300">
-                        <TeamIcon name={team.name} size={20} />
+                      <span className="text-xs font-bold text-white/60 w-3">{idx + 1}</span>
+                      <div className="text-white drop-shadow-md">
+                        <TeamIcon name={team.name} size={22} />
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-semibold tracking-tight text-white truncate">{team.full || team.name}</span>
+                        <span className="text-base font-bold tracking-tight text-white truncate">{team.full || team.name}</span>
                         <div className="flex gap-1.5 mt-2">
                           {team.form.slice(-5).map((res: string, i: number) => (
-                            <div key={i} className={`w-1.5 h-1.5 rounded-full ${res === 'W' ? 'bg-indigo-500' : 'bg-white/20'}`} />
+                            <div key={i} className={`w-2 h-2 rounded-full ${res === 'W' ? 'bg-indigo-400' : 'bg-white/20'}`} />
                           ))}
                         </div>
                       </div>
                     </div>
-                    <div className="text-center text-sm font-medium text-slate-400">{team.p}</div>
-                    <div className="text-center text-sm font-medium text-slate-400">{team.w}</div>
-                    <div className="text-right font-semibold text-lg text-white">{team.pts}</div>
+                    <div className="text-center text-sm font-bold text-white/80">{team.p}</div>
+                    <div className="text-center text-sm font-bold text-white/80">{team.w}</div>
+                    <div className="text-right font-black text-xl text-white drop-shadow-md">{team.pts}</div>
                   </div>
                 ))}
               </div>
@@ -483,30 +520,34 @@ function CricketApp() {
           </div>
 
           <div className="px-6">
-            <h4 className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Performance Highlights</h4>
-            <div className="flex flex-col gap-3">
-              <div className="flex justify-between items-center px-6 py-6 bg-white/5 rounded-3xl">
+            <h4 className="text-[11px] font-bold tracking-widest text-slate-500 mb-4 ml-2 uppercase">Performance Highlights</h4>
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-between items-center px-6 py-6 bg-gradient-to-r from-orange-500/20 to-transparent rounded-[2.5rem] border border-white/5 shadow-lg">
                 <div className="flex items-center gap-5">
-                  <Flame size={24} className="text-orange-500" strokeWidth={1.5} />
+                  <div className="bg-orange-500 p-3 rounded-full shadow-lg shadow-orange-500/20">
+                    <Flame size={24} className="text-white" strokeWidth={2} />
+                  </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">On Fire</p>
-                    <p className="font-semibold text-base text-white">{onFire ? onFire.name : standings[0]?.name ?? '—'}</p>
+                    <p className="text-[10px] font-black text-orange-400/80 uppercase tracking-widest mb-1">On Fire</p>
+                    <p className="font-bold text-lg text-white">{onFire ? onFire.name : standings[0]?.name ?? '—'}</p>
                   </div>
                 </div>
-                <div className="bg-black/50 px-4 py-2 rounded-2xl">
-                  <span className="text-lg font-semibold text-white">{standings[0]?.pts ?? 0} pts</span>
+                <div className="bg-black/60 px-5 py-2.5 rounded-full shadow-inner">
+                  <span className="text-xl font-bold text-white">{standings[0]?.pts ?? 0} pts</span>
                 </div>
               </div>
-              <div className="flex justify-between items-center px-6 py-6 bg-white/5 rounded-3xl">
+              <div className="flex justify-between items-center px-6 py-6 bg-gradient-to-r from-indigo-500/20 to-transparent rounded-[2.5rem] border border-white/5 shadow-lg">
                 <div className="flex items-center gap-5">
-                  <TrendingUp size={24} className="text-indigo-400" strokeWidth={1.5} />
+                  <div className="bg-indigo-500 p-3 rounded-full shadow-lg shadow-indigo-500/20">
+                    <TrendingUp size={24} className="text-white" strokeWidth={2} />
+                  </div>
                   <div>
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Bottlers</p>
-                    <p className="font-semibold text-base text-white">{bottler ? bottler.name : standings[standings.length - 1]?.name ?? '—'}</p>
+                    <p className="text-[10px] font-black text-indigo-400/80 uppercase tracking-widest mb-1">Bottlers</p>
+                    <p className="font-bold text-lg text-white">{bottler ? bottler.name : standings[standings.length - 1]?.name ?? '—'}</p>
                   </div>
                 </div>
-                <div className="bg-black/50 px-4 py-2 rounded-2xl">
-                  <span className="text-lg font-semibold text-white">{bottler?.l ?? 0} L</span>
+                <div className="bg-black/60 px-5 py-2.5 rounded-full shadow-inner">
+                  <span className="text-xl font-bold text-white">{bottler?.l ?? 0} L</span>
                 </div>
               </div>
             </div>
@@ -520,37 +561,41 @@ function CricketApp() {
           <Header subtitle="RCB Owner · Your Stats" title="Captain Srikant" />
           
           <div className="grid grid-cols-2 gap-4 px-6 mb-8">
-            <div className="p-8 text-center bg-white/5 rounded-3xl">
-              <p className="text-xs font-semibold text-slate-500 tracking-wide mb-2 uppercase">Played</p>
-              <p className="text-5xl font-semibold text-indigo-400">{matches.length}</p>
+            <div className="p-8 text-center bg-gradient-to-b from-white/10 to-white/5 rounded-[3rem] shadow-lg border border-white/5">
+              <p className="text-[10px] font-black text-slate-400 tracking-widest mb-3 uppercase">Played</p>
+              <p className="text-6xl font-bold text-indigo-400 drop-shadow-lg">{matches.length}</p>
             </div>
-            <div className="p-8 text-center bg-white/5 rounded-3xl">
-              <p className="text-xs font-semibold text-slate-500 tracking-wide mb-2 uppercase">Remaining</p>
-              <p className="text-5xl font-semibold text-slate-300">{Math.max(0, 20 - matches.length)}</p>
+            <div className="p-8 text-center bg-gradient-to-b from-white/10 to-white/5 rounded-[3rem] shadow-lg border border-white/5">
+              <p className="text-[10px] font-black text-slate-400 tracking-widest mb-3 uppercase">Remaining</p>
+              <p className="text-6xl font-bold text-white drop-shadow-lg">{Math.max(0, 20 - matches.length)}</p>
             </div>
           </div>
 
           <div className="px-6 mb-8">
-            <h4 className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Teams &amp; Owners</h4>
-            <div className="flex flex-col gap-3">
+            <h4 className="text-[11px] font-bold tracking-widest text-slate-500 mb-4 ml-2 uppercase">Teams &amp; Owners</h4>
+            <div className="flex flex-col gap-4">
               {standings.map((t: any) => (
-                <div key={t.name} className="px-6 py-5 bg-white/5 rounded-[2rem] hover:bg-white/10 transition-colors">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-4">
-                      <div className="text-slate-300"><TeamIcon name={t.name} size={20} /></div>
+                <div 
+                  key={t.name} 
+                  style={{ background: getTeamGradient(t.color || '#555') }}
+                  className="px-6 py-6 bg-black/40 rounded-[3rem] hover:scale-[1.01] transition-transform shadow-lg border border-white/5"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-5">
+                      <div className="text-white drop-shadow-md"><TeamIcon name={t.name} size={24} /></div>
                       <div>
-                        <p className="text-sm font-semibold text-white">{t.full || t.name}</p>
-                        <p className="text-xs text-slate-500 mt-1">Owner: <span className="text-slate-300 font-medium">{t.owner || '—'}</span></p>
+                        <p className="text-base font-bold text-white">{t.full || t.name}</p>
+                        <p className="text-xs font-semibold text-white/60 mt-1">Owner: <span className="text-white font-bold">{t.owner || '—'}</span></p>
                       </div>
                     </div>
-                    <div className="text-right bg-black/40 px-4 py-2 rounded-2xl">
-                      <p className="text-base font-semibold text-white">{t.pts} pts</p>
-                      <p className="text-[10px] text-slate-500 font-semibold tracking-widest uppercase mt-1">{t.w}W {t.l}L</p>
+                    <div className="text-right bg-black/60 px-5 py-2.5 rounded-full shadow-inner">
+                      <p className="text-lg font-bold text-white">{t.pts} pts</p>
+                      <p className="text-[10px] text-white/50 font-black tracking-widest uppercase mt-1">{t.w}W {t.l}L</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 mt-4 bg-black/30 p-2.5 rounded-xl">
-                    <MapPin size={12} className="text-slate-600 flex-shrink-0 ml-1" />
-                    <p className="text-xs text-slate-400 font-medium">{t.ground || '—'}</p>
+                  <div className="flex items-center gap-2 mt-5 bg-black/30 p-3 rounded-full w-max shadow-inner">
+                    <MapPin size={14} className="text-white/60 flex-shrink-0 ml-1" />
+                    <p className="text-xs text-white/70 font-semibold pr-2">{t.ground || '—'}</p>
                   </div>
                 </div>
               ))}
@@ -558,12 +603,14 @@ function CricketApp() {
           </div>
 
           <div className="px-6">
-            <h4 className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Achievement</h4>
-            <div className="flex items-center gap-5 px-6 py-6 bg-indigo-600/20 rounded-3xl">
-              <div className="text-indigo-400"><Trophy size={28} strokeWidth={1.5} /></div>
+            <h4 className="text-[11px] font-bold tracking-widest text-slate-500 mb-4 ml-2 uppercase">Achievement</h4>
+            <div className="flex items-center gap-5 px-6 py-6 bg-gradient-to-r from-red-600/30 to-red-600/5 rounded-[3rem] border border-red-500/20 shadow-lg">
+              <div className="bg-red-600 p-3 rounded-full shadow-lg shadow-red-600/40">
+                <Trophy size={28} className="text-white" strokeWidth={2} />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-white">RCB Owner</p>
-                <p className="text-xs font-medium text-slate-400 mt-1">We will win it this year 🔴</p>
+                <p className="text-lg font-bold text-white">RCB Owner</p>
+                <p className="text-xs font-semibold text-red-200/80 mt-1">We will win it this year 🔴</p>
               </div>
             </div>
           </div>
@@ -583,24 +630,24 @@ function CricketApp() {
       {/* FAB */}
       <button
         onClick={() => nextFixture ? openScoreModal(nextFixture.team1, nextFixture.team2) : openScoreModal()}
-        className="fixed bottom-24 right-6 w-14 h-14 bg-indigo-600 text-white rounded-full flex items-center justify-center z-40 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-indigo-600/20"
+        className="fixed bottom-28 right-6 w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center z-40 hover:scale-110 active:scale-90 transition-all shadow-xl shadow-indigo-600/30 border-2 border-indigo-400/50"
       >
-        <Plus size={24} strokeWidth={2} />
+        <Plus size={28} strokeWidth={2.5} />
       </button>
 
       {/* ── Bottom nav ── */}
-      <div className="fixed bottom-0 left-0 right-0 h-20 bg-black/90 backdrop-blur-lg flex items-start pt-3 justify-around px-4 z-40 rounded-t-[2.5rem]">
-        <button onClick={() => setActiveTab('home')} className={`p-2 flex flex-col items-center gap-1.5 transition-colors ${activeTab === 'home' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
-          <Calendar size={22} strokeWidth={activeTab === 'home' ? 2 : 1.5} />
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm h-[4.5rem] bg-black/80 backdrop-blur-xl flex items-center justify-around px-2 z-40 rounded-full border border-white/10 shadow-2xl">
+        <button onClick={() => setActiveTab('home')} className={`p-3 rounded-full flex flex-col items-center gap-1 transition-all ${activeTab === 'home' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-500 hover:text-white'}`}>
+          <Calendar size={22} strokeWidth={activeTab === 'home' ? 2.5 : 2} />
         </button>
-        <button onClick={() => setActiveTab('fixtures')} className={`p-2 flex flex-col items-center gap-1.5 transition-colors ${activeTab === 'fixtures' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
-          <ListChecks size={22} strokeWidth={activeTab === 'fixtures' ? 2 : 1.5} />
+        <button onClick={() => setActiveTab('fixtures')} className={`p-3 rounded-full flex flex-col items-center gap-1 transition-all ${activeTab === 'fixtures' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-500 hover:text-white'}`}>
+          <ListChecks size={22} strokeWidth={activeTab === 'fixtures' ? 2.5 : 2} />
         </button>
-        <button onClick={() => setActiveTab('standings')} className={`p-2 flex flex-col items-center gap-1.5 transition-colors ${activeTab === 'standings' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
-          <Trophy size={22} strokeWidth={activeTab === 'standings' ? 2 : 1.5} />
+        <button onClick={() => setActiveTab('standings')} className={`p-3 rounded-full flex flex-col items-center gap-1 transition-all ${activeTab === 'standings' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-500 hover:text-white'}`}>
+          <Trophy size={22} strokeWidth={activeTab === 'standings' ? 2.5 : 2} />
         </button>
-        <button onClick={() => setActiveTab('profile')} className={`p-2 flex flex-col items-center gap-1.5 transition-colors ${activeTab === 'profile' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
-          <User size={22} strokeWidth={activeTab === 'profile' ? 2 : 1.5} />
+        <button onClick={() => setActiveTab('profile')} className={`p-3 rounded-full flex flex-col items-center gap-1 transition-all ${activeTab === 'profile' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-500 hover:text-white'}`}>
+          <User size={22} strokeWidth={activeTab === 'profile' ? 2.5 : 2} />
         </button>
       </div>
     </div>
@@ -631,41 +678,44 @@ function ScoreModal({
     await onSubmit({ team1, team2, score1: s1, score2: s2, winner: s1 >= s2 ? team1 : team2 });
   };
 
-  const sel = "w-full bg-white/5 py-4 px-4 rounded-2xl text-white text-base font-medium outline-none focus:bg-white/10 transition-colors appearance-none";
-  const inp = "w-full bg-white/5 py-4 px-4 rounded-2xl text-white text-base font-medium outline-none focus:bg-white/10 transition-colors";
+  const sel = "w-full bg-black/40 py-5 px-6 rounded-full text-white text-base font-bold outline-none focus:bg-black/60 focus:ring-2 ring-indigo-500/50 transition-all appearance-none border border-white/5";
+  const inp = "w-full bg-black/40 py-5 px-6 rounded-full text-white text-base font-bold outline-none focus:bg-black/60 focus:ring-2 ring-indigo-500/50 transition-all border border-white/5";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-black rounded-t-[2.5rem] border-t border-white/10 p-8 overflow-y-auto max-h-[90vh]">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Score Card</h2>
-          <button onClick={onClose} className="p-2 bg-white/5 rounded-full text-slate-400 hover:text-white transition-colors"><X size={24} strokeWidth={1.5} /></button>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-md">
+      <div className="w-full max-w-md bg-slate-950 rounded-t-[3.5rem] border-t border-white/10 p-8 overflow-y-auto max-h-[95vh] shadow-2xl">
+        <div className="flex justify-between items-center mb-8 px-2">
+          <h2 className="text-3xl font-bold tracking-tight text-white">Score Card</h2>
+          <button onClick={onClose} className="p-3 bg-white/5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-all"><X size={24} strokeWidth={2} /></button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-6">
-            <div className="bg-white/5 p-5 rounded-3xl space-y-4">
-              <p className="text-[10px] font-semibold tracking-widest text-slate-500 uppercase">Team 1 (Batting First)</p>
+            <div className="bg-gradient-to-b from-white/10 to-white/5 p-6 rounded-[2.5rem] border border-white/5 shadow-lg space-y-5">
+              <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase ml-2">Team 1 (Batting First)</p>
               <select value={team1} onChange={e => setTeam1(e.target.value)} className={sel} required>
-                <option value="" className="bg-black text-slate-400">Select team…</option>
-                {teams.filter(t => t.name !== team2).map(t => <option key={t.id} value={t.name} className="bg-black text-white">{t.full_name || t.full || t.name}</option>)}
+                <option value="" className="bg-slate-900 text-slate-400">Select team…</option>
+                {teams.filter(t => t.name !== team2).map(t => <option key={t.id} value={t.name} className="bg-slate-900 text-white">{t.full_name || t.full || t.name}</option>)}
               </select>
               <input type="number" placeholder="Total Runs (e.g. 54)" value={score1} onChange={e => setScore1(e.target.value)} className={inp} required inputMode="numeric" />
             </div>
-            <div className="bg-white/5 p-5 rounded-3xl space-y-4">
-              <p className="text-[10px] font-semibold tracking-widest text-slate-500 uppercase">Team 2 (Chasing)</p>
+            <div className="bg-gradient-to-b from-white/10 to-white/5 p-6 rounded-[2.5rem] border border-white/5 shadow-lg space-y-5">
+              <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase ml-2">Team 2 (Chasing)</p>
               <select value={team2} onChange={e => setTeam2(e.target.value)} className={sel} required>
-                <option value="" className="bg-black text-slate-400">Select team…</option>
-                {teams.filter(t => t.name !== team1).map(t => <option key={t.id} value={t.name} className="bg-black text-white">{t.full_name || t.full || t.name}</option>)}
+                <option value="" className="bg-slate-900 text-slate-400">Select team…</option>
+                {teams.filter(t => t.name !== team1).map(t => <option key={t.id} value={t.name} className="bg-slate-900 text-white">{t.full_name || t.full || t.name}</option>)}
               </select>
               <input type="number" placeholder="Total Runs (e.g. 55)" value={score2} onChange={e => setScore2(e.target.value)} className={inp} required inputMode="numeric" />
             </div>
           </div>
-          <div className="pt-4">
-            <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6 bg-indigo-500/10 p-4 rounded-2xl"><span className="text-indigo-400 font-semibold mr-1">Live Sync.</span>Standings update instantly for all players the moment you publish.</p>
+          <div className="pt-2 pb-6">
+            <div className="flex items-center gap-4 bg-indigo-500/10 p-5 rounded-[2rem] mb-6 border border-indigo-500/20">
+              <div className="bg-indigo-500 p-2 rounded-full text-white"><Activity size={16} strokeWidth={3} /></div>
+              <p className="text-xs text-indigo-200/80 font-medium leading-relaxed"><span className="text-indigo-400 font-bold mr-1">Live Sync.</span>Standings update instantly for all players.</p>
+            </div>
             <button
               type="submit"
               disabled={submitting || !team1 || !team2 || !score1 || !score2 || team1 === team2}
-              className="w-full py-5 bg-indigo-600 rounded-[2rem] text-white font-semibold hover:bg-indigo-500 active:scale-95 transition-all disabled:opacity-30 disabled:scale-100"
+              className="w-full py-6 bg-indigo-600 rounded-full text-white text-lg font-bold hover:bg-indigo-500 active:scale-95 transition-all disabled:opacity-30 disabled:scale-100 shadow-xl shadow-indigo-600/20"
             >
               {submitting ? 'Publishing…' : 'Publish Result'}
             </button>
