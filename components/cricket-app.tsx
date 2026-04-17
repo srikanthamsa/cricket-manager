@@ -108,6 +108,14 @@ function CricketApp() {
   const [isAddingScore, setIsAddingScore] = useState(false);
   const [prefillTeams, setPrefillTeams] = useState<{ t1: string; t2: string } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('cm_user_id');
+    if (saved) setCurrentUser(saved);
+    setAuthChecked(true);
+  }, []);
 
   /* Initial fetch */
   useEffect(() => {
@@ -208,7 +216,7 @@ function CricketApp() {
     setPrefillTeams(null);
   };
 
-  if (loading) {
+  if (loading || !authChecked) {
     return (
       <div className="h-screen w-full bg-[var(--background)] flex flex-col items-center justify-center font-mono">
         <div className="text-[var(--accent)] text-lg uppercase tracking-widest flex items-center">
@@ -217,6 +225,15 @@ function CricketApp() {
       </div>
     );
   }
+
+  if (!currentUser) {
+    return <LoginScreen teams={teams} onSelect={(id) => {
+       localStorage.setItem('cm_user_id', id);
+       setCurrentUser(id);
+    }} />
+  }
+
+  const myTeam = teams.find(t => t.name === currentUser) || teams[0];
 
   return (
     <div className="min-h-screen bg-[var(--background)] bg-circuit font-mono pb-24 max-w-4xl mx-auto relative text-[var(--foreground)] selection:bg-[var(--accent)] selection:text-black">
@@ -366,12 +383,16 @@ function CricketApp() {
                   return (
                     <div key={fixture.id} onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)} className="bg-[var(--background)] border border-[var(--border)] hover:border-[var(--accent)]/50 transition-colors cyber-chamfer-sm relative group overflow-hidden cursor-pointer">
                       {!result && <div className="absolute inset-0 bg-[var(--accent)]/5 opacity-0 group-hover:opacity-100 transition-opacity z-0"></div>}
-                      <div className="relative z-10 flex items-center p-4">
-                        <div className="w-24 shrink-0 font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase">
-                          {result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)] animate-pulse">PENDING</span>}
+                      <div className="relative z-10 flex flex-col p-4">
+                        <div className="w-full flex justify-between items-center mb-4 pb-2 border-b border-[var(--border)]/50">
+                          <div className="font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase flex items-center gap-2">
+                             {result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)] animate-pulse">PENDING</span>}
+                             <span className="opacity-50 hidden sm:inline">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
+                          </div>
+                          {!result && <span className="text-[var(--accent)] font-bold opacity-0 group-hover:opacity-100 transition-opacity">&gt;_</span>}
                         </div>
                         
-                        <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-8 px-4 border-l border-[var(--border)]">
+                        <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-8 px-4 border-l border-[var(--accent)]/30">
                           <div className={`flex justify-between md:justify-start items-center gap-4 flex-1 ${result && result.winner !== fixture.team1 ? 'opacity-40' : ''}`}>
                             <span className={`font-orbitron font-bold tracking-widest ${result && result.winner === fixture.team1 ? 'text-[var(--accent)] drop-shadow-neon' : 'text-[var(--foreground)]'}`}>{fixture.team1}</span>
                             {result && <span className="font-mono text-lg">{result.score1}</span>}
@@ -385,11 +406,7 @@ function CricketApp() {
                           </div>
                         </div>
 
-                        {!result && (
-                          <div className="w-10 shrink-0 flex justify-end">
-                            <span className="text-[var(--accent)] font-bold opacity-0 group-hover:opacity-100 transition-opacity">&gt;_</span>
-                          </div>
-                        )}
+                        </div>
                       </div>
                     </div>
                   );
@@ -407,12 +424,16 @@ function CricketApp() {
                   const result = getFixtureResult(fixture, matches);
                   return (
                     <div key={fixture.id} onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)} className="bg-[var(--background)] border border-[var(--border)] hover:border-[var(--accent)]/50 transition-colors cyber-chamfer-sm relative group overflow-hidden cursor-pointer">
-                      <div className="relative z-10 flex items-center p-4">
-                        <div className="w-24 shrink-0 font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase">
-                          {result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)]">PENDING</span>}
+                      <div className="relative z-10 flex flex-col p-4">
+                        <div className="w-full flex justify-between items-center mb-4 pb-2 border-b border-[var(--border)]/50">
+                          <div className="font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase flex items-center gap-2">
+                             {result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)]">PENDING</span>}
+                             <span className="opacity-50 hidden sm:inline">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
+                          </div>
+                          {!result && <span className="text-[var(--accent)] font-bold opacity-0 group-hover:opacity-100 transition-opacity">&gt;_</span>}
                         </div>
                         
-                        <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-8 px-4 border-l border-[var(--border)]">
+                        <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-8 px-4 border-l border-[var(--accent)]/30">
                           <div className={`flex justify-between md:justify-start items-center gap-4 flex-1 ${result && result.winner !== fixture.team1 ? 'opacity-40' : ''}`}>
                             <span className={`font-orbitron font-bold tracking-widest ${result && result.winner === fixture.team1 ? 'text-[var(--accent)] drop-shadow-neon' : 'text-[var(--foreground)]'}`}>{fixture.team1}</span>
                             {result && <span className="font-mono text-lg">{result.score1}</span>}
@@ -569,8 +590,15 @@ function CricketApp() {
               </div>
               
               <div className="relative z-10">
-                <h2 className="font-orbitron text-3xl font-black text-[var(--foreground)] uppercase tracking-widest mb-2">Captain Srikant</h2>
-                <p className="text-xs text-[var(--accent-secondary)] uppercase tracking-[0.3em] font-share-tech border border-[var(--accent-secondary)]/30 bg-[var(--accent-secondary)]/10 px-3 py-1 inline-block cyber-chamfer-sm">ID: RCB_OWNER_001</p>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="font-orbitron text-3xl font-black text-[var(--foreground)] uppercase tracking-widest mb-2">Captain {myTeam?.owner || 'Unknown'}</h2>
+                    <p className="text-xs text-[var(--accent-secondary)] uppercase tracking-[0.3em] font-share-tech border border-[var(--accent-secondary)]/30 bg-[var(--accent-secondary)]/10 px-3 py-1 inline-block cyber-chamfer-sm">ID: {myTeam?.name}_OWNER_001</p>
+                  </div>
+                  <button onClick={() => { localStorage.removeItem('cm_user_id'); setCurrentUser(null); }} className="text-[10px] text-[var(--muted-foreground)] hover:text-[var(--destructive)] uppercase tracking-widest font-share-tech transition-colors border border-[var(--border)] px-3 py-1.5 bg-[var(--card)] cyber-chamfer-sm">
+                    [SWITCH_ID]
+                  </button>
+                </div>
                 
                 <div className="flex gap-12 mt-12 pt-6 border-t border-[var(--border)]/50">
                   <div>
@@ -727,6 +755,41 @@ function ScoreModal({
             </p>
           </div>
         </form>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Login Screen ───────────────────────────────────────────────────────── */
+function LoginScreen({ teams, onSelect }: { teams: any[], onSelect: (id: string) => void }) {
+  return (
+    <div className="min-h-screen bg-[var(--background)] bg-circuit flex items-center justify-center p-6 font-mono relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)' }}></div>
+      <div className="w-full max-w-md bg-[var(--card)] border border-[var(--accent)] p-8 cyber-chamfer shadow-neon relative z-10">
+        <div className="text-[10px] text-[var(--accent)] font-share-tech uppercase mb-6 flex items-center gap-2">
+          <span className="w-2 h-2 bg-[var(--accent)] animate-pulse"></span>
+          IDENTIFICATION_REQUIRED
+        </div>
+        <h1 className="font-orbitron text-2xl font-black text-[var(--foreground)] uppercase tracking-widest mb-8">Select Entity</h1>
+        
+        <div className="space-y-4">
+          {teams.map(t => (
+            <button 
+              key={t.id}
+              onClick={() => onSelect(t.name)}
+              className="w-full text-left bg-[var(--background)] border border-[var(--border)] p-4 cyber-chamfer-sm hover:border-[var(--accent)] hover:shadow-neon transition-all group relative overflow-hidden"
+            >
+              <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: t.color }}></div>
+              <div className="pl-4 flex justify-between items-center">
+                <div>
+                  <div className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">{t.owner}</div>
+                  <div className="text-[10px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{t.name} // {t.full}</div>
+                </div>
+                <div className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity font-bold">&gt;</div>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
