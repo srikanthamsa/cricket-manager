@@ -82,11 +82,11 @@ const TeamIcon = ({ name, size = 16 }: { name: string, size?: number }) => {
 
 /* ─── Helpers ────────────────────────────────────────────────────────────── */
 function getMatchGradient(color1: string, color2: string) {
-  return `linear-gradient(to right, ${color1}cc 0%, ${color1}66 33%, rgba(0,0,0,0) 50%, ${color2}66 67%, ${color2}cc 100%)`;
+  return `linear-gradient(to right, ${color1}66 0%, transparent 35%, transparent 65%, ${color2}66 100%), rgba(255, 255, 255, 0.05)`;
 }
 
 function getTeamGradient(color: string) {
-  return `linear-gradient(to right, ${color}cc 0%, transparent 60%)`;
+  return `linear-gradient(to right, ${color}66 0%, transparent 60%), rgba(255, 255, 255, 0.05)`;
 }
 
 /* ─── Header sub-component ───────────────────────────────────────────────── */
@@ -352,7 +352,7 @@ function CricketApp() {
                     key={fixture.id}
                     onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)}
                     style={{ background: getMatchGradient(t1.color, t2.color) }}
-                    className={`px-6 py-5 rounded-[2.5rem] flex items-center justify-between border border-white/5 shadow-lg ${!result ? 'cursor-pointer hover:scale-[1.01] transition-transform' : ''}`}
+                    className={`relative overflow-hidden px-6 py-5 rounded-[2.5rem] flex items-center justify-between border border-white/20 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_32px_rgba(0,0,0,0.5)] ${!result ? 'cursor-pointer hover:scale-[1.02] hover:border-white/40 transition-all' : ''}`}
                   >
                     <div className="flex flex-col items-start gap-1 flex-1">
                       <div className="flex items-center gap-3">
@@ -393,7 +393,7 @@ function CricketApp() {
                     key={fixture.id}
                     onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)}
                     style={{ background: getMatchGradient(t1.color, t2.color) }}
-                    className={`px-6 py-5 rounded-[2.5rem] flex items-center justify-between border border-white/5 shadow-lg ${!result ? 'cursor-pointer hover:scale-[1.01] transition-transform' : ''}`}
+                    className={`relative overflow-hidden px-6 py-5 rounded-[2.5rem] flex items-center justify-between border border-white/20 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_32px_rgba(0,0,0,0.5)] ${!result ? 'cursor-pointer hover:scale-[1.02] hover:border-white/40 transition-all' : ''}`}
                   >
                     <div className="flex flex-col items-start gap-1 flex-1">
                       <div className="flex items-center gap-3">
@@ -426,7 +426,7 @@ function CricketApp() {
             <p className="text-[11px] font-bold tracking-widest text-slate-500 mb-4 ml-2 uppercase">Playoffs</p>
             <div className="flex flex-col gap-4">
               <div 
-                className="px-6 py-6 rounded-[2.5rem] border border-white/5 shadow-lg"
+                className="relative overflow-hidden px-6 py-6 rounded-[2.5rem] border border-white/20 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_32px_rgba(0,0,0,0.5)]"
                 style={{ background: getMatchGradient(standings[1]?.color || '#555', standings[2]?.color || '#555') }}
               >
                 <p className="text-xs font-bold text-white/80 mb-5 uppercase tracking-widest bg-black/40 w-max px-4 py-1.5 rounded-full">Qualifier <span className="text-white/50 ml-1 normal-case font-semibold">(2nd vs 3rd)</span></p>
@@ -449,7 +449,7 @@ function CricketApp() {
                 </div>
               </div>
               <div 
-                className="px-6 py-6 rounded-[2.5rem] border border-white/10 shadow-2xl"
+                className="relative overflow-hidden px-6 py-6 rounded-[2.5rem] border border-white/20 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_32px_rgba(0,0,0,0.5)]"
                 style={{ background: getMatchGradient(standings[0]?.color || '#4f46e5', '#888') }}
               >
                 <p className="text-xs font-bold text-white mb-5 uppercase tracking-widest bg-black/50 w-max px-4 py-1.5 rounded-full shadow-inner">Grand Final <span className="text-white/60 ml-1 normal-case font-semibold">(1st vs Q Winner)</span></p>
