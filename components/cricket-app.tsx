@@ -156,6 +156,9 @@ function CricketApp() {
     return Object.values(stats).sort((a: any, b: any) => b.pts - a.pts || b.w - a.w);
   }, [matches, teams]);
 
+  const onFire = standings.find((t: any) => t.form.length >= 3 && t.form.slice(-3).every((r: string) => r === 'W'));
+  const bottler = standings.slice().reverse().find((t: any) => t.form.length >= 2 && t.form.slice(-2).every((r: string) => r === 'L'));
+
   const nextFixture = useMemo(() =>
     FIXTURE_LIST.find(f => !getFixtureResult(f, matches)) || null,
   [matches]);
@@ -399,6 +402,31 @@ function CricketApp() {
                 })}
               </div>
             </div>
+
+            <div className="space-y-4 pt-4 border-t border-[var(--border)] border-dashed">
+              <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
+                <span className="text-[var(--destructive)] mr-2">!</span> PHASE_3_FINAL_EXEC
+              </h3>
+              <div className="space-y-3">
+                <div className="bg-[var(--card)] border border-[var(--accent-tertiary)]/50 p-4 cyber-chamfer-sm relative">
+                  <div className="text-[10px] text-[var(--accent-tertiary)] font-share-tech uppercase mb-4">&gt; QUALIFIER_PROTOCOL (2ND_VS_3RD)</div>
+                  <div className="flex justify-between items-center px-4">
+                    <span className="font-orbitron font-bold text-lg text-[var(--foreground)]">{standings[1]?.name || 'TBD_ENTITY'}</span>
+                    <span className="text-[10px] text-[var(--muted-foreground)] font-share-tech">VS</span>
+                    <span className="font-orbitron font-bold text-lg text-[var(--foreground)]">{standings[2]?.name || 'TBD_ENTITY'}</span>
+                  </div>
+                </div>
+                <div className="bg-[var(--card)] border border-[var(--accent)] p-4 cyber-chamfer-sm shadow-neon-sm relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-2 text-[var(--accent)]/20 font-orbitron text-4xl font-black">WIN</div>
+                  <div className="text-[10px] text-[var(--accent)] font-share-tech uppercase mb-4 relative z-10">&gt; APEX_FINAL_EXECUTION</div>
+                  <div className="flex justify-between items-center px-4 relative z-10">
+                    <span className="font-orbitron font-bold text-xl text-[var(--foreground)] drop-shadow-neon">{standings[0]?.name || 'TBD_ENTITY'}</span>
+                    <span className="text-[10px] text-[var(--muted-foreground)] font-share-tech">VS</span>
+                    <span className="font-orbitron font-bold text-lg text-[var(--foreground)] opacity-70">QUALIFIER_WINNER</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -444,6 +472,36 @@ function CricketApp() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            </div>
+
+            <div className="space-y-4 pt-4 border-t border-[var(--border)] border-dashed">
+              <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
+                <span className="w-1 h-4 bg-[var(--destructive)] mr-2"></span> SYSTEM_ANOMALIES
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-[var(--card)] border border-[var(--accent)]/50 p-5 cyber-chamfer-sm relative overflow-hidden">
+                  <div className="absolute -right-4 -top-4 w-16 h-16 bg-[var(--accent)]/10 blur-xl rounded-full"></div>
+                  <div className="text-[10px] text-[var(--accent)] font-share-tech uppercase tracking-widest mb-1">GOD_MODE_ACTIVE // ON_FIRE</div>
+                  <div className="font-orbitron text-2xl font-black text-[var(--foreground)] drop-shadow-neon mt-2">
+                    {onFire ? onFire.name : (standings[0]?.name || 'NONE')}
+                  </div>
+                  <div className="text-xs text-[var(--muted-foreground)] font-mono mt-1">
+                    {onFire ? '3+ WINSTREAK DETECTED' : 'TOP OF TABLE'}
+                  </div>
+                </div>
+
+                <div className="bg-[var(--card)] border border-[var(--destructive)]/50 p-5 cyber-chamfer-sm relative overflow-hidden">
+                  <div className="absolute -right-4 -top-4 w-16 h-16 bg-[var(--destructive)]/10 blur-xl rounded-full"></div>
+                  <div className="text-[10px] text-[var(--destructive)] font-share-tech uppercase tracking-widest mb-1 text-glitch">CRITICAL_FAILURE // BOTTLERS</div>
+                  <div className="font-orbitron text-2xl font-black text-[var(--destructive)] mt-2">
+                    {bottler ? bottler.name : (standings[standings.length - 1]?.name || 'NONE')}
+                  </div>
+                  <div className="text-xs text-[var(--muted-foreground)] font-mono mt-1">
+                    {bottler ? '2+ LOSSES RECORDED' : 'BOTTOM OF TABLE'}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
