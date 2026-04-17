@@ -24,11 +24,11 @@ const supabase = CONFIGURED
 
 /* ─── Constants ─────────────────────────────────────────────────────────── */
 const FALLBACK_TEAMS = [
-  { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#EC1C24', owner: 'Srikant',  ground: 'M. Chinnaswamy Stadium, Bengaluru' },
-  { id: 'csk', name: 'CSK', full: 'Chennai Super Kings',         color: '#FFCB05', owner: 'KVD',      ground: 'MA Chidambaram Stadium, Chennai' },
-  { id: 'mi',  name: 'MI',  full: 'Mumbai Indians',              color: '#004BA0', owner: 'Debu',     ground: 'Wankhede Stadium, Mumbai' },
-  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders',       color: '#3A225D', owner: 'Ekansh',   ground: 'Eden Gardens, Kolkata' },
-  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad',         color: '#FF6B35', owner: 'Ashpak',   ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad' },
+  { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#FF2A2A', owner: 'Srikant',  ground: 'M. Chinnaswamy Stadium, Bengaluru' },
+  { id: 'csk', name: 'CSK', full: 'Chennai Super Kings',         color: '#FFEA00', owner: 'KVD',      ground: 'MA Chidambaram Stadium, Chennai' },
+  { id: 'mi',  name: 'MI',  full: 'Mumbai Indians',              color: '#00C3FF', owner: 'Debu',     ground: 'Wankhede Stadium, Mumbai' },
+  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders',       color: '#B94BFF', owner: 'Ekansh',   ground: 'Eden Gardens, Kolkata' },
+  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad',         color: '#FF7B00', owner: 'Ashpak',   ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad' },
 ];
 
 const FIXTURE_LIST = [
@@ -82,11 +82,11 @@ const TeamIcon = ({ name, size = 16 }: { name: string, size?: number }) => {
 
 /* ─── Helpers ────────────────────────────────────────────────────────────── */
 function getMatchGradient(color1: string, color2: string) {
-  return `linear-gradient(to right, ${color1}40 0%, ${color1}10 33%, transparent 50%, ${color2}10 67%, ${color2}40 100%)`;
+  return `linear-gradient(to right, ${color1}cc 0%, ${color1}66 33%, rgba(0,0,0,0) 50%, ${color2}66 67%, ${color2}cc 100%)`;
 }
 
 function getTeamGradient(color: string) {
-  return `linear-gradient(to right, ${color}30 0%, transparent 60%)`;
+  return `linear-gradient(to right, ${color}cc 0%, transparent 60%)`;
 }
 
 /* ─── Header sub-component ───────────────────────────────────────────────── */
