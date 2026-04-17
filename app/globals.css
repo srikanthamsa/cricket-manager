@@ -1,26 +1,82 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cream: #f0ebe0;
+  --cream-dark: #e5dfd3;
+  --olive: #4a5e2a;
+  --olive-dark: #3a4b1f;
+  --olive-light: #6b7f44;
+  --olive-muted: rgba(74,94,42,0.12);
+  --card: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #888;
+  --text-light: #bbb;
+  --border: rgba(0,0,0,0.07);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* { box-sizing: border-box; }
+
+html, body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.font-display {
+  font-family: 'Anton', 'Arial Narrow', Arial, sans-serif;
+  letter-spacing: 0.02em;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+::-webkit-scrollbar { width: 0; }
+
+.card {
+  background: var(--card);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.pill-btn {
+  background: var(--olive);
+  color: white;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.pill-btn:active { background: var(--olive-dark); }
+
+.pill-btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Safe area */
+.pb-safe { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+.h-nav { height: calc(4.5rem + env(safe-area-inset-bottom)); }
+
+/* Hero gradient fallbacks (cricket field greens) */
+.hero-cricket {
+  background: linear-gradient(160deg, #2d4a1e 0%, #3d6127 40%, #4a7a2f 70%, #2a3d18 100%);
+}
+.hero-cricket-2 {
+  background: linear-gradient(160deg, #1a3a28 0%, #2d5a3a 50%, #3a6b44 100%);
+}
+.hero-cricket-3 {
+  background: linear-gradient(160deg, #2a3d18 0%, #4a5e2a 60%, #5a7232 100%);
 }
