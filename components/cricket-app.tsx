@@ -128,7 +128,7 @@ function CricketApp() {
     const channel: RealtimeChannel = supabase!
       .channel('matches-live')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'matches' },
-        (payload) => setMatches(prev => [payload.new as any, ...prev])
+        (payload) => setMatches(prev => prev.some(m => m.id === payload.new.id) ? prev : [payload.new as any, ...prev])
       )
       .subscribe();
     return () => { supabase!.removeChannel(channel); };
@@ -138,13 +138,15 @@ function CricketApp() {
   const standings = useMemo(() => {
     const stats: Record<string, any> = {};
     teams.forEach(t => {
-      stats[t.name] = { ...t, p: 0, w: 0, l: 0, pts: 0, form: [] };
+      stats[t.name] = { ...t, p: 0, w: 0, l: 0, pts: 0, form: [], runsScored: 0, runsConceded: 0, nrr: 0 };
     });
     matches.forEach(m => {
       const t1 = stats[m.team1];
       const t2 = stats[m.team2];
       if (!t1 || !t2) return;
       t1.p++; t2.p++;
+      t1.runsScored += m.score1; t1.runsConceded += m.score2;
+      t2.runsScored += m.score2; t2.runsConceded += m.score1;
       if (m.winner === m.team1) {
         t1.w++; t1.pts += 2; t1.form.push('W');
         t2.l++; t2.form.push('L');
@@ -153,11 +155,38 @@ function CricketApp() {
         t1.l++; t1.form.push('L');
       }
     });
-    return Object.values(stats).sort((a: any, b: any) => b.pts - a.pts || b.w - a.w);
+    Object.values(stats).forEach(t => {
+      t.nrr = t.p > 0 ? ((t.runsScored - t.runsConceded) / (t.p * 5)).toFixed(2) : "0.00";
+    });
+    return Object.values(stats).sort((a: any, b: any) => b.pts - a.pts || parseFloat(b.nrr) - parseFloat(a.nrr) || b.w - a.w);
   }, [matches, teams]);
 
   const onFire = standings.find((t: any) => t.form.length >= 3 && t.form.slice(-3).every((r: string) => r === 'W'));
   const bottler = standings.slice().reverse().find((t: any) => t.form.length >= 2 && t.form.slice(-2).every((r: string) => r === 'L'));
+
+  const highestScore = useMemo(() => {
+    if (!matches.length) return null;
+    let max = { team: '', score: 0 };
+    matches.forEach(m => {
+      if (m.score1 > max.score) max = { team: m.team1, score: m.score1 };
+      if (m.score2 > max.score) max = { team: m.team2, score: m.score2 };
+    });
+    return max.score > 0 ? max : null;
+  }, [matches]);
+
+  const biggestDestruction = useMemo(() => {
+    if (!matches.length) return null;
+    let maxDiff = 0;
+    let details = { winner: '', loser: '', diff: 0 };
+    matches.forEach(m => {
+      const diff = Math.abs(m.score1 - m.score2);
+      if (diff > maxDiff) {
+        maxDiff = diff;
+        details = { winner: m.winner, loser: m.winner === m.team1 ? m.team2 : m.team1, diff };
+      }
+    });
+    return maxDiff > 0 ? details : null;
+  }, [matches]);
 
   const nextFixture = useMemo(() =>
     FIXTURE_LIST.find(f => !getFixtureResult(f, matches)) || null,
@@ -448,6 +477,7 @@ function CricketApp() {
                       <th className="px-6 py-4 font-normal">ENTITY_ID</th>
                       <th className="px-6 py-4 font-normal text-center">WIN</th>
                       <th className="px-6 py-4 font-normal text-center">LOSS</th>
+                      <th className="px-6 py-4 font-normal text-center text-[var(--accent-secondary)]">NRR</th>
                       <th className="px-6 py-4 font-normal text-right text-[var(--accent)]">PWR</th>
                     </tr>
                   </thead>
@@ -467,6 +497,7 @@ function CricketApp() {
                         </td>
                         <td className="px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
                         <td className="px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
+                        <td className="px-6 py-4 text-center text-[var(--foreground)] opacity-80">{team.nrr > 0 ? `+${team.nrr}` : team.nrr}</td>
                         <td className="px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
                       </tr>
                     ))}
@@ -500,6 +531,28 @@ function CricketApp() {
                   </div>
                   <div className="text-xs text-[var(--muted-foreground)] font-mono mt-1">
                     {bottler ? '2+ LOSSES RECORDED' : 'BOTTOM OF TABLE'}
+                  </div>
+                </div>
+
+                <div className="bg-[var(--card)] border border-[var(--accent-secondary)]/50 p-5 cyber-chamfer-sm relative overflow-hidden">
+                  <div className="absolute -right-4 -top-4 w-16 h-16 bg-[var(--accent-secondary)]/10 blur-xl rounded-full"></div>
+                  <div className="text-[10px] text-[var(--accent-secondary)] font-share-tech uppercase tracking-widest mb-1">MAX_THROUGHPUT // HIGHEST SCORE</div>
+                  <div className="font-orbitron text-2xl font-black text-[var(--accent-secondary)] drop-shadow-neon-secondary mt-2">
+                    {highestScore ? `${highestScore.score}` : '000'}
+                  </div>
+                  <div className="text-xs text-[var(--muted-foreground)] font-mono mt-1">
+                    {highestScore ? `ACHIEVED BY ${highestScore.team}` : 'AWAITING DATA'}
+                  </div>
+                </div>
+
+                <div className="bg-[var(--card)] border border-[#ff7700]/50 p-5 cyber-chamfer-sm relative overflow-hidden">
+                  <div className="absolute -right-4 -top-4 w-16 h-16 bg-[#ff7700]/10 blur-xl rounded-full"></div>
+                  <div className="text-[10px] text-[#ff7700] font-share-tech uppercase tracking-widest mb-1">MARGIN_ANOMALY // CRUSHING DEFEAT</div>
+                  <div className="font-orbitron text-2xl font-black text-[#ff7700] mt-2">
+                    {biggestDestruction ? `+${biggestDestruction.diff} RUNS` : '0 RUNS'}
+                  </div>
+                  <div className="text-xs text-[var(--muted-foreground)] font-mono mt-1">
+                    {biggestDestruction ? `${biggestDestruction.winner} DESTROYED ${biggestDestruction.loser}` : 'AWAITING DATA'}
                   </div>
                 </div>
               </div>
