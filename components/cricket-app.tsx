@@ -405,8 +405,6 @@ function CricketApp() {
                             {result && <span className="font-mono text-lg">{result.score2}</span>}
                           </div>
                         </div>
-
-                        </div>
                       </div>
                     </div>
                   );
