@@ -385,9 +385,9 @@ function CricketApp() {
                       {!result && <div className="absolute inset-0 bg-[var(--accent)]/5 opacity-0 group-hover:opacity-100 transition-opacity z-0"></div>}
                       <div className="relative z-10 flex flex-col p-4">
                         <div className="w-full flex justify-between items-center mb-4 pb-2 border-b border-[var(--border)]/50">
-                          <div className="font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase flex items-center gap-2">
-                             {result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)] animate-pulse">PENDING</span>}
-                             <span className="opacity-50 hidden sm:inline">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
+                          <div className="font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                             <div>{result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)] animate-pulse">PENDING</span>}</div>
+                             <span className="opacity-50 truncate max-w-[220px] sm:max-w-none">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
                           </div>
                           {!result && <span className="text-[var(--accent)] font-bold opacity-0 group-hover:opacity-100 transition-opacity">&gt;_</span>}
                         </div>
@@ -424,9 +424,9 @@ function CricketApp() {
                     <div key={fixture.id} onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)} className="bg-[var(--background)] border border-[var(--border)] hover:border-[var(--accent)]/50 transition-colors cyber-chamfer-sm relative group overflow-hidden cursor-pointer">
                       <div className="relative z-10 flex flex-col p-4">
                         <div className="w-full flex justify-between items-center mb-4 pb-2 border-b border-[var(--border)]/50">
-                          <div className="font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase flex items-center gap-2">
-                             {result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)]">PENDING</span>}
-                             <span className="opacity-50 hidden sm:inline">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
+                          <div className="font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                             <div>{result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)]">PENDING</span>}</div>
+                             <span className="opacity-50 truncate max-w-[220px] sm:max-w-none">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
                           </div>
                           {!result && <span className="text-[var(--accent)] font-bold opacity-0 group-hover:opacity-100 transition-opacity">&gt;_</span>}
                         </div>
