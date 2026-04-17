@@ -82,7 +82,7 @@ const TeamIcon = ({ name, size = 16 }: { name: string, size?: number }) => {
 
 /* ─── Header sub-component ───────────────────────────────────────────────── */
 const Header = ({ title, subtitle }: { title: string; subtitle: string }) => (
-  <div className="px-6 pt-12 pb-6 bg-black border-b border-white/10">
+  <div className="px-6 pt-12 pb-6 bg-black rounded-b-3xl mb-4">
     <h2 className="text-sm font-semibold text-slate-400 tracking-wide mb-1">{subtitle}</h2>
     <h1 className="text-3xl font-semibold text-white leading-none tracking-tight">{title}</h1>
   </div>
@@ -96,7 +96,7 @@ function SetupScreen() {
       <h1 className="text-3xl font-semibold tracking-tight text-white mb-2">Setup Required</h1>
       <p className="text-sm text-slate-400 font-medium mb-8 max-w-xs leading-relaxed">
         Add your Supabase credentials to{' '}
-        <code className="bg-white/10 px-1.5 py-0.5 rounded text-xs font-mono text-slate-200">.env.local</code>{' '}
+        <code className="bg-white/10 px-1.5 py-0.5 rounded-lg text-xs font-mono text-slate-200">.env.local</code>{' '}
         to enable real-time sync.
       </p>
       <div className="w-full max-w-sm text-left space-y-4 border-t border-white/10 pt-6">
@@ -108,7 +108,7 @@ function SetupScreen() {
           'Fill in SUPABASE_URL and SUPABASE_ANON_KEY',
           'Restart the dev server',
         ].map((s, i) => (
-          <div key={i} className="flex items-start gap-4">
+          <div key={i} className="flex items-start gap-4 bg-white/5 p-3 rounded-2xl">
             <span className="text-indigo-400 font-medium text-sm mt-0.5">
               0{i + 1}
             </span>
@@ -220,7 +220,7 @@ function CricketApp() {
 
       {/* ── Hero banner (home only) ── */}
       {activeTab === 'home' && (
-        <div className="relative h-[22rem] w-full border-b border-white/10 flex flex-col justify-end">
+        <div className="relative h-[22rem] w-full flex flex-col justify-end rounded-b-[2rem] overflow-hidden">
           <div className="absolute inset-0 z-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -254,33 +254,35 @@ function CricketApp() {
             {nextFixture ? (
               <button
                 onClick={() => openScoreModal(nextFixture.team1, nextFixture.team2)}
-                className="w-full py-5 border border-white/10 bg-white/5 text-white font-medium flex items-center justify-between px-6 hover:bg-white/10 active:bg-white/5 transition-colors"
+                className="w-full py-5 rounded-2xl border border-white/10 bg-white/5 text-white font-medium flex items-center justify-between px-6 hover:bg-white/10 active:bg-white/5 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-indigo-400"><Plus size={18} /></span>
                   <span className="text-sm">Record Result</span>
                 </div>
-                <span className="text-xs font-semibold tracking-wide text-slate-400 uppercase">{nextFixture.team1} vs {nextFixture.team2}</span>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-xs font-semibold tracking-wide text-slate-300 uppercase">{nextFixture.team1} vs {nextFixture.team2}</span>
+                </div>
               </button>
             ) : (
-              <div className="w-full py-5 border-y border-white/10 text-slate-400 font-medium text-center text-sm">
+              <div className="w-full py-5 rounded-2xl bg-white/5 text-slate-400 font-medium text-center text-sm">
                 All 20 matches played 🏆
               </div>
             )}
           </div>
 
           <div>
-            <div className="px-6 mb-2">
+            <div className="px-6 mb-4">
               <h3 className="text-xl font-semibold tracking-tight text-white">Recent Results</h3>
             </div>
-            <div className="flex flex-col border-t border-white/10">
+            <div className="flex flex-col px-6 gap-3">
               {matches.length === 0 ? (
-                <div className="py-12 text-center text-slate-500 font-medium text-sm">
+                <div className="py-12 text-center text-slate-500 font-medium text-sm bg-white/5 rounded-3xl">
                   No matches played yet
                 </div>
               ) : (
                 matches.slice(0, 10).map(m => (
-                  <div key={m.id} className="px-6 py-5 border-b border-white/10 flex items-center justify-between hover:bg-white/5 transition-colors">
+                  <div key={m.id} className="px-5 py-4 bg-white/5 rounded-2xl flex items-center justify-between hover:bg-white/10 transition-colors">
                     <div className="flex items-center gap-6">
                       <div className="flex flex-col items-center">
                         <div className={`text-white transition-opacity ${m.winner === m.team1 ? 'opacity-100 text-indigo-400' : 'opacity-40'}`}>
@@ -313,9 +315,9 @@ function CricketApp() {
         <div className="pb-12">
           <Header subtitle="Tournament Schedule" title="Fixtures" />
 
-          <div className="mt-8">
-            <p className="px-6 text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Leg 1 — First Round</p>
-            <div className="flex flex-col border-t border-white/10 mb-10">
+          <div className="mt-8 px-6">
+            <p className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Leg 1 — First Round</p>
+            <div className="flex flex-col gap-3 mb-10">
               {FIXTURE_LIST.filter(f => f.leg === 1).map(fixture => {
                 const result = getFixtureResult(fixture, matches);
                 const t1 = FALLBACK_TEAMS.find(t => t.name === fixture.team1)!;
@@ -324,32 +326,38 @@ function CricketApp() {
                   <div
                     key={fixture.id}
                     onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)}
-                    className={`px-6 py-5 border-b border-white/10 flex items-center justify-between ${!result ? 'cursor-pointer hover:bg-white/5 transition-colors' : ''}`}
+                    className={`px-5 py-4 bg-white/5 rounded-2xl flex items-center justify-between ${!result ? 'cursor-pointer hover:bg-white/10 transition-colors' : ''}`}
                   >
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className={result?.winner === t1.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t1.name} size={18} /></div>
-                      <span className={`font-semibold text-sm ${result?.winner === t1.name ? 'text-white' : 'text-slate-300'}`}>{t1.name}</span>
+                    <div className="flex flex-col items-start gap-1 flex-1">
+                      <div className="flex items-center gap-3">
+                        <div className={result?.winner === t1.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t1.name} size={18} /></div>
+                        <span className={`font-semibold text-sm ${result?.winner === t1.name ? 'text-white' : 'text-slate-300'}`}>{t1.name}</span>
+                      </div>
+                      <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Home</span>
                     </div>
                     <div className="text-center px-4 flex-shrink-0">
                       {result ? (
-                        <div className="text-center">
+                        <div className="text-center bg-black/40 px-3 py-1.5 rounded-xl">
                           <p className="text-lg font-semibold text-white leading-none">{result.score1}–{result.score2}</p>
                         </div>
                       ) : (
                         <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-widest">vs</p>
                       )}
                     </div>
-                    <div className="flex items-center gap-4 flex-1 flex-row-reverse">
-                      <div className={result?.winner === t2.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t2.name} size={18} /></div>
-                      <span className={`font-semibold text-sm ${result?.winner === t2.name ? 'text-white' : 'text-slate-300'}`}>{t2.name}</span>
+                    <div className="flex flex-col items-end gap-1 flex-1">
+                      <div className="flex items-center gap-3 flex-row-reverse">
+                        <div className={result?.winner === t2.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t2.name} size={18} /></div>
+                        <span className={`font-semibold text-sm ${result?.winner === t2.name ? 'text-white' : 'text-slate-300'}`}>{t2.name}</span>
+                      </div>
+                      <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Away</span>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <p className="px-6 text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Leg 2 — Return Fixtures</p>
-            <div className="flex flex-col border-t border-white/10 mb-10">
+            <p className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Leg 2 — Return Fixtures</p>
+            <div className="flex flex-col gap-3 mb-10">
               {FIXTURE_LIST.filter(f => f.leg === 2).map(fixture => {
                 const result = getFixtureResult(fixture, matches);
                 const t1 = FALLBACK_TEAMS.find(t => t.name === fixture.team1)!;
@@ -358,57 +366,75 @@ function CricketApp() {
                   <div
                     key={fixture.id}
                     onClick={() => !result && openScoreModal(fixture.team1, fixture.team2)}
-                    className={`px-6 py-5 border-b border-white/10 flex items-center justify-between ${!result ? 'cursor-pointer hover:bg-white/5 transition-colors' : ''}`}
+                    className={`px-5 py-4 bg-white/5 rounded-2xl flex items-center justify-between ${!result ? 'cursor-pointer hover:bg-white/10 transition-colors' : ''}`}
                   >
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className={result?.winner === t1.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t1.name} size={18} /></div>
-                      <span className={`font-semibold text-sm ${result?.winner === t1.name ? 'text-white' : 'text-slate-300'}`}>{t1.name}</span>
+                    <div className="flex flex-col items-start gap-1 flex-1">
+                      <div className="flex items-center gap-3">
+                        <div className={result?.winner === t1.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t1.name} size={18} /></div>
+                        <span className={`font-semibold text-sm ${result?.winner === t1.name ? 'text-white' : 'text-slate-300'}`}>{t1.name}</span>
+                      </div>
+                      <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Home</span>
                     </div>
                     <div className="text-center px-4 flex-shrink-0">
                       {result ? (
-                        <div className="text-center">
+                        <div className="text-center bg-black/40 px-3 py-1.5 rounded-xl">
                           <p className="text-lg font-semibold text-white leading-none">{result.score1}–{result.score2}</p>
                         </div>
                       ) : (
                         <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-widest">vs</p>
                       )}
                     </div>
-                    <div className="flex items-center gap-4 flex-1 flex-row-reverse">
-                      <div className={result?.winner === t2.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t2.name} size={18} /></div>
-                      <span className={`font-semibold text-sm ${result?.winner === t2.name ? 'text-white' : 'text-slate-300'}`}>{t2.name}</span>
+                    <div className="flex flex-col items-end gap-1 flex-1">
+                      <div className="flex items-center gap-3 flex-row-reverse">
+                        <div className={result?.winner === t2.name ? 'text-indigo-400' : 'text-slate-400'}><TeamIcon name={t2.name} size={18} /></div>
+                        <span className={`font-semibold text-sm ${result?.winner === t2.name ? 'text-white' : 'text-slate-300'}`}>{t2.name}</span>
+                      </div>
+                      <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Away</span>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <p className="px-6 text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Playoffs</p>
-            <div className="flex flex-col border-t border-white/10">
-              <div className="px-6 py-6 border-b border-white/10">
+            <p className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Playoffs</p>
+            <div className="flex flex-col gap-3">
+              <div className="px-5 py-5 bg-white/5 rounded-2xl">
                 <p className="text-xs font-semibold text-slate-500 mb-4 uppercase tracking-wide">Qualifier <span className="text-slate-600 ml-1 normal-case font-medium">(2nd vs 3rd)</span></p>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="text-slate-300"><TeamIcon name={standings[1]?.name ?? ''} size={20} /></div>
-                    <span className="font-semibold text-lg text-white">{standings[1]?.name ?? 'TBD'}</span>
+                  <div className="flex flex-col items-start gap-1 flex-1">
+                    <div className="flex items-center gap-3">
+                      <div className="text-slate-300"><TeamIcon name={standings[1]?.name ?? ''} size={20} /></div>
+                      <span className="font-semibold text-lg text-white">{standings[1]?.name ?? 'TBD'}</span>
+                    </div>
+                    <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase mt-1">Home</span>
                   </div>
                   <span className="text-slate-600 font-bold text-xs uppercase tracking-widest">VS</span>
-                  <div className="flex items-center gap-4 flex-row-reverse">
-                    <div className="text-slate-300"><TeamIcon name={standings[2]?.name ?? ''} size={20} /></div>
-                    <span className="font-semibold text-lg text-white">{standings[2]?.name ?? 'TBD'}</span>
+                  <div className="flex flex-col items-end gap-1 flex-1">
+                    <div className="flex items-center gap-3 flex-row-reverse">
+                      <div className="text-slate-300"><TeamIcon name={standings[2]?.name ?? ''} size={20} /></div>
+                      <span className="font-semibold text-lg text-white">{standings[2]?.name ?? 'TBD'}</span>
+                    </div>
+                    <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase mt-1">Away</span>
                   </div>
                 </div>
               </div>
-              <div className="px-6 py-6 border-b border-white/10 bg-indigo-950/20">
-                <p className="text-xs font-semibold text-indigo-400 mb-4 uppercase tracking-wide">Grand Final <span className="text-indigo-500/50 ml-1 normal-case font-medium">(1st vs Q Winner)</span></p>
+              <div className="px-5 py-5 bg-indigo-600 rounded-2xl">
+                <p className="text-xs font-semibold text-white mb-4 uppercase tracking-wide">Grand Final <span className="text-indigo-200 ml-1 normal-case font-medium">(1st vs Q Winner)</span></p>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="text-indigo-400"><TeamIcon name={standings[0]?.name ?? ''} size={20} /></div>
-                    <span className="font-semibold text-lg text-white">{standings[0]?.name ?? 'TBD'}</span>
+                  <div className="flex flex-col items-start gap-1 flex-1">
+                    <div className="flex items-center gap-3">
+                      <div className="text-white"><TeamIcon name={standings[0]?.name ?? ''} size={20} /></div>
+                      <span className="font-semibold text-lg text-white">{standings[0]?.name ?? 'TBD'}</span>
+                    </div>
+                    <span className="text-[9px] font-bold tracking-widest text-indigo-300 uppercase mt-1">Home</span>
                   </div>
-                  <span className="text-slate-600 font-bold text-xs uppercase tracking-widest">VS</span>
-                  <div className="flex items-center gap-4 flex-row-reverse">
-                    <div className="text-slate-500"><Trophy size={20} /></div>
-                    <span className="font-medium text-lg text-slate-400">Winner</span>
+                  <span className="text-indigo-400 font-bold text-xs uppercase tracking-widest">VS</span>
+                  <div className="flex flex-col items-end gap-1 flex-1">
+                    <div className="flex items-center gap-3 flex-row-reverse">
+                      <div className="text-white"><Trophy size={20} /></div>
+                      <span className="font-medium text-lg text-white">Winner</span>
+                    </div>
+                    <span className="text-[9px] font-bold tracking-widest text-indigo-300 uppercase mt-1">Away</span>
                   </div>
                 </div>
               </div>
@@ -422,42 +448,44 @@ function CricketApp() {
         <div className="pb-12">
           <Header subtitle="Leaderboard" title="Standings" />
           
-          <div className="mt-6 mb-12">
-            <div className="grid grid-cols-6 px-6 py-4 border-y border-white/10 text-[10px] font-semibold tracking-widest text-slate-500 uppercase">
-              <div className="col-span-3">Team</div>
-              <div className="text-center">P</div>
-              <div className="text-center">W</div>
-              <div className="text-right">PTS</div>
-            </div>
-            <div className="flex flex-col">
-              {standings.map((team: any, idx) => (
-                <div key={team.name} className="grid grid-cols-6 px-6 py-5 items-center border-b border-white/10 hover:bg-white/5 transition-colors">
-                  <div className="col-span-3 flex items-center gap-4">
-                    <span className="text-xs font-semibold text-slate-500 w-3">{idx + 1}</span>
-                    <div className="text-slate-300">
-                      <TeamIcon name={team.name} size={20} />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-sm font-semibold tracking-tight text-white truncate">{team.full || team.name}</span>
-                      <div className="flex gap-1.5 mt-2">
-                        {team.form.slice(-5).map((res: string, i: number) => (
-                          <div key={i} className={`w-1.5 h-1.5 rounded-full ${res === 'W' ? 'bg-indigo-500' : 'bg-white/20'}`} />
-                        ))}
+          <div className="mt-6 mb-12 px-6">
+            <div className="bg-white/5 rounded-[2rem] p-2">
+              <div className="grid grid-cols-6 px-4 py-4 text-[10px] font-semibold tracking-widest text-slate-500 uppercase">
+                <div className="col-span-3">Team</div>
+                <div className="text-center">P</div>
+                <div className="text-center">W</div>
+                <div className="text-right">PTS</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                {standings.map((team: any, idx) => (
+                  <div key={team.name} className="grid grid-cols-6 px-4 py-4 items-center bg-black/40 rounded-3xl hover:bg-white/5 transition-colors">
+                    <div className="col-span-3 flex items-center gap-4">
+                      <span className="text-xs font-semibold text-slate-500 w-3">{idx + 1}</span>
+                      <div className="text-slate-300">
+                        <TeamIcon name={team.name} size={20} />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-sm font-semibold tracking-tight text-white truncate">{team.full || team.name}</span>
+                        <div className="flex gap-1.5 mt-2">
+                          {team.form.slice(-5).map((res: string, i: number) => (
+                            <div key={i} className={`w-1.5 h-1.5 rounded-full ${res === 'W' ? 'bg-indigo-500' : 'bg-white/20'}`} />
+                          ))}
+                        </div>
                       </div>
                     </div>
+                    <div className="text-center text-sm font-medium text-slate-400">{team.p}</div>
+                    <div className="text-center text-sm font-medium text-slate-400">{team.w}</div>
+                    <div className="text-right font-semibold text-lg text-white">{team.pts}</div>
                   </div>
-                  <div className="text-center text-sm font-medium text-slate-400">{team.p}</div>
-                  <div className="text-center text-sm font-medium text-slate-400">{team.w}</div>
-                  <div className="text-right font-semibold text-lg text-white">{team.pts}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
-          <div>
-            <h4 className="px-6 text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Performance Highlights</h4>
-            <div className="flex flex-col border-t border-white/10">
-              <div className="px-6 flex justify-between items-center py-6 border-b border-white/10">
+          <div className="px-6">
+            <h4 className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Performance Highlights</h4>
+            <div className="flex flex-col gap-3">
+              <div className="flex justify-between items-center px-6 py-6 bg-white/5 rounded-3xl">
                 <div className="flex items-center gap-5">
                   <Flame size={24} className="text-orange-500" strokeWidth={1.5} />
                   <div>
@@ -465,9 +493,11 @@ function CricketApp() {
                     <p className="font-semibold text-base text-white">{onFire ? onFire.name : standings[0]?.name ?? '—'}</p>
                   </div>
                 </div>
-                <span className="text-2xl font-semibold text-white">{standings[0]?.pts ?? 0} pts</span>
+                <div className="bg-black/50 px-4 py-2 rounded-2xl">
+                  <span className="text-lg font-semibold text-white">{standings[0]?.pts ?? 0} pts</span>
+                </div>
               </div>
-              <div className="px-6 flex justify-between items-center py-6 border-b border-white/10">
+              <div className="flex justify-between items-center px-6 py-6 bg-white/5 rounded-3xl">
                 <div className="flex items-center gap-5">
                   <TrendingUp size={24} className="text-indigo-400" strokeWidth={1.5} />
                   <div>
@@ -475,7 +505,9 @@ function CricketApp() {
                     <p className="font-semibold text-base text-white">{bottler ? bottler.name : standings[standings.length - 1]?.name ?? '—'}</p>
                   </div>
                 </div>
-                <span className="text-2xl font-semibold text-white">{bottler?.l ?? 0} L</span>
+                <div className="bg-black/50 px-4 py-2 rounded-2xl">
+                  <span className="text-lg font-semibold text-white">{bottler?.l ?? 0} L</span>
+                </div>
               </div>
             </div>
           </div>
@@ -487,22 +519,22 @@ function CricketApp() {
         <div className="pb-12">
           <Header subtitle="RCB Owner · Your Stats" title="Captain Srikant" />
           
-          <div className="grid grid-cols-2 border-b border-white/10">
-            <div className="p-8 text-center border-r border-white/10">
+          <div className="grid grid-cols-2 gap-4 px-6 mb-8">
+            <div className="p-8 text-center bg-white/5 rounded-3xl">
               <p className="text-xs font-semibold text-slate-500 tracking-wide mb-2 uppercase">Played</p>
               <p className="text-5xl font-semibold text-indigo-400">{matches.length}</p>
             </div>
-            <div className="p-8 text-center">
+            <div className="p-8 text-center bg-white/5 rounded-3xl">
               <p className="text-xs font-semibold text-slate-500 tracking-wide mb-2 uppercase">Remaining</p>
               <p className="text-5xl font-semibold text-slate-300">{Math.max(0, 20 - matches.length)}</p>
             </div>
           </div>
 
-          <div className="mt-8">
-            <h4 className="px-6 text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Teams &amp; Owners</h4>
-            <div className="flex flex-col border-t border-white/10">
+          <div className="px-6 mb-8">
+            <h4 className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Teams &amp; Owners</h4>
+            <div className="flex flex-col gap-3">
               {standings.map((t: any) => (
-                <div key={t.name} className="px-6 py-5 border-b border-white/10 hover:bg-white/5 transition-colors">
+                <div key={t.name} className="px-6 py-5 bg-white/5 rounded-[2rem] hover:bg-white/10 transition-colors">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-4">
                       <div className="text-slate-300"><TeamIcon name={t.name} size={20} /></div>
@@ -511,13 +543,13 @@ function CricketApp() {
                         <p className="text-xs text-slate-500 mt-1">Owner: <span className="text-slate-300 font-medium">{t.owner || '—'}</span></p>
                       </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right bg-black/40 px-4 py-2 rounded-2xl">
                       <p className="text-base font-semibold text-white">{t.pts} pts</p>
                       <p className="text-[10px] text-slate-500 font-semibold tracking-widest uppercase mt-1">{t.w}W {t.l}L</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 mt-4">
-                    <MapPin size={12} className="text-slate-600 flex-shrink-0" />
+                  <div className="flex items-center gap-2 mt-4 bg-black/30 p-2.5 rounded-xl">
+                    <MapPin size={12} className="text-slate-600 flex-shrink-0 ml-1" />
                     <p className="text-xs text-slate-400 font-medium">{t.ground || '—'}</p>
                   </div>
                 </div>
@@ -525,9 +557,9 @@ function CricketApp() {
             </div>
           </div>
 
-          <div className="mt-8">
-            <h4 className="px-6 text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Achievement</h4>
-            <div className="flex items-center gap-5 px-6 py-6 border-y border-white/10 bg-indigo-950/10">
+          <div className="px-6">
+            <h4 className="text-[10px] font-semibold tracking-widest text-slate-500 mb-3 uppercase">Achievement</h4>
+            <div className="flex items-center gap-5 px-6 py-6 bg-indigo-600/20 rounded-3xl">
               <div className="text-indigo-400"><Trophy size={28} strokeWidth={1.5} /></div>
               <div>
                 <p className="text-sm font-semibold text-white">RCB Owner</p>
@@ -557,18 +589,18 @@ function CricketApp() {
       </button>
 
       {/* ── Bottom nav ── */}
-      <div className="fixed bottom-0 left-0 right-0 h-16 bg-black/90 backdrop-blur-lg border-t border-white/10 flex items-center justify-around px-4 z-40">
-        <button onClick={() => setActiveTab('home')} className={`p-2 flex flex-col items-center gap-1 transition-colors ${activeTab === 'home' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
-          <Calendar size={20} strokeWidth={activeTab === 'home' ? 2 : 1.5} />
+      <div className="fixed bottom-0 left-0 right-0 h-20 bg-black/90 backdrop-blur-lg flex items-start pt-3 justify-around px-4 z-40 rounded-t-[2.5rem]">
+        <button onClick={() => setActiveTab('home')} className={`p-2 flex flex-col items-center gap-1.5 transition-colors ${activeTab === 'home' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
+          <Calendar size={22} strokeWidth={activeTab === 'home' ? 2 : 1.5} />
         </button>
-        <button onClick={() => setActiveTab('fixtures')} className={`p-2 flex flex-col items-center gap-1 transition-colors ${activeTab === 'fixtures' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
-          <ListChecks size={20} strokeWidth={activeTab === 'fixtures' ? 2 : 1.5} />
+        <button onClick={() => setActiveTab('fixtures')} className={`p-2 flex flex-col items-center gap-1.5 transition-colors ${activeTab === 'fixtures' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
+          <ListChecks size={22} strokeWidth={activeTab === 'fixtures' ? 2 : 1.5} />
         </button>
-        <button onClick={() => setActiveTab('standings')} className={`p-2 flex flex-col items-center gap-1 transition-colors ${activeTab === 'standings' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
-          <Trophy size={20} strokeWidth={activeTab === 'standings' ? 2 : 1.5} />
+        <button onClick={() => setActiveTab('standings')} className={`p-2 flex flex-col items-center gap-1.5 transition-colors ${activeTab === 'standings' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
+          <Trophy size={22} strokeWidth={activeTab === 'standings' ? 2 : 1.5} />
         </button>
-        <button onClick={() => setActiveTab('profile')} className={`p-2 flex flex-col items-center gap-1 transition-colors ${activeTab === 'profile' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
-          <User size={20} strokeWidth={activeTab === 'profile' ? 2 : 1.5} />
+        <button onClick={() => setActiveTab('profile')} className={`p-2 flex flex-col items-center gap-1.5 transition-colors ${activeTab === 'profile' ? 'text-white' : 'text-slate-600 hover:text-slate-400'}`}>
+          <User size={22} strokeWidth={activeTab === 'profile' ? 2 : 1.5} />
         </button>
       </div>
     </div>
@@ -599,19 +631,19 @@ function ScoreModal({
     await onSubmit({ team1, team2, score1: s1, score2: s2, winner: s1 >= s2 ? team1 : team2 });
   };
 
-  const sel = "w-full bg-transparent py-4 text-white text-lg font-medium outline-none border-b border-white/20 focus:border-indigo-500 transition-colors appearance-none";
-  const inp = "w-full bg-transparent py-4 text-white text-lg font-medium outline-none border-b border-white/20 focus:border-indigo-500 transition-colors";
+  const sel = "w-full bg-white/5 py-4 px-4 rounded-2xl text-white text-base font-medium outline-none focus:bg-white/10 transition-colors appearance-none";
+  const inp = "w-full bg-white/5 py-4 px-4 rounded-2xl text-white text-base font-medium outline-none focus:bg-white/10 transition-colors";
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-black border-t border-white/10 p-8 overflow-y-auto max-h-[90vh]">
+      <div className="w-full max-w-md bg-black rounded-t-[2.5rem] border-t border-white/10 p-8 overflow-y-auto max-h-[90vh]">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl font-semibold tracking-tight text-white">Score Card</h2>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-white transition-colors"><X size={24} strokeWidth={1.5} /></button>
+          <button onClick={onClose} className="p-2 bg-white/5 rounded-full text-slate-400 hover:text-white transition-colors"><X size={24} strokeWidth={1.5} /></button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-6">
-            <div>
+            <div className="bg-white/5 p-5 rounded-3xl space-y-4">
               <p className="text-[10px] font-semibold tracking-widest text-slate-500 uppercase">Team 1 (Batting First)</p>
               <select value={team1} onChange={e => setTeam1(e.target.value)} className={sel} required>
                 <option value="" className="bg-black text-slate-400">Select team…</option>
@@ -619,8 +651,8 @@ function ScoreModal({
               </select>
               <input type="number" placeholder="Total Runs (e.g. 54)" value={score1} onChange={e => setScore1(e.target.value)} className={inp} required inputMode="numeric" />
             </div>
-            <div>
-              <p className="text-[10px] font-semibold tracking-widest text-slate-500 uppercase mt-4">Team 2 (Chasing)</p>
+            <div className="bg-white/5 p-5 rounded-3xl space-y-4">
+              <p className="text-[10px] font-semibold tracking-widest text-slate-500 uppercase">Team 2 (Chasing)</p>
               <select value={team2} onChange={e => setTeam2(e.target.value)} className={sel} required>
                 <option value="" className="bg-black text-slate-400">Select team…</option>
                 {teams.filter(t => t.name !== team1).map(t => <option key={t.id} value={t.name} className="bg-black text-white">{t.full_name || t.full || t.name}</option>)}
@@ -629,11 +661,11 @@ function ScoreModal({
             </div>
           </div>
           <div className="pt-4">
-            <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6"><span className="text-indigo-400 font-semibold mr-1">Live Sync.</span>Standings update instantly for all players the moment you publish.</p>
+            <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6 bg-indigo-500/10 p-4 rounded-2xl"><span className="text-indigo-400 font-semibold mr-1">Live Sync.</span>Standings update instantly for all players the moment you publish.</p>
             <button
               type="submit"
               disabled={submitting || !team1 || !team2 || !score1 || !score2 || team1 === team2}
-              className="w-full py-5 bg-white text-black font-semibold hover:bg-slate-200 active:scale-95 transition-all disabled:opacity-30 disabled:scale-100"
+              className="w-full py-5 bg-indigo-600 rounded-[2rem] text-white font-semibold hover:bg-indigo-500 active:scale-95 transition-all disabled:opacity-30 disabled:scale-100"
             >
               {submitting ? 'Publishing…' : 'Publish Result'}
             </button>
