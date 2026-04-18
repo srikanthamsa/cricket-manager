@@ -555,12 +555,13 @@ function CricketApp() {
                 <table className="w-full text-sm text-left whitespace-nowrap font-mono">
                   <thead className="border-b border-[var(--border)] text-[var(--muted-foreground)] text-[10px] uppercase tracking-widest bg-[var(--background)]">
                     <tr>
-                      <th className="px-3 md:px-6 py-3 md:py-4 font-normal">POS</th>
-                      <th className="px-3 md:px-6 py-3 md:py-4 font-normal">ENTITY_ID</th>
-                      <th className="hidden md:table-cell px-6 py-4 font-normal text-center">WIN</th>
-                      <th className="hidden md:table-cell px-6 py-4 font-normal text-center">LOSS</th>
+                      <th className="px-1 md:px-6 py-3 md:py-4 font-normal">POS</th>
+                      <th className="px-1 md:px-6 py-3 md:py-4 font-normal">ENTITY_ID</th>
+                      <th className="px-1 md:px-6 py-3 md:py-4 font-normal text-center">P</th>
+                      <th className="px-1 md:px-6 py-3 md:py-4 font-normal text-center">W</th>
+                      <th className="px-1 md:px-6 py-3 md:py-4 font-normal text-center">L</th>
                       <th className="hidden md:table-cell px-6 py-4 font-normal text-center">FORM</th>
-                      <th className="hidden md:table-cell px-6 py-4 font-normal text-right text-[var(--accent)]">PWR</th>
+                      <th className="px-1 md:px-6 py-3 md:py-4 font-normal text-right text-[var(--accent)]">PTS</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--border)]">
@@ -604,9 +605,6 @@ function CricketApp() {
                               </div>
                               <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                                 <span className="hidden md:inline text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.full || team.full_name || ''}</span>
-                                <span className="md:hidden text-[9px] text-[var(--muted-foreground)] font-share-tech tracking-widest">
-                                  P:{team.p} W:<span className="text-[var(--accent)]">{team.w}</span> L:<span className="text-[var(--destructive)]">{team.l}</span> PTS:<span className="text-[var(--accent-tertiary)] font-bold">{team.pts}</span>
-                                </span>
                                 <span className="text-[8px] px-2 py-0.5 font-share-tech rounded-full border transition-all group-hover:px-4 shrink-0"
                                   style={{
                                     color: team.color,
@@ -619,8 +617,9 @@ function CricketApp() {
                               </div>
                             </div>
                           </td>
-                          <td className="hidden md:table-cell px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
-                          <td className="hidden md:table-cell px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
+                          <td className="px-1 md:px-6 py-3 md:py-4 text-center text-[var(--foreground)]">{team.p}</td>
+                          <td className="px-1 md:px-6 py-3 md:py-4 text-center text-[var(--foreground)]">{team.w}</td>
+                          <td className="px-1 md:px-6 py-3 md:py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
                           <td className="hidden md:table-cell px-6 py-4">
                             <div className="flex flex-col items-center gap-0.5">
                               <div className="flex justify-center gap-1.5 items-center h-4">
@@ -633,12 +632,12 @@ function CricketApp() {
                               </div>
                             </div>
                           </td>
-                          <td className="hidden md:table-cell px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
+                          <td className="px-1 md:px-6 py-3 md:py-4 text-right font-bold text-lg md:text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
                         </tr>
 
                         {intelTeam === team.name && (
                           <tr className="bg-[var(--muted)]/5 border-l-4 border-[var(--accent-tertiary)] animate-in slide-in-from-left duration-300">
-                            <td colSpan={6} className="p-0">
+                            <td colSpan={7} className="p-0">
                               <div className="p-6 border-b border-[var(--border)] relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4">
                                   <button onClick={(e) => { e.stopPropagation(); setIntelTeam(null); }} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-[10px] font-share-tech">[ COLLAPSE_X ]</button>
