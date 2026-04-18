@@ -12,9 +12,9 @@ const CONFIGURED = !!(
 
 const supabase = CONFIGURED
   ? createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   : null;
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
@@ -31,34 +31,34 @@ interface TeamData {
 
 /* ─── Constants ─────────────────────────────────────────────────────────── */
 const FALLBACK_TEAMS: TeamData[] = [
-  { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#ff3366', owner: 'Srikant',  ground: 'M. Chinnaswamy Stadium, Bengaluru', tagline: 'Ee Sala Cup Namde' },
-  { id: 'csk', name: 'CSK', full: 'Chennai Super Kings',         color: '#ffff00', owner: 'KVD',      ground: 'MA Chidambaram Stadium, Chennai', tagline: 'Whistle Podu' },
-  { id: 'mi',  name: 'MI',  full: 'Mumbai Indians',              color: '#00d4ff', owner: 'Debu',     ground: 'Wankhede Stadium, Mumbai', tagline: 'Duniya Hila Denge' },
-  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders',       color: '#ff00ff', owner: 'Ekansh',   ground: 'Eden Gardens, Kolkata', tagline: 'Korbo Lorbo Jeetbo' },
-  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad',         color: '#ff7700', owner: 'Ashpak',   ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad', tagline: 'Orange Fire' },
+  { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#ff3366', owner: 'Srikant', ground: 'M. Chinnaswamy Stadium, Bengaluru', tagline: 'Ee Sala Cup Namde' },
+  { id: 'csk', name: 'CSK', full: 'Chennai Super Kings', color: '#ffff00', owner: 'KVD', ground: 'MA Chidambaram Stadium, Chennai', tagline: 'Whistle Podu' },
+  { id: 'mi', name: 'MI', full: 'Mumbai Indians', color: '#00d4ff', owner: 'Debu', ground: 'Wankhede Stadium, Mumbai', tagline: 'Duniya Hila Denge' },
+  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders', color: '#ff00ff', owner: 'Ekansh', ground: 'Eden Gardens, Kolkata', tagline: 'Korbo Lorbo Jeetbo' },
+  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad', color: '#ff7700', owner: 'Ashpak', ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad', tagline: 'Orange Fire' },
 ];
 
 const FIXTURE_LIST = [
   // ── Leg 1 ──
-  { id: 'f1',  leg: 1, team1: 'RCB', team2: 'CSK' },
-  { id: 'f2',  leg: 1, team1: 'MI',  team2: 'KKR' },
-  { id: 'f3',  leg: 1, team1: 'SRH', team2: 'RCB' },
-  { id: 'f4',  leg: 1, team1: 'CSK', team2: 'MI'  },
-  { id: 'f5',  leg: 1, team1: 'KKR', team2: 'SRH' },
-  { id: 'f6',  leg: 1, team1: 'RCB', team2: 'MI'  },
-  { id: 'f7',  leg: 1, team1: 'KKR', team2: 'CSK' },
-  { id: 'f8',  leg: 1, team1: 'SRH', team2: 'MI'  },
-  { id: 'f9',  leg: 1, team1: 'RCB', team2: 'KKR' },
+  { id: 'f1', leg: 1, team1: 'RCB', team2: 'CSK' },
+  { id: 'f2', leg: 1, team1: 'MI', team2: 'KKR' },
+  { id: 'f3', leg: 1, team1: 'SRH', team2: 'RCB' },
+  { id: 'f4', leg: 1, team1: 'CSK', team2: 'MI' },
+  { id: 'f5', leg: 1, team1: 'KKR', team2: 'SRH' },
+  { id: 'f6', leg: 1, team1: 'RCB', team2: 'MI' },
+  { id: 'f7', leg: 1, team1: 'KKR', team2: 'CSK' },
+  { id: 'f8', leg: 1, team1: 'SRH', team2: 'MI' },
+  { id: 'f9', leg: 1, team1: 'RCB', team2: 'KKR' },
   { id: 'f10', leg: 1, team1: 'CSK', team2: 'SRH' },
   // ── Leg 2 ──
   { id: 'f11', leg: 2, team1: 'CSK', team2: 'RCB' },
-  { id: 'f12', leg: 2, team1: 'KKR', team2: 'MI'  },
+  { id: 'f12', leg: 2, team1: 'KKR', team2: 'MI' },
   { id: 'f13', leg: 2, team1: 'RCB', team2: 'SRH' },
-  { id: 'f14', leg: 2, team1: 'MI',  team2: 'CSK' },
+  { id: 'f14', leg: 2, team1: 'MI', team2: 'CSK' },
   { id: 'f15', leg: 2, team1: 'SRH', team2: 'KKR' },
-  { id: 'f16', leg: 2, team1: 'MI',  team2: 'RCB' },
+  { id: 'f16', leg: 2, team1: 'MI', team2: 'RCB' },
   { id: 'f17', leg: 2, team1: 'CSK', team2: 'KKR' },
-  { id: 'f18', leg: 2, team1: 'MI',  team2: 'SRH' },
+  { id: 'f18', leg: 2, team1: 'MI', team2: 'SRH' },
   { id: 'f19', leg: 2, team1: 'KKR', team2: 'RCB' },
   { id: 'f20', leg: 2, team1: 'SRH', team2: 'CSK' },
 ];
@@ -79,7 +79,7 @@ function getFixtureResult(
 const TeamBadge = ({ name }: { name: string }) => {
   const team = FALLBACK_TEAMS.find(t => t.name === name);
   return (
-    <div 
+    <div
       className="w-2 h-full absolute left-0 top-0 border-r border-[var(--border)]"
       style={{ backgroundColor: team?.color || 'var(--muted)', boxShadow: `0 0 5px ${team?.color}40` }}
     />
@@ -194,13 +194,13 @@ function CricketApp() {
 
     return sorted.map((t, idx) => {
       const qualified = idx < 3;
-      
+
       // Simplified Probability: 
       // Top 3 = High chance. Bottom 2 = based on pts gap.
       const gapToThird = idx > 2 ? sorted[2].pts - t.pts : 0;
-      const matchesLeft = 8 - t.p; 
+      const matchesLeft = 8 - t.p;
       const prob = idx < 3 ? Math.min(100, 70 + (t.pts * 5)) : Math.max(0, 40 - (gapToThird * 15));
-      
+
       return { ...t, qualified, prob };
     });
   }, [matches, teams]);
@@ -234,7 +234,7 @@ function CricketApp() {
 
   const nextFixture = useMemo(() =>
     FIXTURE_LIST.find(f => !getFixtureResult(f, matches)) || null,
-  [matches]);
+    [matches]);
 
   const openScoreModal = (t1?: string, t2?: string) => {
     setPrefillTeams(t1 && t2 ? { t1, t2 } : null);
@@ -264,8 +264,8 @@ function CricketApp() {
 
   if (!currentUser) {
     return <LoginScreen teams={teams} onSelect={(id) => {
-       localStorage.setItem('cm_user_id', id);
-       setCurrentUser(id);
+      localStorage.setItem('cm_user_id', id);
+      setCurrentUser(id);
     }} />
   }
 
@@ -284,7 +284,7 @@ function CricketApp() {
               MINI IPL
             </h1>
           </div>
-          <button 
+          <button
             onClick={() => nextFixture ? openScoreModal(nextFixture.team1, nextFixture.team2) : openScoreModal()}
             className="hidden md:flex items-center bg-transparent border-2 border-[var(--accent)] text-[var(--accent)] px-4 py-2 cyber-chamfer-sm text-xs font-bold uppercase tracking-widest hover:bg-[var(--accent)] hover:text-black hover:shadow-neon transition-all cyber-glitch"
           >
@@ -297,14 +297,13 @@ function CricketApp() {
       <nav className="border-b border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm sticky top-[69px] md:top-[108px] z-20">
         <div className="flex overflow-x-auto hide-scrollbar">
           {(['home', 'scores', 'standings', 'profile'] as const).map(t => (
-            <button 
+            <button
               key={t}
               onClick={() => setActiveTab(t)}
-              className={`flex-1 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap px-4 md:px-6 transition-all border-b-2 ${
-                activeTab === t 
-                  ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/5 shadow-[inset_0_-2px_10px_rgba(0,255,136,0.2)]' 
-                  : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]/50'
-              }`}
+              className={`flex-1 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap px-4 md:px-6 transition-all border-b-2 ${activeTab === t
+                ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/5 shadow-[inset_0_-2px_10px_rgba(0,255,136,0.2)]'
+                : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]/50'
+                }`}
             >
               /{t}
             </button>
@@ -313,36 +312,36 @@ function CricketApp() {
       </nav>
 
       <main className="p-4 md:p-6 space-y-6 md:space-y-8 animate-in fade-in duration-300">
-        
+
         {/* ══════════════════ HOME ══════════════════ */}
         {activeTab === 'home' && (
           <div className="space-y-6 md:space-y-8">
             {/* HERO HUD */}
             <div className="bg-[var(--card)] border border-[var(--border)] p-1 cyber-chamfer relative overflow-hidden group"
-                 style={{ borderColor: `${myTeam?.color}40` }}>
+              style={{ borderColor: `${myTeam?.color}40` }}>
               <div className="absolute top-0 right-0 p-2 opacity-30 group-hover:opacity-100 transition-opacity">
                 <div className="w-16 h-16 border border-[var(--accent)] cyber-chamfer-sm grid place-items-center"
-                     style={{ borderColor: myTeam?.color }}>
-                  <div className="w-8 h-8 border border-[var(--accent)] rounded-full animate-spin" 
-                       style={{ animationDuration: '3s', borderColor: myTeam?.color }}></div>
+                  style={{ borderColor: myTeam?.color }}>
+                  <div className="w-8 h-8 border border-[var(--accent)] rounded-full animate-spin"
+                    style={{ animationDuration: '3s', borderColor: myTeam?.color }}></div>
                 </div>
               </div>
               <div className="bg-[var(--muted)]/30 border border-[var(--border)] p-4 md:p-6 cyber-chamfer h-full">
                 <p className="text-[10px] text-[var(--accent-tertiary)] uppercase tracking-[0.2em] mb-4 flex items-center">
                   <span className="w-2 h-2 bg-[var(--accent-tertiary)] mr-2 animate-pulse"
-                        style={{ backgroundColor: myTeam?.color }}></span>
+                    style={{ backgroundColor: myTeam?.color }}></span>
                   SYSTEM.STATUS // ACTIVE // {myTeam?.tagline?.toUpperCase() || 'OFFLINE'}
                 </p>
                 <h2 className="font-orbitron text-xl md:text-4xl font-bold uppercase text-[var(--foreground)] mb-6 leading-tight">
-                  <span className="text-[var(--accent)]" style={{ color: myTeam?.color }}>5-OVER</span> DEATHMATCH<br/>PROTOCOL INITIATED
+                  <span className="text-[var(--accent)]" style={{ color: myTeam?.color }}>5-OVER</span> DEATHMATCH<br />PROTOCOL INITIATED
                 </h2>
-                
+
                 <div className="flex flex-col md:flex-row gap-4 md:items-end justify-between border-t border-[var(--border)]/50 pt-4 md:pt-6 mt-4">
                   <div className="font-share-tech">
                     <p className="text-[10px] md:text-xs text-[var(--muted-foreground)] uppercase">Data Progression</p>
                     <p className="text-lg md:text-xl text-[var(--foreground)]">{matches.length} <span className="text-xs md:text-sm text-[var(--muted-foreground)]">/ 20 FILES PROCESSED</span></p>
                   </div>
-                  
+
                   {nextFixture ? (
                     <button
                       onClick={() => openScoreModal(nextFixture.team1, nextFixture.team2)}
@@ -389,7 +388,7 @@ function CricketApp() {
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] mb-4 flex items-center">
                 <span className="w-1 h-4 bg-[var(--accent)] mr-2"></span> DATA_LOG.RECENT
               </h3>
-              
+
               {matches.length === 0 ? (
                 <div className="bg-[var(--card)] border border-[var(--border)] p-8 text-center text-[var(--muted-foreground)] text-sm cyber-chamfer font-share-tech">
                   NO_LOGS_FOUND
@@ -405,7 +404,7 @@ function CricketApp() {
                         </span>
                         <span className="text-[9px] bg-[var(--accent)]/10 text-[var(--accent)] px-2 py-0.5 border border-[var(--accent)]/30 uppercase">MATCH_FINAL</span>
                       </div>
-                      
+
                       <div className="pl-4 space-y-3">
                         <div className={`flex justify-between items-center ${m.winner === m.team1 ? 'opacity-100' : 'opacity-50'}`}>
                           <span className={`font-orbitron font-bold text-lg tracking-widest ${m.winner === m.team1 ? 'text-[var(--accent)] drop-shadow-neon' : 'text-[var(--foreground)]'}`}>{m.team1}</span>
@@ -441,7 +440,7 @@ function CricketApp() {
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
                 <span className="text-[var(--accent)] mr-2">#</span> PHASE_1_EXECUTION
               </h3>
-              
+
               <div className="space-y-3">
                 {FIXTURE_LIST.filter(f => f.leg === 1).map(fixture => {
                   const result = getFixtureResult(fixture, matches);
@@ -451,20 +450,20 @@ function CricketApp() {
                       <div className="relative z-10 flex flex-col p-4">
                         <div className="w-full flex justify-between items-center mb-4 pb-2 border-b border-[var(--border)]/50">
                           <div className="font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
-                             <div>{result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)] animate-pulse">PENDING</span>}</div>
-                             <span className="opacity-50 truncate max-w-[220px] sm:max-w-none">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
+                            <div>{result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)] animate-pulse">PENDING</span>}</div>
+                            <span className="opacity-50 truncate max-w-[220px] sm:max-w-none">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
                           </div>
                           {!result && <span className="text-[var(--accent)] font-bold opacity-0 group-hover:opacity-100 transition-opacity">&gt;_</span>}
                         </div>
-                        
+
                         <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-8 px-4 border-l border-[var(--accent)]/30">
                           <div className={`flex justify-between md:justify-start items-center gap-4 flex-1 ${result && result.winner !== fixture.team1 ? 'opacity-40' : ''}`}>
                             <span className={`font-orbitron font-bold tracking-widest ${result && result.winner === fixture.team1 ? 'text-[var(--accent)] drop-shadow-neon' : 'text-[var(--foreground)]'}`}>{fixture.team1}</span>
                             {result && <span className="font-mono text-lg">{result.score1}</span>}
                           </div>
-                          
+
                           <div className="text-[10px] text-[var(--muted-foreground)] font-share-tech">VS</div>
-                          
+
                           <div className={`flex justify-between md:justify-end items-center gap-4 flex-1 md:flex-row-reverse ${result && result.winner !== fixture.team2 ? 'opacity-40' : ''}`}>
                             <span className={`font-orbitron font-bold tracking-widest ${result && result.winner === fixture.team2 ? 'text-[var(--accent)] drop-shadow-neon' : 'text-[var(--foreground)]'}`}>{fixture.team2}</span>
                             {result && <span className="font-mono text-lg">{result.score2}</span>}
@@ -481,7 +480,7 @@ function CricketApp() {
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
                 <span className="text-[var(--accent)] mr-2">#</span> PHASE_2_EXECUTION
               </h3>
-              
+
               <div className="space-y-3">
                 {FIXTURE_LIST.filter(f => f.leg === 2).map(fixture => {
                   const result = getFixtureResult(fixture, matches);
@@ -490,20 +489,20 @@ function CricketApp() {
                       <div className="relative z-10 flex flex-col p-4">
                         <div className="w-full flex justify-between items-center mb-4 pb-2 border-b border-[var(--border)]/50">
                           <div className="font-share-tech text-[10px] text-[var(--muted-foreground)] uppercase flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
-                             <div>{result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)]">PENDING</span>}</div>
-                             <span className="opacity-50 truncate max-w-[220px] sm:max-w-none">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
+                            <div>{result ? <span className="text-[var(--accent-secondary)]">COMPLETED</span> : <span className="text-[var(--accent)]">PENDING</span>}</div>
+                            <span className="opacity-50 truncate max-w-[220px] sm:max-w-none">// LOC: {teams.find((t: any) => t.name === fixture.team1)?.ground || 'UNKNOWN'}</span>
                           </div>
                           {!result && <span className="text-[var(--accent)] font-bold opacity-0 group-hover:opacity-100 transition-opacity">&gt;_</span>}
                         </div>
-                        
+
                         <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-8 px-4 border-l border-[var(--accent)]/30">
                           <div className={`flex justify-between md:justify-start items-center gap-4 flex-1 ${result && result.winner !== fixture.team1 ? 'opacity-40' : ''}`}>
                             <span className={`font-orbitron font-bold tracking-widest ${result && result.winner === fixture.team1 ? 'text-[var(--accent)] drop-shadow-neon' : 'text-[var(--foreground)]'}`}>{fixture.team1}</span>
                             {result && <span className="font-mono text-lg">{result.score1}</span>}
                           </div>
-                          
+
                           <div className="text-[10px] text-[var(--muted-foreground)] font-share-tech">VS</div>
-                          
+
                           <div className={`flex justify-between md:justify-end items-center gap-4 flex-1 md:flex-row-reverse ${result && result.winner !== fixture.team2 ? 'opacity-40' : ''}`}>
                             <span className={`font-orbitron font-bold tracking-widest ${result && result.winner === fixture.team2 ? 'text-[var(--accent)] drop-shadow-neon' : 'text-[var(--foreground)]'}`}>{fixture.team2}</span>
                             {result && <span className="font-mono text-lg">{result.score2}</span>}
@@ -531,7 +530,7 @@ function CricketApp() {
                 </div>
                 <div className="bg-[var(--card)] border border-[var(--accent)] p-4 cyber-chamfer-sm shadow-neon-sm relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-2 text-[var(--accent)]/20 font-orbitron text-4xl font-black">WIN</div>
-                  <div className="text-[10px] text-[var(--accent)] font-share-tech uppercase mb-4 relative z-10">&gt; APEX_FINAL_EXECUTION</div>
+                  <div className="text-[10px] text-[var(--accent)] font-share-tech uppercase mb-4 relative z-10">&gt; GRAND_FINALE_EXECUTION</div>
                   <div className="flex justify-between items-center px-4 relative z-10">
                     <span className="font-orbitron font-bold text-xl text-[var(--foreground)] drop-shadow-neon">{standings[0]?.name || 'TBD_ENTITY'}</span>
                     <span className="text-[10px] text-[var(--muted-foreground)] font-share-tech">VS</span>
@@ -548,7 +547,7 @@ function CricketApp() {
           <div className="space-y-6">
             <div className="bg-[var(--card)] border border-[var(--border)] cyber-chamfer relative">
               <div className="absolute top-0 left-0 w-full h-1 bg-[var(--accent-tertiary)] opacity-50"></div>
-              
+
               <div className="p-4 border-b border-[var(--border)] bg-[var(--muted)]/20">
                 <h3 className="font-orbitron text-xl font-bold text-[var(--accent-tertiary)] uppercase tracking-widest drop-shadow-neon text-glitch">POINTS_TABLE</h3>
               </div>
@@ -567,7 +566,7 @@ function CricketApp() {
                   <tbody className="divide-y divide-[var(--border)]">
                     {standings.map((team: any, idx) => (
                       <React.Fragment key={team.name}>
-                        <tr 
+                        <tr
                           onClick={() => setIntelTeam(intelTeam === team.name ? null : team.name)}
                           className={`hover:bg-[var(--muted)]/30 transition-all group cursor-pointer relative overflow-hidden
                             ${idx === 0 ? 'bg-gradient-to-r from-yellow-500/10 via-transparent to-transparent border-l-4 border-yellow-500 shadow-[0_0_15px_rgba(255,191,0,0.1)]' : ''}
@@ -592,7 +591,7 @@ function CricketApp() {
                             <div className="flex flex-col">
                               <div className="flex items-center gap-2">
                                 <span className="font-orbitron font-bold text-lg transition-all group-hover:scale-110 origin-left"
-                                      style={{ color: team.color, textShadow: `0 0 10px ${team.color}40` }}>
+                                  style={{ color: team.color, textShadow: `0 0 10px ${team.color}40` }}>
                                   {team.name}
                                 </span>
                                 <div className="flex gap-1">
@@ -609,12 +608,12 @@ function CricketApp() {
                                   P:{team.p} W:<span className="text-[var(--accent)]">{team.w}</span> L:<span className="text-[var(--destructive)]">{team.l}</span> PTS:<span className="text-[var(--accent-tertiary)] font-bold">{team.pts}</span>
                                 </span>
                                 <span className="text-[8px] px-2 py-0.5 font-share-tech rounded-full border transition-all group-hover:px-4 shrink-0"
-                                      style={{ 
-                                        color: team.color, 
-                                        borderColor: `${team.color}40`, 
-                                        backgroundColor: `${team.color}10`,
-                                        boxShadow: `inset 0 0 5px ${team.color}20` 
-                                      }}>
+                                  style={{
+                                    color: team.color,
+                                    borderColor: `${team.color}40`,
+                                    backgroundColor: `${team.color}10`,
+                                    boxShadow: `inset 0 0 5px ${team.color}20`
+                                  }}>
                                   {team.tagline}
                                 </span>
                               </div>
@@ -636,49 +635,49 @@ function CricketApp() {
                           </td>
                           <td className="hidden md:table-cell px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
                         </tr>
-                        
+
                         {intelTeam === team.name && (
                           <tr className="bg-[var(--muted)]/5 border-l-4 border-[var(--accent-tertiary)] animate-in slide-in-from-left duration-300">
-                             <td colSpan={6} className="p-0">
-                                <div className="p-6 border-b border-[var(--border)] relative overflow-hidden">
-                                   <div className="absolute top-0 right-0 p-4">
-                                      <button onClick={(e) => { e.stopPropagation(); setIntelTeam(null); }} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-[10px] font-share-tech">[ COLLAPSE_X ]</button>
-                                   </div>
-                                   <div className="flex flex-col md:flex-row gap-6 md:gap-8">
-                                      <div className="shrink-0 flex flex-col items-center">
-                                         <div className="w-16 h-16 border border-[var(--accent-tertiary)] cyber-chamfer grid place-items-center bg-[var(--background)] relative">
-                                            <span className="font-orbitron text-2xl font-black text-[var(--accent-tertiary)]">{team.name.substring(0, 3)}</span>
-                                         </div>
-                                         <div className="mt-4 text-center">
-                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">PLAYOFF_CHANCE</p>
-                                            <div className="font-orbitron text-lg font-black text-[var(--accent)]">{team.prob}%</div>
-                                         </div>
-                                      </div>
-                                      <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
-                                         <div>
-                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">AVERAGE_SCORE</p>
-                                            <p className="font-orbitron text-lg font-bold text-[var(--foreground)]">{(team.runsScored / (team.p || 1)).toFixed(1)}</p>
-                                         </div>
-                                         <div>
-                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">RUNS_CONCEDED</p>
-                                            <p className="font-orbitron text-lg font-bold text-[var(--destructive)]">{team.runsConceded}</p>
-                                         </div>
-                                         <div>
-                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">BEST_SCORE</p>
-                                            <p className="font-orbitron text-lg font-bold text-[var(--accent-tertiary)]">
-                                               {Math.max(...matches.filter(m => m.team1 === team.name || m.team2 === team.name).map(m => m.team1 === team.name ? m.score1 : m.score2), 0)}
-                                            </p>
-                                         </div>
-                                         <div>
-                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">WIN_RATE</p>
-                                            <p className="font-orbitron text-lg font-bold text-[var(--accent)]">
-                                               {(team.w / (team.p || 1) * 100).toFixed(0)}%
-                                            </p>
-                                         </div>
-                                      </div>
-                                   </div>
+                            <td colSpan={6} className="p-0">
+                              <div className="p-6 border-b border-[var(--border)] relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-4">
+                                  <button onClick={(e) => { e.stopPropagation(); setIntelTeam(null); }} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-[10px] font-share-tech">[ COLLAPSE_X ]</button>
                                 </div>
-                             </td>
+                                <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+                                  <div className="shrink-0 flex flex-col items-center">
+                                    <div className="w-16 h-16 border border-[var(--accent-tertiary)] cyber-chamfer grid place-items-center bg-[var(--background)] relative">
+                                      <span className="font-orbitron text-2xl font-black text-[var(--accent-tertiary)]">{team.name.substring(0, 3)}</span>
+                                    </div>
+                                    <div className="mt-4 text-center">
+                                      <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">PLAYOFF_CHANCE</p>
+                                      <div className="font-orbitron text-lg font-black text-[var(--accent)]">{team.prob}%</div>
+                                    </div>
+                                  </div>
+                                  <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div>
+                                      <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">AVERAGE_SCORE</p>
+                                      <p className="font-orbitron text-lg font-bold text-[var(--foreground)]">{(team.runsScored / (team.p || 1)).toFixed(1)}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">RUNS_CONCEDED</p>
+                                      <p className="font-orbitron text-lg font-bold text-[var(--destructive)]">{team.runsConceded}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">BEST_SCORE</p>
+                                      <p className="font-orbitron text-lg font-bold text-[var(--accent-tertiary)]">
+                                        {Math.max(...matches.filter(m => m.team1 === team.name || m.team2 === team.name).map(m => m.team1 === team.name ? m.score1 : m.score2), 0)}
+                                      </p>
+                                    </div>
+                                    <div>
+                                      <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">WIN_RATE</p>
+                                      <p className="font-orbitron text-lg font-bold text-[var(--accent)]">
+                                        {(team.w / (team.p || 1) * 100).toFixed(0)}%
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
                           </tr>
                         )}
                       </React.Fragment>
@@ -693,7 +692,7 @@ function CricketApp() {
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
                 <span className="w-1 h-4 bg-[var(--destructive)] mr-2"></span> SYSTEM_ANOMALIES
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-[var(--card)] border border-[var(--accent)]/50 p-5 cyber-chamfer-sm relative overflow-hidden">
                   <div className="absolute -right-4 -top-4 w-16 h-16 bg-[var(--accent)]/10 blur-xl rounded-full"></div>
@@ -750,20 +749,20 @@ function CricketApp() {
               <div className="absolute right-0 top-0 h-full w-32 bg-[var(--accent-secondary)]/5 flex items-center justify-center opacity-20 pointer-events-none">
                 <span className="font-orbitron text-8xl font-black text-transparent [-webkit-text-stroke:1px_var(--accent-secondary)] transform rotate-90">USR</span>
               </div>
-              
+
               <div className="relative z-10">
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="font-orbitron text-xl md:text-3xl font-black text-[var(--foreground)] uppercase tracking-widest mb-2"
-                        style={{ color: myTeam?.color }}>Captain {myTeam?.owner || 'Unknown'}</h2>
+                      style={{ color: myTeam?.color }}>Captain {myTeam?.owner || 'Unknown'}</h2>
                     <p className="text-xs text-[var(--accent-secondary)] uppercase tracking-[0.3em] font-share-tech border border-[var(--accent-secondary)]/30 bg-[var(--accent-secondary)]/10 px-3 py-1 inline-block cyber-chamfer-sm"
-                       style={{ borderColor: `${myTeam?.color}50`, backgroundColor: `${myTeam?.color}10`, color: myTeam?.color }}>ID: {myTeam?.name}_OWNER_001 // {myTeam?.tagline}</p>
+                      style={{ borderColor: `${myTeam?.color}50`, backgroundColor: `${myTeam?.color}10`, color: myTeam?.color }}>ID: {myTeam?.name}_OWNER_001 // {myTeam?.tagline}</p>
                   </div>
                   <button onClick={() => { localStorage.removeItem('cm_user_id'); setCurrentUser(null); }} className="text-[10px] text-[var(--muted-foreground)] hover:text-[var(--destructive)] uppercase tracking-widest font-share-tech transition-colors border border-[var(--border)] px-3 py-1.5 bg-[var(--card)] cyber-chamfer-sm">
                     [SWITCH_ID]
                   </button>
                 </div>
-                
+
                 <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 mt-8 md:mt-12 pt-6 border-t border-[var(--border)]/50">
                   <div>
                     <div className="text-xs md:text-sm font-share-tech text-[var(--muted-foreground)] uppercase tracking-widest mb-2">Cycle.Count</div>
@@ -781,7 +780,7 @@ function CricketApp() {
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
                 <span className="w-1 h-4 bg-[var(--accent-tertiary)] mr-2"></span> SYS.ENTITIES
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {FALLBACK_TEAMS.map(t => (
                   <div key={t.id} className="bg-[var(--background)] border border-[var(--border)] p-5 cyber-chamfer-sm relative hover:border-[var(--accent-tertiary)]/50 transition-colors group">
@@ -789,7 +788,7 @@ function CricketApp() {
                     <div className="pl-6">
                       <div className="flex justify-between items-start mb-4">
                         <div className="font-orbitron font-bold text-xl text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)] transition-colors"
-                             style={{ color: t.color }}>{t.name}</div>
+                          style={{ color: t.color }}>{t.name}</div>
                         <div className="text-[10px] text-[var(--muted-foreground)] border border-[var(--border)] px-2 py-0.5 bg-[var(--card)] uppercase tracking-widest">OWNER: {t.owner}</div>
                       </div>
                       <div className="flex flex-col">
@@ -860,13 +859,13 @@ function ScoreModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 font-mono">
       {/* Scanline overlay specific to modal */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)' }}></div>
-      
+
       <div className="w-full max-w-lg bg-[var(--card)] border border-[var(--accent)] cyber-chamfer shadow-neon relative z-10 overflow-hidden">
         <div className="bg-[var(--accent)] px-4 py-2 flex justify-between items-center text-black font-share-tech uppercase font-bold tracking-widest text-xs">
           <span>&gt; UPLOAD_DATA_PACKET.EXE</span>
           <button onClick={onClose} className="hover:text-white transition-colors">[X]</button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           <div className="space-y-4">
             <div className="relative">
@@ -939,10 +938,10 @@ function LoginScreen({ teams, onSelect }: { teams: any[], onSelect: (id: string)
           IDENTIFICATION_REQUIRED
         </div>
         <h1 className="font-orbitron text-2xl font-black text-[var(--foreground)] uppercase tracking-widest mb-8">Select Entity</h1>
-        
+
         <div className="space-y-4">
           {teams.map(t => (
-            <button 
+            <button
               key={t.id}
               onClick={() => onSelect(t.name)}
               className="w-full text-left bg-[var(--background)] border border-[var(--border)] p-4 cyber-chamfer-sm hover:border-[var(--accent)] hover:shadow-neon transition-all group relative overflow-hidden"
@@ -951,7 +950,7 @@ function LoginScreen({ teams, onSelect }: { teams: any[], onSelect: (id: string)
               <div className="pl-4 flex justify-between items-center">
                 <div>
                   <div className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
-                       style={{ color: t.color }}>{t.owner}</div>
+                    style={{ color: t.color }}>{t.owner}</div>
                   <div className="text-[10px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{t.name} // {t.full || t.full_name || ''}</div>
                   <div className="text-[9px] text-[var(--accent-tertiary)] italic font-share-tech mt-1">{t.tagline}</div>
                 </div>
