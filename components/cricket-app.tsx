@@ -181,19 +181,15 @@ function CricketApp() {
     const highestScored = Math.max(...sorted.filter(t => t.p > 0).map(t => t.runsScored / t.p));
 
     return sorted.map((t, idx) => {
-      const protocols = [];
-      if (idx === 0) protocols.push('APEX_PREDATOR');
-      if (idx < 3) protocols.push('P3_QUALIFIED');
-      if (t.p > 0 && t.runsConceded / t.p === lowestConceded) protocols.push('THE_WALL');
-      if (t.p > 0 && t.runsScored / t.p === highestScored) protocols.push('MAX_PAYLOAD');
+      const qualified = idx < 3;
       
       // Simplified Probability: 
       // Top 3 = High chance. Bottom 2 = based on pts gap.
       const gapToThird = idx > 2 ? sorted[2].pts - t.pts : 0;
-      const matchesLeft = 8 - t.p; // Assuming each team plays 8 matches? No, total 20 matches, 5 teams. 20/5*2 = 8 matches each.
+      const matchesLeft = 8 - t.p; 
       const prob = idx < 3 ? Math.min(100, 70 + (t.pts * 5)) : Math.max(0, 40 - (gapToThird * 15));
       
-      return { ...t, protocols, prob };
+      return { ...t, qualified, prob };
     });
   }, [matches, teams]);
 
@@ -583,22 +579,29 @@ function CricketApp() {
                           <td className="px-6 py-4 relative">
                             <div className="flex flex-col">
                               <div className="flex items-center gap-2">
-                                <span className={`font-orbitron font-bold text-lg transition-colors 
-                                  ${idx === 0 ? 'text-yellow-400 group-hover:text-yellow-200' : 'group-hover:text-[var(--accent-tertiary)]'}
-                                  ${idx === standings.length - 1 ? 'line-through decoration-red-900/50' : ''}
-                                `}>{team.name}</span>
+                                <span className="font-orbitron font-bold text-lg transition-all group-hover:scale-110 origin-left"
+                                      style={{ color: team.color, textShadow: `0 0 10px ${team.color}40` }}>
+                                  {team.name}
+                                </span>
                                 <div className="flex gap-1">
-                                  {team.protocols.map((p: string) => (
-                                    <span key={p} className={`text-[7px] px-1 border font-share-tech 
-                                      ${idx === 0 ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-500' : 'bg-[var(--accent)]/10 border-[var(--accent)]/30 text-[var(--accent)]'}
-                                    `}>{p}</span>
-                                  ))}
-                                  {idx === standings.length - 1 && <span className="text-[7px] px-1 bg-red-900/20 border border-red-900/40 text-red-500 font-share-tech uppercase animate-pulse">SYSTEM_FAILURE</span>}
+                                  {team.qualified && (
+                                    <span className="text-[7px] px-1.5 py-0.5 border border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)] font-share-tech uppercase tracking-tighter animate-pulse shadow-[0_0_5px_var(--accent)]/30">
+                                      P3_QUALIFIED
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                               <div className="flex items-center gap-2 mt-0.5">
                                 <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.full || team.full_name || ''}</span>
-                                <span className="text-[9px] text-[var(--accent-tertiary)] opacity-60 italic font-share-tech">{team.tagline}</span>
+                                <span className="text-[8px] px-2 py-0.5 font-share-tech rounded-full border transition-all group-hover:px-4"
+                                      style={{ 
+                                        color: team.color, 
+                                        borderColor: `${team.color}40`, 
+                                        backgroundColor: `${team.color}10`,
+                                        boxShadow: `inset 0 0 5px ${team.color}20` 
+                                      }}>
+                                  {team.tagline}
+                                </span>
                               </div>
                             </div>
                           </td>
