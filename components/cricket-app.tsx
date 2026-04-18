@@ -603,7 +603,7 @@ function CricketApp() {
                                 {team.form.slice(0, 5).map((r: string, i: number) => {
                                   const size = i === 0 ? 'w-2.5 h-2.5' : i === 1 ? 'w-2 h-2' : i === 2 ? 'w-1.5 h-1.5' : i === 3 ? 'w-1 h-1' : 'w-0.5 h-0.5';
                                   return (
-                                    <span key={i} className={`${size} rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
+                                    <span key={i} className={`${size} rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]' : 'bg-[var(--destructive)] shadow-[0_0_5px_var(--destructive)]'}`}></span>
                                   );
                                 })}
                               </div>
