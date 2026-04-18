@@ -564,8 +564,16 @@ function CricketApp() {
                           `}
                         >
                           <td className="px-6 py-4">
-                            <span className={`text-xs ${idx === 0 ? 'text-yellow-500 font-bold drop-shadow-neon' : idx === standings.length - 1 ? 'text-red-600' : 'text-[var(--muted-foreground)]'}`}>
-                              {idx === 0 ? '👑' : `0${idx + 1}`}
+                            <span className={`text-xs ${idx === 0 ? 'text-yellow-500 font-bold' : idx === standings.length - 1 ? 'text-red-600' : 'text-[var(--muted-foreground)]'}`}>
+                              {idx === 0 ? (
+                                <svg className="w-5 h-5 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)] animate-pulse inline-block mb-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M4 19L2 7L7 12L12 2L17 12L22 7L20 19H4Z" fill="currentColor" />
+                                  <rect x="6" y="15" width="2" height="1" fill="black" fillOpacity="0.3" />
+                                  <rect x="11" y="15" width="2" height="1" fill="black" fillOpacity="0.3" />
+                                  <rect x="16" y="15" width="2" height="1" fill="black" fillOpacity="0.3" />
+                                  <path d="M4 17.5H20" stroke="black" strokeWidth="0.5" strokeOpacity="0.2" />
+                                </svg>
+                              ) : `0${idx + 1}`}
                             </span>
                           </td>
                           <td className="px-6 py-4 relative">
