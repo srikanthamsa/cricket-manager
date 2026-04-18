@@ -592,7 +592,7 @@ function CricketApp() {
                           <td className="px-6 py-4">
                             <div className="flex flex-col items-center gap-0.5">
                               <div className="flex justify-center gap-1.5 items-center h-4">
-                                {team.form.slice(-5).reverse().map((r: string, i: number) => {
+                                {team.form.slice(0, 5).map((r: string, i: number) => {
                                   const size = i === 0 ? 'w-2.5 h-2.5' : i === 1 ? 'w-2 h-2' : i === 2 ? 'w-1.5 h-1.5' : i === 3 ? 'w-1 h-1' : 'w-0.5 h-0.5';
                                   return (
                                     <span key={i} className={`${size} rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
