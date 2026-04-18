@@ -138,7 +138,13 @@ function CricketApp() {
         supabase!.from('teams').select('*'),
       ]);
       if (m) setMatches(m);
-      if (t && t.length > 0) setTeams(t);
+      if (t && t.length > 0) {
+        const enrichedTeams = t.map(team => {
+          const fb = FALLBACK_TEAMS.find(f => f.id === team.id);
+          return fb ? { ...team, owner: fb.owner, color: fb.color } : team;
+        });
+        setTeams(enrichedTeams);
+      }
       setLoading(false);
     }
     load();
