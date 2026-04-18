@@ -592,7 +592,7 @@ function CricketApp() {
                             <div className="flex flex-col">
                               <div className="flex items-center gap-2">
                                 <span className="font-orbitron font-bold text-lg transition-all group-hover:scale-110 origin-left"
-                                  style={{ color: team.color, textShadow: `0 0 2px #fff, 0 0 8px ${team.color}, 0 0 16px ${team.color}80` }}>
+                                  style={{ color: team.color, textShadow: `0 0 8px ${team.color}, 0 0 16px ${team.color}80` }}>
                                   {team.name}
                                 </span>
                                 <div className="flex gap-1">
@@ -603,7 +603,7 @@ function CricketApp() {
                                 <span className="text-[8px] px-2 py-0.5 font-share-tech rounded-full border transition-all group-hover:px-4 shrink-0"
                                   style={{
                                     color: team.color,
-                                    textShadow: `0 0 2px #fff, 0 0 5px ${team.color}`,
+                                    textShadow: `0 0 5px ${team.color}`,
                                     borderColor: `${team.color}40`,
                                     backgroundColor: `${team.color}10`,
                                     boxShadow: `inset 0 0 5px ${team.color}20, 0 0 8px ${team.color}40`
@@ -760,9 +760,9 @@ function CricketApp() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="font-orbitron text-xl md:text-3xl font-black text-[var(--foreground)] uppercase tracking-widest mb-2"
-                      style={{ color: myTeam?.color, textShadow: `0 0 2px #fff, 0 0 8px ${myTeam?.color}, 0 0 16px ${myTeam?.color}80` }}>Captain {myTeam?.owner || 'Unknown'}</h2>
+                      style={{ color: myTeam?.color, textShadow: `0 0 8px ${myTeam?.color}, 0 0 16px ${myTeam?.color}80` }}>Captain {myTeam?.owner || 'Unknown'}</h2>
                     <p className="text-xs text-[var(--accent-secondary)] uppercase tracking-[0.3em] font-share-tech border border-[var(--accent-secondary)]/30 bg-[var(--accent-secondary)]/10 px-3 py-1 inline-block cyber-chamfer-sm"
-                      style={{ borderColor: `${myTeam?.color}50`, backgroundColor: `${myTeam?.color}10`, color: myTeam?.color, textShadow: `0 0 2px #fff, 0 0 5px ${myTeam?.color}`, boxShadow: `inset 0 0 5px ${myTeam?.color}20, 0 0 8px ${myTeam?.color}40` }}>ID: {myTeam?.name}_OWNER_001 // {myTeam?.tagline}</p>
+                      style={{ borderColor: `${myTeam?.color}50`, backgroundColor: `${myTeam?.color}10`, color: myTeam?.color, textShadow: `0 0 5px ${myTeam?.color}`, boxShadow: `inset 0 0 5px ${myTeam?.color}20, 0 0 8px ${myTeam?.color}40` }}>ID: {myTeam?.name}_OWNER_001 // {myTeam?.tagline}</p>
                   </div>
                   <button onClick={() => { localStorage.removeItem('cm_user_id'); setCurrentUser(null); }} className="text-[10px] text-[var(--muted-foreground)] hover:text-[var(--destructive)] uppercase tracking-widest font-share-tech transition-colors border border-[var(--border)] px-3 py-1.5 bg-[var(--card)] cyber-chamfer-sm">
                     [SWITCH_ID]
@@ -794,12 +794,12 @@ function CricketApp() {
                     <div className="pl-6">
                       <div className="flex justify-between items-start mb-4">
                         <div className="font-orbitron font-bold text-xl text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)] transition-colors"
-                          style={{ color: t.color, textShadow: `0 0 2px #fff, 0 0 8px ${t.color}` }}>{t.name}</div>
+                          style={{ color: t.color, textShadow: `0 0 8px ${t.color}` }}>{t.name}</div>
                         <div className="text-[10px] text-[var(--muted-foreground)] border border-[var(--border)] px-2 py-0.5 bg-[var(--card)] uppercase tracking-widest">OWNER: {t.owner}</div>
                       </div>
                       <div className="flex flex-col">
                         <span className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider font-share-tech">{t.full || t.full_name || ''}</span>
-                        <span className="text-[10px] italic font-share-tech mt-1" style={{ color: t.color, textShadow: `0 0 2px #fff, 0 0 5px ${t.color}` }}>{t.tagline}</span>
+                        <span className="text-[10px] italic font-share-tech mt-1" style={{ color: t.color, textShadow: `0 0 5px ${t.color}` }}>{t.tagline}</span>
                       </div>
                       <div className="text-[9px] text-[var(--muted-foreground)]/50 uppercase tracking-widest mt-4 flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-[var(--muted-foreground)] inline-block"></span> {t.ground}
@@ -956,9 +956,9 @@ function LoginScreen({ teams, onSelect }: { teams: any[], onSelect: (id: string)
               <div className="pl-4 flex justify-between items-center">
                 <div>
                   <div className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
-                    style={{ color: t.color, textShadow: `0 0 2px #fff, 0 0 8px ${t.color}` }}>{t.owner}</div>
+                    style={{ color: t.color, textShadow: `0 0 8px ${t.color}` }}>{t.owner}</div>
                   <div className="text-[10px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{t.name} // {t.full || t.full_name || ''}</div>
-                  <div className="text-[9px] italic font-share-tech mt-1" style={{ color: t.color, textShadow: `0 0 2px #fff, 0 0 5px ${t.color}` }}>{t.tagline}</div>
+                  <div className="text-[9px] italic font-share-tech mt-1" style={{ color: t.color, textShadow: `0 0 5px ${t.color}` }}>{t.tagline}</div>
                 </div>
                 <div className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity font-bold">&gt;</div>
               </div>
