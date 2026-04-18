@@ -6,11 +6,11 @@ const TEAMS_KEY = 'ipl5_teams';
 const MATCHES_KEY = 'ipl5_matches';
 
 export const INITIAL_TEAMS: Record<TeamId, Team> = {
-  'thunderbolts': { id: 'thunderbolts', name: 'Thunderbolts', shortName: 'TBT', color: '#f59e0b', emoji: '⚡', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
-  'neon-kings': { id: 'neon-kings', name: 'Neon Kings', shortName: 'NKG', color: '#6366f1', emoji: '👑', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
-  'shadow-xi': { id: 'shadow-xi', name: 'Shadow XI', shortName: 'SXI', color: '#64748b', emoji: '🌑', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
-  'royal-crushers': { id: 'royal-crushers', name: 'Royal Crushers', shortName: 'RCR', color: '#ef4444', emoji: '💥', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
-  'cosmic-strikers': { id: 'cosmic-strikers', name: 'Cosmic Strikers', shortName: 'CST', color: '#22c55e', emoji: '🌌', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
+  'rcb': { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', shortName: 'RCB', color: '#ff3366', emoji: '🏏', tagline: 'Ee Sala Cup Namde', owner: 'Srikant', ground: 'M. Chinnaswamy Stadium', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
+  'csk': { id: 'csk', name: 'CSK', full: 'Chennai Super Kings', shortName: 'CSK', color: '#ffff00', emoji: '🦁', tagline: 'Whistle Podu', owner: 'KVD', ground: 'MA Chidambaram Stadium', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
+  'mi':  { id: 'mi',  name: 'MI',  full: 'Mumbai Indians', shortName: 'MI', color: '#00d4ff', emoji: '🌀', tagline: 'Duniya Hila Denge', owner: 'Debu', ground: 'Wankhede Stadium', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
+  'kkr': { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders', shortName: 'KKR', color: '#ff00ff', emoji: '⚔️', tagline: 'Korbo Lorbo Jeetbo', owner: 'Ekansh', ground: 'Eden Gardens', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
+  'srh': { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad', shortName: 'SRH', color: '#ff7700', emoji: '🔥', tagline: 'Orange Fire', owner: 'Ashpak', ground: 'Rajiv Gandhi Intl. Stadium', matches: 0, wins: 0, losses: 0, nrr: 0, form: [] },
 };
 
 function generateFixtures(): Match[] {
