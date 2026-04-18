@@ -599,7 +599,7 @@ function CricketApp() {
                                 </div>
                               </div>
                               <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                                <span className="hidden md:inline text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.full || team.full_name || ''}</span>
+                                <span className="hidden md:inline text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.owner || ''}</span>
                                 <span className="text-[8px] px-2 py-0.5 font-share-tech rounded-full border transition-all group-hover:px-4 shrink-0"
                                   style={{
                                     color: team.color,
