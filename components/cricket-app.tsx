@@ -550,7 +550,7 @@ function CricketApp() {
               <div className="absolute top-0 left-0 w-full h-1 bg-[var(--accent-tertiary)] opacity-50"></div>
               
               <div className="p-4 border-b border-[var(--border)] bg-[var(--muted)]/20">
-                <h3 className="font-orbitron text-xl font-bold text-[var(--accent-tertiary)] uppercase tracking-widest drop-shadow-neon text-glitch">GLOBAL_RANKING_TABLE</h3>
+                <h3 className="font-orbitron text-xl font-bold text-[var(--accent-tertiary)] uppercase tracking-widest drop-shadow-neon text-glitch">POINTS_TABLE</h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left whitespace-nowrap font-mono">
@@ -561,7 +561,7 @@ function CricketApp() {
                       <th className="hidden md:table-cell px-6 py-4 font-normal text-center">WIN</th>
                       <th className="hidden md:table-cell px-6 py-4 font-normal text-center">LOSS</th>
                       <th className="hidden md:table-cell px-6 py-4 font-normal text-center">FORM</th>
-                      <th className="px-3 md:px-6 py-3 md:py-4 font-normal text-right text-[var(--accent)]">PWR</th>
+                      <th className="hidden md:table-cell px-6 py-4 font-normal text-right text-[var(--accent)]">PWR</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--border)]">
@@ -603,9 +603,12 @@ function CricketApp() {
                                   )}
                                 </div>
                               </div>
-                              <div className="flex items-center gap-2 mt-0.5">
-                                <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.full || team.full_name || ''}</span>
-                                <span className="text-[8px] px-2 py-0.5 font-share-tech rounded-full border transition-all group-hover:px-4"
+                              <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                                <span className="hidden md:inline text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.full || team.full_name || ''}</span>
+                                <span className="md:hidden text-[9px] text-[var(--muted-foreground)] font-share-tech tracking-widest">
+                                  P:{team.p} W:<span className="text-[var(--accent)]">{team.w}</span> L:<span className="text-[var(--destructive)]">{team.l}</span> PTS:<span className="text-[var(--accent-tertiary)] font-bold">{team.pts}</span>
+                                </span>
+                                <span className="text-[8px] px-2 py-0.5 font-share-tech rounded-full border transition-all group-hover:px-4 shrink-0"
                                       style={{ 
                                         color: team.color, 
                                         borderColor: `${team.color}40`, 
@@ -631,7 +634,7 @@ function CricketApp() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-3 md:px-6 py-3 md:py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
+                          <td className="hidden md:table-cell px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
                         </tr>
                         
                         {intelTeam === team.name && (
