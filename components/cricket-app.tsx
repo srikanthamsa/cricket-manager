@@ -540,7 +540,19 @@ function CricketApp() {
               <div className="p-4 border-b border-[var(--border)] bg-[var(--muted)]/20">
                 <h3 className="font-orbitron text-xl font-bold text-[var(--accent-tertiary)] uppercase tracking-widest drop-shadow-neon text-glitch">GLOBAL_RANKING_TABLE</h3>
               </div>
-                    <tbody className="divide-y divide-[var(--border)]">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left whitespace-nowrap font-mono">
+                  <thead className="border-b border-[var(--border)] text-[var(--muted-foreground)] text-[10px] uppercase tracking-widest bg-[var(--background)]">
+                    <tr>
+                      <th className="px-6 py-4 font-normal">POS</th>
+                      <th className="px-6 py-4 font-normal">ENTITY_ID</th>
+                      <th className="px-6 py-4 font-normal text-center">WIN</th>
+                      <th className="px-6 py-4 font-normal text-center">LOSS</th>
+                      <th className="px-6 py-4 font-normal text-center">FORM</th>
+                      <th className="px-6 py-4 font-normal text-right text-[var(--accent)]">PWR</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--border)]">
                     {standings.map((team: any, idx) => (
                       <React.Fragment key={team.name}>
                         <tr 
@@ -636,25 +648,12 @@ function CricketApp() {
                         )}
                       </React.Fragment>
                     ))}
-                  </tbody>ing, i: number) => (
-                                <span key={i} className={`w-1.5 h-1.5 rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_5px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
-                              ))}
-                            </div>
-                            <div className="flex justify-between w-full max-w-[40px] text-[6px] text-[var(--muted-foreground)] uppercase font-share-tech">
-                              <span>OLD</span>
-                              <span className="text-[var(--accent)]">NEW</span>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
-                      </tr>
-                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
-
-            </div>
+          </div>
+        )}
 
             <div className="space-y-4 pt-4 border-t border-[var(--border)] border-dashed">
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
