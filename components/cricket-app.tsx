@@ -35,7 +35,7 @@ const FALLBACK_TEAMS: TeamData[] = [
   { id: 'csk', name: 'CSK', full: 'Chennai Super Kings', color: '#ffff00', owner: 'KVD "Thala" Sridhar', ground: 'MA Chidambaram Stadium, Chennai', tagline: 'Whistle Podu' },
   { id: 'mi', name: 'MI', full: 'Mumbai Indians', color: '#00d4ff', owner: 'Divyansh "Mumbai Cha Raja" Tiwari', ground: 'Wankhede Stadium, Mumbai', tagline: 'Duniya Hila Denge' },
   { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders', color: '#d4a1ff', owner: 'Ekansh "Mr. 360" Tiwari', ground: 'Eden Gardens, Kolkata', tagline: 'Korbo Lorbo Jeetbo' },
-  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad', color: '#ff7700', owner: 'Sheikh "The Rawalpindi Express" Ashpak', ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad', tagline: 'Orange Fire' },
+  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad', color: '#ff7700', owner: 'Sheikh "The Rawalpindi Express" Ashpak', ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad', tagline: 'Orange Army' },
 ];
 
 const FIXTURE_LIST = [
