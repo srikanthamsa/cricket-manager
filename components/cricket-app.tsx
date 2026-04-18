@@ -110,6 +110,7 @@ function CricketApp() {
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const [intelTeam, setIntelTeam] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem('cm_user_id');
@@ -166,24 +167,33 @@ function CricketApp() {
     Object.values(stats).forEach(t => {
       t.nrr = t.p > 0 ? ((t.runsScored - t.runsConceded) / (t.p * 5)).toFixed(2) : "0.00";
     });
-    return Object.values(stats).sort((a: any, b: any) => {
-      // 1. Points
+    const sorted = Object.values(stats).sort((a: any, b: any) => {
       if (b.pts !== a.pts) return b.pts - a.pts;
-      
-      // 2. Head-to-Head (Direct encounters)
-      const h2hMatches = matches.filter(m => 
-        (m.team1 === a.name && m.team2 === b.name) || 
-        (m.team1 === b.name && m.team2 === a.name)
-      );
+      const h2hMatches = matches.filter(m => (m.team1 === a.name && m.team2 === b.name) || (m.team1 === b.name && m.team2 === a.name));
       const aWins = h2hMatches.filter(m => m.winner === a.name).length;
       const bWins = h2hMatches.filter(m => m.winner === b.name).length;
       if (aWins !== bWins) return bWins - aWins;
-      
-      // 3. Wins
       if (b.w !== a.w) return b.w - a.w;
-      
-      // 4. Net Run Margin (Fallback)
       return parseFloat(b.nrr) - parseFloat(a.nrr);
+    });
+
+    const lowestConceded = Math.min(...sorted.filter(t => t.p > 0).map(t => t.runsConceded / t.p));
+    const highestScored = Math.max(...sorted.filter(t => t.p > 0).map(t => t.runsScored / t.p));
+
+    return sorted.map((t, idx) => {
+      const protocols = [];
+      if (idx === 0) protocols.push('APEX_PREDATOR');
+      if (idx < 3) protocols.push('P3_QUALIFIED');
+      if (t.p > 0 && t.runsConceded / t.p === lowestConceded) protocols.push('THE_WALL');
+      if (t.p > 0 && t.runsScored / t.p === highestScored) protocols.push('MAX_PAYLOAD');
+      
+      // Simplified Probability: 
+      // Top 3 = High chance. Bottom 2 = based on pts gap.
+      const gapToThird = idx > 2 ? sorted[2].pts - t.pts : 0;
+      const matchesLeft = 8 - t.p; // Assuming each team plays 8 matches? No, total 20 matches, 5 teams. 20/5*2 = 8 matches each.
+      const prob = idx < 3 ? Math.min(100, 70 + (t.pts * 5)) : Math.max(0, 40 - (gapToThird * 15));
+      
+      return { ...t, protocols, prob };
     });
   }, [matches, teams]);
 
@@ -540,13 +550,16 @@ function CricketApp() {
                       <th className="px-6 py-4 font-normal text-center">WIN</th>
                       <th className="px-6 py-4 font-normal text-center">LOSS</th>
                       <th className="px-6 py-4 font-normal text-center">FORM</th>
-                      <th className="px-6 py-4 font-normal text-center text-[var(--accent-secondary)]">NRR</th>
                       <th className="px-6 py-4 font-normal text-right text-[var(--accent)]">PWR</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--border)]">
                     {standings.map((team: any, idx) => (
-                      <tr key={team.name} className="hover:bg-[var(--muted)]/30 transition-colors group">
+                      <tr 
+                        key={team.name} 
+                        onClick={() => setIntelTeam(intelTeam === team.name ? null : team.name)}
+                        className={`hover:bg-[var(--muted)]/30 transition-colors group cursor-pointer ${intelTeam === team.name ? 'bg-[var(--accent)]/5' : ''}`}
+                      >
                         <td className="px-6 py-4">
                           <span className={`text-xs ${idx === 0 ? 'text-[var(--accent)] font-bold drop-shadow-neon' : 'text-[var(--muted-foreground)]'}`}>
                             0{idx + 1}
@@ -554,20 +567,32 @@ function CricketApp() {
                         </td>
                         <td className="px-6 py-4 relative">
                           <div className="flex flex-col">
-                            <span className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)] transition-colors">{team.name}</span>
+                            <div className="flex items-center gap-2">
+                              <span className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)] transition-colors">{team.name}</span>
+                              <div className="flex gap-1">
+                                {team.protocols.map((p: string) => (
+                                  <span key={p} className="text-[7px] px-1 bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)] font-share-tech">{p}</span>
+                                ))}
+                              </div>
+                            </div>
                             <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{team.full}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
                         <td className="px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
                         <td className="px-6 py-4">
-                          <div className="flex justify-center gap-1">
-                            {team.form.slice(-5).map((r: string, i: number) => (
-                              <span key={i} className={`w-1.5 h-1.5 rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_5px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
-                            ))}
+                          <div className="flex flex-col items-center gap-1">
+                            <div className="flex justify-center gap-1">
+                              {team.form.slice(-5).map((r: string, i: number) => (
+                                <span key={i} className={`w-1.5 h-1.5 rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_5px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
+                              ))}
+                            </div>
+                            <div className="flex justify-between w-full max-w-[40px] text-[6px] text-[var(--muted-foreground)] uppercase font-share-tech">
+                              <span>OLD</span>
+                              <span className="text-[var(--accent)]">NEW</span>
+                            </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-center text-[var(--foreground)] opacity-80">{team.nrr > 0 ? `+${team.nrr}` : team.nrr}</td>
                         <td className="px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
                       </tr>
                     ))}
@@ -575,6 +600,62 @@ function CricketApp() {
                 </table>
               </div>
             </div>
+
+            {/* TEAM INTEL DOSSIER */}
+            {intelTeam && (
+              <div className="bg-[var(--card)] border border-[var(--accent-tertiary)] p-6 cyber-chamfer relative animate-in slide-in-from-top duration-300">
+                <div className="absolute top-0 right-0 p-4">
+                  <button onClick={() => setIntelTeam(null)} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-xs font-share-tech">[ CLOSE_X ]</button>
+                </div>
+                
+                <div className="flex flex-col md:flex-row gap-8">
+                  <div className="shrink-0 flex flex-col items-center">
+                    <div className="w-24 h-24 border-2 border-[var(--accent-tertiary)] cyber-chamfer grid place-items-center bg-[var(--background)] relative">
+                      <div className="absolute inset-1 border border-[var(--accent-tertiary)]/30"></div>
+                      <span className="font-orbitron text-4xl font-black text-[var(--accent-tertiary)]">{intelTeam.substring(0, 3)}</span>
+                    </div>
+                    <div className="mt-4 text-center">
+                      <p className="text-[10px] text-[var(--muted-foreground)] uppercase font-share-tech">PLAYOFF_PROBABILITY</p>
+                      <div className="font-orbitron text-2xl font-black text-[var(--accent)]">{standings.find(s => s.name === intelTeam)?.prob}%</div>
+                    </div>
+                  </div>
+
+                  <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div>
+                      <p className="text-[9px] text-[var(--muted-foreground)] uppercase font-share-tech">AVG_OUTPUT</p>
+                      <p className="font-orbitron text-xl font-bold">{((standings.find(s => s.name === intelTeam)?.runsScored || 0) / (standings.find(s => s.name === intelTeam)?.p || 1)).toFixed(1)}</p>
+                    </div>
+                    <div>
+                      <p className="text-[9px] text-[var(--muted-foreground)] uppercase font-share-tech">DAMAGE_SUSTAINED</p>
+                      <p className="font-orbitron text-xl font-bold text-[var(--destructive)]">{standings.find(s => s.name === intelTeam)?.runsConceded}</p>
+                    </div>
+                    <div>
+                      <p className="text-[9px] text-[var(--muted-foreground)] uppercase font-share-tech">MAX_PAYLOAD</p>
+                      <p className="font-orbitron text-xl font-bold text-[var(--accent-tertiary)]">
+                        {Math.max(...matches.filter(m => m.team1 === intelTeam || m.team2 === intelTeam).map(m => m.team1 === intelTeam ? m.score1 : m.score2), 0)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[9px] text-[var(--muted-foreground)] uppercase font-share-tech">WIN_RATIO</p>
+                      <p className="font-orbitron text-xl font-bold text-[var(--accent)]">
+                        {((standings.find(s => s.name === intelTeam)?.w || 0) / (standings.find(s => s.name === intelTeam)?.p || 1) * 100).toFixed(0)}%
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-4 border-t border-[var(--border)]">
+                  <div className="flex justify-between items-end">
+                    <div className="flex gap-1 h-8 items-end">
+                      {matches.filter(m => m.team1 === intelTeam || m.team2 === intelTeam).slice().reverse().map((m, i) => (
+                        <div key={i} className={`w-3 ${m.winner === intelTeam ? 'bg-[var(--accent)]' : 'bg-[var(--destructive)]'} hover:opacity-100 opacity-60 transition-opacity`} style={{ height: `${(m.team1 === intelTeam ? m.score1 : m.score2) / 2}px` }} title={`Score: ${m.team1 === intelTeam ? m.score1 : m.score2}`}></div>
+                      ))}
+                    </div>
+                    <p className="text-[8px] text-[var(--muted-foreground)] font-share-tech uppercase tracking-widest">OUTPUT_FLUCTUATION_INDEX</p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="space-y-4 pt-4 border-t border-[var(--border)] border-dashed">
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
