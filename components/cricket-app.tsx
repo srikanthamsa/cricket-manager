@@ -275,12 +275,12 @@ function CricketApp() {
     <div className="min-h-screen bg-[var(--background)] bg-circuit font-mono pb-24 max-w-4xl mx-auto relative text-[var(--foreground)] selection:bg-[var(--accent)] selection:text-black">
 
       {/* ── HEADER ── */}
-      <header className="px-6 py-8 border-b border-[var(--border)] relative overflow-hidden bg-[var(--background)]/80 backdrop-blur-md z-30 sticky top-0">
+      <header className="px-4 md:px-6 py-4 md:py-8 border-b border-[var(--border)] relative overflow-hidden bg-[var(--background)]/80 backdrop-blur-md z-30 sticky top-0">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--accent)] via-[var(--accent-tertiary)] to-[var(--accent-secondary)]"></div>
         <div className="flex items-center justify-between">
           <div>
             <p className="text-[10px] font-share-tech text-[var(--accent)] uppercase tracking-[0.3em] mb-1 opacity-80">// NEON_LEAGUE_V1</p>
-            <h1 className="font-orbitron text-4xl font-black uppercase tracking-widest text-[var(--foreground)] drop-shadow-neon text-glitch">
+            <h1 className="font-orbitron text-2xl md:text-4xl font-black uppercase tracking-widest text-[var(--foreground)] drop-shadow-neon text-glitch">
               MINI IPL
             </h1>
           </div>
@@ -294,13 +294,13 @@ function CricketApp() {
       </header>
 
       {/* ── NAVIGATION ── */}
-      <nav className="border-b border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm sticky top-[108px] z-20">
+      <nav className="border-b border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm sticky top-[69px] md:top-[108px] z-20">
         <div className="flex overflow-x-auto hide-scrollbar">
           {(['home', 'scores', 'standings', 'profile'] as const).map(t => (
             <button 
               key={t}
               onClick={() => setActiveTab(t)}
-              className={`flex-1 py-4 text-xs font-bold uppercase tracking-widest whitespace-nowrap px-6 transition-all border-b-2 ${
+              className={`flex-1 py-3 md:py-4 text-[10px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap px-4 md:px-6 transition-all border-b-2 ${
                 activeTab === t 
                   ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/5 shadow-[inset_0_-2px_10px_rgba(0,255,136,0.2)]' 
                   : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]/50'
@@ -312,11 +312,11 @@ function CricketApp() {
         </div>
       </nav>
 
-      <main className="p-6 space-y-8 animate-in fade-in duration-300">
+      <main className="p-4 md:p-6 space-y-6 md:space-y-8 animate-in fade-in duration-300">
         
         {/* ══════════════════ HOME ══════════════════ */}
         {activeTab === 'home' && (
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             {/* HERO HUD */}
             <div className="bg-[var(--card)] border border-[var(--border)] p-1 cyber-chamfer relative overflow-hidden group"
                  style={{ borderColor: `${myTeam?.color}40` }}>
@@ -327,20 +327,20 @@ function CricketApp() {
                        style={{ animationDuration: '3s', borderColor: myTeam?.color }}></div>
                 </div>
               </div>
-              <div className="bg-[var(--muted)]/30 border border-[var(--border)] p-6 cyber-chamfer h-full">
+              <div className="bg-[var(--muted)]/30 border border-[var(--border)] p-4 md:p-6 cyber-chamfer h-full">
                 <p className="text-[10px] text-[var(--accent-tertiary)] uppercase tracking-[0.2em] mb-4 flex items-center">
                   <span className="w-2 h-2 bg-[var(--accent-tertiary)] mr-2 animate-pulse"
                         style={{ backgroundColor: myTeam?.color }}></span>
                   SYSTEM.STATUS // ACTIVE // {myTeam?.tagline?.toUpperCase() || 'OFFLINE'}
                 </p>
-                <h2 className="font-orbitron text-2xl md:text-4xl font-bold uppercase text-[var(--foreground)] mb-6 leading-tight">
+                <h2 className="font-orbitron text-xl md:text-4xl font-bold uppercase text-[var(--foreground)] mb-6 leading-tight">
                   <span className="text-[var(--accent)]" style={{ color: myTeam?.color }}>5-OVER</span> DEATHMATCH<br/>PROTOCOL INITIATED
                 </h2>
                 
-                <div className="flex flex-col md:flex-row gap-4 md:items-end justify-between border-t border-[var(--border)]/50 pt-6 mt-4">
+                <div className="flex flex-col md:flex-row gap-4 md:items-end justify-between border-t border-[var(--border)]/50 pt-4 md:pt-6 mt-4">
                   <div className="font-share-tech">
-                    <p className="text-xs text-[var(--muted-foreground)] uppercase">Data Progression</p>
-                    <p className="text-xl text-[var(--foreground)]">{matches.length} <span className="text-sm text-[var(--muted-foreground)]">/ 20 FILES PROCESSED</span></p>
+                    <p className="text-[10px] md:text-xs text-[var(--muted-foreground)] uppercase">Data Progression</p>
+                    <p className="text-lg md:text-xl text-[var(--foreground)]">{matches.length} <span className="text-xs md:text-sm text-[var(--muted-foreground)]">/ 20 FILES PROCESSED</span></p>
                   </div>
                   
                   {nextFixture ? (
@@ -556,12 +556,12 @@ function CricketApp() {
                 <table className="w-full text-sm text-left whitespace-nowrap font-mono">
                   <thead className="border-b border-[var(--border)] text-[var(--muted-foreground)] text-[10px] uppercase tracking-widest bg-[var(--background)]">
                     <tr>
-                      <th className="px-6 py-4 font-normal">POS</th>
-                      <th className="px-6 py-4 font-normal">ENTITY_ID</th>
-                      <th className="px-6 py-4 font-normal text-center">WIN</th>
-                      <th className="px-6 py-4 font-normal text-center">LOSS</th>
-                      <th className="px-6 py-4 font-normal text-center">FORM</th>
-                      <th className="px-6 py-4 font-normal text-right text-[var(--accent)]">PWR</th>
+                      <th className="px-3 md:px-6 py-3 md:py-4 font-normal">POS</th>
+                      <th className="px-3 md:px-6 py-3 md:py-4 font-normal">ENTITY_ID</th>
+                      <th className="hidden md:table-cell px-6 py-4 font-normal text-center">WIN</th>
+                      <th className="hidden md:table-cell px-6 py-4 font-normal text-center">LOSS</th>
+                      <th className="hidden md:table-cell px-6 py-4 font-normal text-center">FORM</th>
+                      <th className="px-3 md:px-6 py-3 md:py-4 font-normal text-right text-[var(--accent)]">PWR</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--border)]">
@@ -575,7 +575,7 @@ function CricketApp() {
                             ${intelTeam === team.name ? 'bg-[var(--accent)]/5' : ''}
                           `}
                         >
-                          <td className="px-6 py-4">
+                          <td className="px-3 md:px-6 py-3 md:py-4">
                             <span className={`text-xs ${idx === 0 ? 'text-yellow-500 font-bold' : idx === standings.length - 1 ? 'text-red-600' : 'text-[var(--muted-foreground)]'}`}>
                               {idx === 0 ? (
                                 <svg className="w-5 h-5 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)] animate-pulse inline-block mb-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -588,7 +588,7 @@ function CricketApp() {
                               ) : `0${idx + 1}`}
                             </span>
                           </td>
-                          <td className="px-6 py-4 relative">
+                          <td className="px-3 md:px-6 py-3 md:py-4 relative">
                             <div className="flex flex-col">
                               <div className="flex items-center gap-2">
                                 <span className="font-orbitron font-bold text-lg transition-all group-hover:scale-110 origin-left"
@@ -617,9 +617,9 @@ function CricketApp() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
-                          <td className="px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
-                          <td className="px-6 py-4">
+                          <td className="hidden md:table-cell px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
+                          <td className="hidden md:table-cell px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
+                          <td className="hidden md:table-cell px-6 py-4">
                             <div className="flex flex-col items-center gap-0.5">
                               <div className="flex justify-center gap-1.5 items-center h-4">
                                 {team.form.slice(0, 5).map((r: string, i: number) => {
@@ -631,7 +631,7 @@ function CricketApp() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
+                          <td className="px-3 md:px-6 py-3 md:py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
                         </tr>
                         
                         {intelTeam === team.name && (
@@ -641,7 +641,7 @@ function CricketApp() {
                                    <div className="absolute top-0 right-0 p-4">
                                       <button onClick={(e) => { e.stopPropagation(); setIntelTeam(null); }} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-[10px] font-share-tech">[ COLLAPSE_X ]</button>
                                    </div>
-                                   <div className="flex flex-col md:flex-row gap-8">
+                                   <div className="flex flex-col md:flex-row gap-6 md:gap-8">
                                       <div className="shrink-0 flex flex-col items-center">
                                          <div className="w-16 h-16 border border-[var(--accent-tertiary)] cyber-chamfer grid place-items-center bg-[var(--background)] relative">
                                             <span className="font-orbitron text-2xl font-black text-[var(--accent-tertiary)]">{team.name.substring(0, 3)}</span>
@@ -743,7 +743,7 @@ function CricketApp() {
         {/* ══════════════════ PROFILE ══════════════════ */}
         {activeTab === 'profile' && (
           <div className="space-y-8">
-            <div className="bg-[var(--card)] border border-[var(--border)] p-8 cyber-chamfer relative overflow-hidden">
+            <div className="bg-[var(--card)] border border-[var(--border)] p-4 md:p-8 cyber-chamfer relative overflow-hidden">
               <div className="absolute right-0 top-0 h-full w-32 bg-[var(--accent-secondary)]/5 flex items-center justify-center opacity-20 pointer-events-none">
                 <span className="font-orbitron text-8xl font-black text-transparent [-webkit-text-stroke:1px_var(--accent-secondary)] transform rotate-90">USR</span>
               </div>
@@ -751,7 +751,7 @@ function CricketApp() {
               <div className="relative z-10">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h2 className="font-orbitron text-3xl font-black text-[var(--foreground)] uppercase tracking-widest mb-2"
+                    <h2 className="font-orbitron text-xl md:text-3xl font-black text-[var(--foreground)] uppercase tracking-widest mb-2"
                         style={{ color: myTeam?.color }}>Captain {myTeam?.owner || 'Unknown'}</h2>
                     <p className="text-xs text-[var(--accent-secondary)] uppercase tracking-[0.3em] font-share-tech border border-[var(--accent-secondary)]/30 bg-[var(--accent-secondary)]/10 px-3 py-1 inline-block cyber-chamfer-sm"
                        style={{ borderColor: `${myTeam?.color}50`, backgroundColor: `${myTeam?.color}10`, color: myTeam?.color }}>ID: {myTeam?.name}_OWNER_001 // {myTeam?.tagline}</p>
@@ -761,14 +761,14 @@ function CricketApp() {
                   </button>
                 </div>
                 
-                <div className="flex gap-12 mt-12 pt-6 border-t border-[var(--border)]/50">
+                <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 mt-8 md:mt-12 pt-6 border-t border-[var(--border)]/50">
                   <div>
-                    <div className="text-sm font-share-tech text-[var(--muted-foreground)] uppercase tracking-widest mb-2">Cycle.Count</div>
-                    <div className="font-orbitron text-5xl font-black text-[var(--foreground)] drop-shadow-neon">{matches.length}</div>
+                    <div className="text-xs md:text-sm font-share-tech text-[var(--muted-foreground)] uppercase tracking-widest mb-2">Cycle.Count</div>
+                    <div className="font-orbitron text-4xl md:text-5xl font-black text-[var(--foreground)] drop-shadow-neon">{matches.length}</div>
                   </div>
                   <div>
-                    <div className="text-sm font-share-tech text-[var(--muted-foreground)] uppercase tracking-widest mb-2">Pending.Cycles</div>
-                    <div className="font-orbitron text-5xl font-black text-[var(--accent-secondary)] drop-shadow-neon">{Math.max(0, 20 - matches.length)}</div>
+                    <div className="text-xs md:text-sm font-share-tech text-[var(--muted-foreground)] uppercase tracking-widest mb-2">Pending.Cycles</div>
+                    <div className="font-orbitron text-4xl md:text-5xl font-black text-[var(--accent-secondary)] drop-shadow-neon">{Math.max(0, 20 - matches.length)}</div>
                   </div>
                 </div>
               </div>
