@@ -323,7 +323,7 @@ function CricketApp() {
                 <p className="text-[10px] text-[var(--accent-tertiary)] uppercase tracking-[0.2em] mb-4 flex items-center">
                   <span className="w-2 h-2 bg-[var(--accent-tertiary)] mr-2 animate-pulse"
                         style={{ backgroundColor: myTeam?.color }}></span>
-                  SYSTEM.STATUS // ACTIVE // {myTeam?.tagline.toUpperCase()}
+                  SYSTEM.STATUS // ACTIVE // {myTeam?.tagline?.toUpperCase() || 'OFFLINE'}
                 </p>
                 <h2 className="font-orbitron text-2xl md:text-4xl font-bold uppercase text-[var(--foreground)] mb-6 leading-tight">
                   <span className="text-[var(--accent)]" style={{ color: myTeam?.color }}>5-OVER</span> DEATHMATCH<br/>PROTOCOL INITIATED
@@ -597,7 +597,7 @@ function CricketApp() {
                                 </div>
                               </div>
                               <div className="flex items-center gap-2 mt-0.5">
-                                <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.full}</span>
+                                <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.full || team.full_name || ''}</span>
                                 <span className="text-[9px] text-[var(--accent-tertiary)] opacity-60 italic font-share-tech">{team.tagline}</span>
                               </div>
                             </div>
@@ -775,7 +775,7 @@ function CricketApp() {
                         <div className="text-[10px] text-[var(--muted-foreground)] border border-[var(--border)] px-2 py-0.5 bg-[var(--card)] uppercase tracking-widest">OWNER: {t.owner}</div>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider font-share-tech">{t.full}</span>
+                        <span className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider font-share-tech">{t.full || t.full_name || ''}</span>
                         <span className="text-[10px] text-[var(--accent-tertiary)] italic font-share-tech mt-1">{t.tagline}</span>
                       </div>
                       <div className="text-[9px] text-[var(--muted-foreground)]/50 uppercase tracking-widest mt-4 flex items-center gap-2">
@@ -857,7 +857,7 @@ function ScoreModal({
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] font-bold">&gt;</span>
                 <select value={team1} onChange={e => setTeam1(e.target.value)} className={`${inputClasses} appearance-none`} required>
                   <option value="" className="text-[var(--muted-foreground)]">SELECT_ENTITY</option>
-                  {teams.filter(t => t.name !== team2).map(t => <option key={t.id} value={t.name}>{t.name} - {t.full}</option>)}
+                  {teams.filter(t => t.name !== team2).map(t => <option key={t.id} value={t.name}>{t.name} - {t.full || t.full_name || ''}</option>)}
                 </select>
               </div>
             </div>
@@ -880,7 +880,7 @@ function ScoreModal({
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] font-bold">&gt;</span>
                 <select value={team2} onChange={e => setTeam2(e.target.value)} className={`${inputClasses} appearance-none focus:border-[var(--accent-secondary)] focus:shadow-neon-secondary text-[var(--accent-secondary)]`} required>
                   <option value="" className="text-[var(--muted-foreground)]">SELECT_ENTITY</option>
-                  {teams.filter(t => t.name !== team1).map(t => <option key={t.id} value={t.name}>{t.name} - {t.full}</option>)}
+                  {teams.filter(t => t.name !== team1).map(t => <option key={t.id} value={t.name}>{t.name} - {t.full || t.full_name || ''}</option>)}
                 </select>
               </div>
             </div>
@@ -934,7 +934,7 @@ function LoginScreen({ teams, onSelect }: { teams: any[], onSelect: (id: string)
                 <div>
                   <div className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
                        style={{ color: t.color }}>{t.owner}</div>
-                  <div className="text-[10px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{t.name} // {t.full}</div>
+                  <div className="text-[10px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{t.name} // {t.full || t.full_name || ''}</div>
                   <div className="text-[9px] text-[var(--accent-tertiary)] italic font-share-tech mt-1">{t.tagline}</div>
                 </div>
                 <div className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity font-bold">&gt;</div>

@@ -35,11 +35,18 @@ alter table teams add column if not exists full_name text;
 alter table teams add column if not exists owner     text;
 alter table teams add column if not exists ground    text;
 
+alter table teams add column if not exists tagline   text;
+
 -- Seed teams
-insert into teams (id, name, full_name, color, owner, ground) values
-  ('rcb', 'RCB', 'Royal Challengers Bengaluru', '#EC1C24', 'Srikant', 'M. Chinnaswamy Stadium, Bengaluru'),
-  ('csk', 'CSK', 'Chennai Super Kings',         '#FFCB05', 'KVD',     'MA Chidambaram Stadium, Chennai'),
-  ('mi',  'MI',  'Mumbai Indians',              '#004BA0', 'Debu',    'Wankhede Stadium, Mumbai'),
-  ('kkr', 'KKR', 'Kolkata Knight Riders',       '#3A225D', 'Ekansh',  'Eden Gardens, Kolkata'),
-  ('srh', 'SRH', 'Sunrisers Hyderabad',         '#FF6B35', 'Ashpak',  'Rajiv Gandhi Intl. Stadium, Hyderabad')
-on conflict (id) do nothing;
+insert into teams (id, name, full_name, color, owner, ground, tagline) values
+  ('rcb', 'RCB', 'Royal Challengers Bengaluru', '#EC1C24', 'Srikant', 'M. Chinnaswamy Stadium, Bengaluru', 'Ee Sala Cup Namde'),
+  ('csk', 'CSK', 'Chennai Super Kings',         '#FFCB05', 'KVD',     'MA Chidambaram Stadium, Chennai', 'Whistle Podu'),
+  ('mi',  'MI',  'Mumbai Indians',              '#004BA0', 'Debu',    'Wankhede Stadium, Mumbai', 'Duniya Hila Denge'),
+  ('kkr', 'KKR', 'Kolkata Knight Riders',       '#3A225D', 'Ekansh',  'Eden Gardens, Kolkata', 'Korbo Lorbo Jeetbo'),
+  ('srh', 'SRH', 'Sunrisers Hyderabad',         '#FF6B35', 'Ashpak',  'Rajiv Gandhi Intl. Stadium, Hyderabad', 'Orange Fire')
+on conflict (id) do update set 
+  full_name = excluded.full_name,
+  color = excluded.color,
+  owner = excluded.owner,
+  ground = excluded.ground,
+  tagline = excluded.tagline;
