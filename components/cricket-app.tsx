@@ -590,12 +590,12 @@ function CricketApp() {
                           <td className="px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
                           <td className="px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
                           <td className="px-6 py-4">
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center gap-0.5">
+                              <span className="text-[10px] text-[var(--accent)] animate-pulse opacity-70 leading-none">→</span>
                               <div className="flex justify-center gap-1 items-center">
                                 {team.form.slice(-5).map((r: string, i: number) => (
                                   <span key={i} className={`w-1.5 h-1.5 rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_5px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
                                 ))}
-                                <span className="text-[10px] text-[var(--accent)] animate-pulse ml-1 opacity-70">→</span>
                               </div>
                             </div>
                           </td>
