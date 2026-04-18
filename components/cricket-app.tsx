@@ -141,7 +141,7 @@ function CricketApp() {
       if (t && t.length > 0) {
         const enrichedTeams = t.map(team => {
           const fb = FALLBACK_TEAMS.find(f => f.id === team.id);
-          return fb ? { ...team, owner: fb.owner, color: fb.color } : team;
+          return fb ? { ...team, owner: fb.owner, color: fb.color, tagline: fb.tagline } : team;
         });
         setTeams(enrichedTeams);
       }
