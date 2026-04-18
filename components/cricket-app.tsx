@@ -19,11 +19,11 @@ const supabase = CONFIGURED
 
 /* ─── Constants ─────────────────────────────────────────────────────────── */
 const FALLBACK_TEAMS = [
-  { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#ff3366', owner: 'Srikant',  ground: 'M. Chinnaswamy Stadium, Bengaluru' },
-  { id: 'csk', name: 'CSK', full: 'Chennai Super Kings',         color: '#ffff00', owner: 'KVD',      ground: 'MA Chidambaram Stadium, Chennai' },
-  { id: 'mi',  name: 'MI',  full: 'Mumbai Indians',              color: '#00d4ff', owner: 'Debu',     ground: 'Wankhede Stadium, Mumbai' },
-  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders',       color: '#ff00ff', owner: 'Ekansh',   ground: 'Eden Gardens, Kolkata' },
-  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad',         color: '#ff7700', owner: 'Ashpak',   ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad' },
+  { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#ff3366', owner: 'Srikant',  ground: 'M. Chinnaswamy Stadium, Bengaluru', tagline: 'Ee Sala Cup Namde' },
+  { id: 'csk', name: 'CSK', full: 'Chennai Super Kings',         color: '#ffff00', owner: 'KVD',      ground: 'MA Chidambaram Stadium, Chennai', tagline: 'Whistle Podu' },
+  { id: 'mi',  name: 'MI',  full: 'Mumbai Indians',              color: '#00d4ff', owner: 'Debu',     ground: 'Wankhede Stadium, Mumbai', tagline: 'Duniya Hila Denge' },
+  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders',       color: '#ff00ff', owner: 'Ekansh',   ground: 'Eden Gardens, Kolkata', tagline: 'Korbo Lorbo Jeetbo' },
+  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad',         color: '#ff7700', owner: 'Ashpak',   ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad', tagline: 'Orange Fire' },
 ];
 
 const FIXTURE_LIST = [
@@ -310,19 +310,23 @@ function CricketApp() {
         {activeTab === 'home' && (
           <div className="space-y-8">
             {/* HERO HUD */}
-            <div className="bg-[var(--card)] border border-[var(--border)] p-1 cyber-chamfer relative overflow-hidden group">
+            <div className="bg-[var(--card)] border border-[var(--border)] p-1 cyber-chamfer relative overflow-hidden group"
+                 style={{ borderColor: `${myTeam?.color}40` }}>
               <div className="absolute top-0 right-0 p-2 opacity-30 group-hover:opacity-100 transition-opacity">
-                <div className="w-16 h-16 bg-[var(--accent)]/10 border border-[var(--accent)] cyber-chamfer-sm grid place-items-center">
-                  <div className="w-8 h-8 border border-[var(--accent)] rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
+                <div className="w-16 h-16 border border-[var(--accent)] cyber-chamfer-sm grid place-items-center"
+                     style={{ borderColor: myTeam?.color }}>
+                  <div className="w-8 h-8 border border-[var(--accent)] rounded-full animate-spin" 
+                       style={{ animationDuration: '3s', borderColor: myTeam?.color }}></div>
                 </div>
               </div>
               <div className="bg-[var(--muted)]/30 border border-[var(--border)] p-6 cyber-chamfer h-full">
                 <p className="text-[10px] text-[var(--accent-tertiary)] uppercase tracking-[0.2em] mb-4 flex items-center">
-                  <span className="w-2 h-2 bg-[var(--accent-tertiary)] mr-2 animate-pulse"></span>
-                  SYSTEM.STATUS // ACTIVE
+                  <span className="w-2 h-2 bg-[var(--accent-tertiary)] mr-2 animate-pulse"
+                        style={{ backgroundColor: myTeam?.color }}></span>
+                  SYSTEM.STATUS // ACTIVE // {myTeam?.tagline.toUpperCase()}
                 </p>
                 <h2 className="font-orbitron text-2xl md:text-4xl font-bold uppercase text-[var(--foreground)] mb-6 leading-tight">
-                  <span className="text-[var(--accent)]">5-OVER</span> DEATHMATCH<br/>PROTOCOL INITIATED
+                  <span className="text-[var(--accent)]" style={{ color: myTeam?.color }}>5-OVER</span> DEATHMATCH<br/>PROTOCOL INITIATED
                 </h2>
                 
                 <div className="flex flex-col md:flex-row gap-4 md:items-end justify-between border-t border-[var(--border)]/50 pt-6 mt-4">
@@ -580,7 +584,7 @@ function CricketApp() {
                             <div className="flex flex-col">
                               <div className="flex items-center gap-2">
                                 <span className={`font-orbitron font-bold text-lg transition-colors 
-                                  ${idx === 0 ? 'text-yellow-400 group-hover:text-yellow-200' : 'text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)]'}
+                                  ${idx === 0 ? 'text-yellow-400 group-hover:text-yellow-200' : 'group-hover:text-[var(--accent-tertiary)]'}
                                   ${idx === standings.length - 1 ? 'line-through decoration-red-900/50' : ''}
                                 `}>{team.name}</span>
                                 <div className="flex gap-1">
@@ -592,7 +596,10 @@ function CricketApp() {
                                   {idx === standings.length - 1 && <span className="text-[7px] px-1 bg-red-900/20 border border-red-900/40 text-red-500 font-share-tech uppercase animate-pulse">SYSTEM_FAILURE</span>}
                                 </div>
                               </div>
-                              <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{team.full}</span>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.full}</span>
+                                <span className="text-[9px] text-[var(--accent-tertiary)] opacity-60 italic font-share-tech">{team.tagline}</span>
+                              </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
@@ -729,8 +736,10 @@ function CricketApp() {
               <div className="relative z-10">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h2 className="font-orbitron text-3xl font-black text-[var(--foreground)] uppercase tracking-widest mb-2">Captain {myTeam?.owner || 'Unknown'}</h2>
-                    <p className="text-xs text-[var(--accent-secondary)] uppercase tracking-[0.3em] font-share-tech border border-[var(--accent-secondary)]/30 bg-[var(--accent-secondary)]/10 px-3 py-1 inline-block cyber-chamfer-sm">ID: {myTeam?.name}_OWNER_001</p>
+                    <h2 className="font-orbitron text-3xl font-black text-[var(--foreground)] uppercase tracking-widest mb-2"
+                        style={{ color: myTeam?.color }}>Captain {myTeam?.owner || 'Unknown'}</h2>
+                    <p className="text-xs text-[var(--accent-secondary)] uppercase tracking-[0.3em] font-share-tech border border-[var(--accent-secondary)]/30 bg-[var(--accent-secondary)]/10 px-3 py-1 inline-block cyber-chamfer-sm"
+                       style={{ borderColor: `${myTeam?.color}50`, backgroundColor: `${myTeam?.color}10`, color: myTeam?.color }}>ID: {myTeam?.name}_OWNER_001 // {myTeam?.tagline}</p>
                   </div>
                   <button onClick={() => { localStorage.removeItem('cm_user_id'); setCurrentUser(null); }} className="text-[10px] text-[var(--muted-foreground)] hover:text-[var(--destructive)] uppercase tracking-widest font-share-tech transition-colors border border-[var(--border)] px-3 py-1.5 bg-[var(--card)] cyber-chamfer-sm">
                     [SWITCH_ID]
@@ -761,10 +770,14 @@ function CricketApp() {
                     <TeamBadge name={t.name} />
                     <div className="pl-6">
                       <div className="flex justify-between items-start mb-4">
-                        <div className="font-orbitron font-bold text-xl text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)] transition-colors">{t.name}</div>
+                        <div className="font-orbitron font-bold text-xl text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)] transition-colors"
+                             style={{ color: t.color }}>{t.name}</div>
                         <div className="text-[10px] text-[var(--muted-foreground)] border border-[var(--border)] px-2 py-0.5 bg-[var(--card)] uppercase tracking-widest">OWNER: {t.owner}</div>
                       </div>
-                      <div className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider font-share-tech">{t.full}</div>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-[var(--muted-foreground)] uppercase tracking-wider font-share-tech">{t.full}</span>
+                        <span className="text-[10px] text-[var(--accent-tertiary)] italic font-share-tech mt-1">{t.tagline}</span>
+                      </div>
                       <div className="text-[9px] text-[var(--muted-foreground)]/50 uppercase tracking-widest mt-4 flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-[var(--muted-foreground)] inline-block"></span> {t.ground}
                       </div>
@@ -919,8 +932,10 @@ function LoginScreen({ teams, onSelect }: { teams: any[], onSelect: (id: string)
               <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: t.color }}></div>
               <div className="pl-4 flex justify-between items-center">
                 <div>
-                  <div className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">{t.owner}</div>
+                  <div className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors"
+                       style={{ color: t.color }}>{t.owner}</div>
                   <div className="text-[10px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{t.name} // {t.full}</div>
+                  <div className="text-[9px] text-[var(--accent-tertiary)] italic font-share-tech mt-1">{t.tagline}</div>
                 </div>
                 <div className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity font-bold">&gt;</div>
               </div>

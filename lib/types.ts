@@ -1,11 +1,15 @@
-export type TeamId = 'thunderbolts' | 'neon-kings' | 'shadow-xi' | 'royal-crushers' | 'cosmic-strikers';
+export type TeamId = 'rcb' | 'csk' | 'mi' | 'kkr' | 'srh';
 
 export interface Team {
   id: TeamId;
   name: string;
+  full: string;
   shortName: string;
   color: string;
   emoji: string;
+  tagline: string;
+  owner?: string;
+  ground?: string;
   matches: number;
   wins: number;
   losses: number;
