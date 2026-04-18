@@ -34,7 +34,7 @@ const FALLBACK_TEAMS: TeamData[] = [
   { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#ff3366', owner: 'Srikant "The King" Hamsa', ground: 'M. Chinnaswamy Stadium, Bengaluru', tagline: 'Ee Sala Cup Namde' },
   { id: 'csk', name: 'CSK', full: 'Chennai Super Kings', color: '#ffff00', owner: 'KVD "Thala" Sridhar', ground: 'MA Chidambaram Stadium, Chennai', tagline: 'Whistle Podu' },
   { id: 'mi', name: 'MI', full: 'Mumbai Indians', color: '#00d4ff', owner: 'Divyansh "Mumbai Cha Raja" Tiwari', ground: 'Wankhede Stadium, Mumbai', tagline: 'Duniya Hila Denge' },
-  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders', color: '#ff00ff', owner: 'Ekansh "Mr. 360" Tiwari', ground: 'Eden Gardens, Kolkata', tagline: 'Korbo Lorbo Jeetbo' },
+  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders', color: '#d4a1ff', owner: 'Ekansh "Mr. 360" Tiwari', ground: 'Eden Gardens, Kolkata', tagline: 'Korbo Lorbo Jeetbo' },
   { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad', color: '#ff7700', owner: 'Sheikh "The Rawalpindi Express" Ashpak', ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad', tagline: 'Orange Fire' },
 ];
 
@@ -599,7 +599,7 @@ function CricketApp() {
                                 </div>
                               </div>
                               <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                                <span className="hidden md:inline text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest">{team.owner || ''}</span>
+                                <span className="text-[8px] md:text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest block md:inline">{team.owner || ''}</span>
                                 <span className="text-[8px] px-2 py-0.5 font-share-tech rounded-full border transition-all group-hover:px-4 shrink-0"
                                   style={{
                                     color: team.color,
