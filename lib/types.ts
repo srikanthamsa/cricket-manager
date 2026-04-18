@@ -8,6 +8,7 @@ export interface Team {
   color: string;
   emoji: string;
   tagline: string;
+  full_name?: string;
   owner?: string;
   ground?: string;
   matches: number;

@@ -17,8 +17,20 @@ const supabase = CONFIGURED
     )
   : null;
 
+/* ─── Types ─────────────────────────────────────────────────────────────── */
+interface TeamData {
+  id: string;
+  name: string;
+  full: string;
+  full_name?: string;
+  color: string;
+  owner: string;
+  ground: string;
+  tagline: string;
+}
+
 /* ─── Constants ─────────────────────────────────────────────────────────── */
-const FALLBACK_TEAMS = [
+const FALLBACK_TEAMS: TeamData[] = [
   { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#ff3366', owner: 'Srikant',  ground: 'M. Chinnaswamy Stadium, Bengaluru', tagline: 'Ee Sala Cup Namde' },
   { id: 'csk', name: 'CSK', full: 'Chennai Super Kings',         color: '#ffff00', owner: 'KVD',      ground: 'MA Chidambaram Stadium, Chennai', tagline: 'Whistle Podu' },
   { id: 'mi',  name: 'MI',  full: 'Mumbai Indians',              color: '#00d4ff', owner: 'Debu',     ground: 'Wankhede Stadium, Mumbai', tagline: 'Duniya Hila Denge' },
