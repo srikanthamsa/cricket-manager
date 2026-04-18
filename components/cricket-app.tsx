@@ -361,8 +361,6 @@ function CricketApp() {
                 )}
               </div>
             </div>
-              </div>
-            </div>
 
             {/* RECENT FEED */}
             <div>
