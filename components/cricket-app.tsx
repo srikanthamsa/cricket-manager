@@ -31,11 +31,11 @@ interface TeamData {
 
 /* ─── Constants ─────────────────────────────────────────────────────────── */
 const FALLBACK_TEAMS: TeamData[] = [
-  { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#ff3366', owner: 'Srikant', ground: 'M. Chinnaswamy Stadium, Bengaluru', tagline: 'Ee Sala Cup Namde' },
-  { id: 'csk', name: 'CSK', full: 'Chennai Super Kings', color: '#ffff00', owner: 'KVD', ground: 'MA Chidambaram Stadium, Chennai', tagline: 'Whistle Podu' },
-  { id: 'mi', name: 'MI', full: 'Mumbai Indians', color: '#00d4ff', owner: 'Debu', ground: 'Wankhede Stadium, Mumbai', tagline: 'Duniya Hila Denge' },
-  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders', color: '#ff00ff', owner: 'Ekansh', ground: 'Eden Gardens, Kolkata', tagline: 'Korbo Lorbo Jeetbo' },
-  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad', color: '#ff7700', owner: 'Ashpak', ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad', tagline: 'Orange Fire' },
+  { id: 'rcb', name: 'RCB', full: 'Royal Challengers Bengaluru', color: '#ff3366', owner: 'Srikant "The King" Hamsa', ground: 'M. Chinnaswamy Stadium, Bengaluru', tagline: 'Ee Sala Cup Namde' },
+  { id: 'csk', name: 'CSK', full: 'Chennai Super Kings', color: '#ffff00', owner: 'KVD "Thala" Sridhar', ground: 'MA Chidambaram Stadium, Chennai', tagline: 'Whistle Podu' },
+  { id: 'mi', name: 'MI', full: 'Mumbai Indians', color: '#00d4ff', owner: 'Divyansh "Mumbai Cha Raja" Tiwari', ground: 'Wankhede Stadium, Mumbai', tagline: 'Duniya Hila Denge' },
+  { id: 'kkr', name: 'KKR', full: 'Kolkata Knight Riders', color: '#ff00ff', owner: 'Ekansh "Mr. 360" Tiwari', ground: 'Eden Gardens, Kolkata', tagline: 'Korbo Lorbo Jeetbo' },
+  { id: 'srh', name: 'SRH', full: 'Sunrisers Hyderabad', color: '#ff7700', owner: 'Sheikh "The Rawalpindi Express" Ashpak', ground: 'Rajiv Gandhi Intl. Stadium, Hyderabad', tagline: 'Orange Fire' },
 ];
 
 const FIXTURE_LIST = [
