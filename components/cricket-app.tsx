@@ -652,8 +652,7 @@ function CricketApp() {
                 </table>
               </div>
             </div>
-          </div>
-        )}
+
 
             <div className="space-y-4 pt-4 border-t border-[var(--border)] border-dashed">
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
