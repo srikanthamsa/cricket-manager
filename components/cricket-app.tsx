@@ -540,50 +540,103 @@ function CricketApp() {
               <div className="p-4 border-b border-[var(--border)] bg-[var(--muted)]/20">
                 <h3 className="font-orbitron text-xl font-bold text-[var(--accent-tertiary)] uppercase tracking-widest drop-shadow-neon text-glitch">GLOBAL_RANKING_TABLE</h3>
               </div>
-              
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left whitespace-nowrap font-mono">
-                  <thead className="border-b border-[var(--border)] text-[var(--muted-foreground)] text-[10px] uppercase tracking-widest bg-[var(--background)]">
-                    <tr>
-                      <th className="px-6 py-4 font-normal">POS</th>
-                      <th className="px-6 py-4 font-normal">ENTITY_ID</th>
-                      <th className="px-6 py-4 font-normal text-center">WIN</th>
-                      <th className="px-6 py-4 font-normal text-center">LOSS</th>
-                      <th className="px-6 py-4 font-normal text-center">FORM</th>
-                      <th className="px-6 py-4 font-normal text-right text-[var(--accent)]">PWR</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[var(--border)]">
+                    <tbody className="divide-y divide-[var(--border)]">
                     {standings.map((team: any, idx) => (
-                      <tr 
-                        key={team.name} 
-                        onClick={() => setIntelTeam(intelTeam === team.name ? null : team.name)}
-                        className={`hover:bg-[var(--muted)]/30 transition-colors group cursor-pointer ${intelTeam === team.name ? 'bg-[var(--accent)]/5' : ''}`}
-                      >
-                        <td className="px-6 py-4">
-                          <span className={`text-xs ${idx === 0 ? 'text-[var(--accent)] font-bold drop-shadow-neon' : 'text-[var(--muted-foreground)]'}`}>
-                            0{idx + 1}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 relative">
-                          <div className="flex flex-col">
-                            <div className="flex items-center gap-2">
-                              <span className="font-orbitron font-bold text-lg text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)] transition-colors">{team.name}</span>
-                              <div className="flex gap-1">
-                                {team.protocols.map((p: string) => (
-                                  <span key={p} className="text-[7px] px-1 bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)] font-share-tech">{p}</span>
+                      <React.Fragment key={team.name}>
+                        <tr 
+                          onClick={() => setIntelTeam(intelTeam === team.name ? null : team.name)}
+                          className={`hover:bg-[var(--muted)]/30 transition-all group cursor-pointer relative overflow-hidden
+                            ${idx === 0 ? 'bg-gradient-to-r from-yellow-500/10 via-transparent to-transparent border-l-4 border-yellow-500 shadow-[0_0_15px_rgba(255,191,0,0.1)]' : ''}
+                            ${idx === standings.length - 1 ? 'bg-gradient-to-r from-red-900/10 via-transparent to-transparent border-l-4 border-red-900 grayscale-[0.5] opacity-80' : ''}
+                            ${intelTeam === team.name ? 'bg-[var(--accent)]/5' : ''}
+                          `}
+                        >
+                          <td className="px-6 py-4">
+                            <span className={`text-xs ${idx === 0 ? 'text-yellow-500 font-bold drop-shadow-neon' : idx === standings.length - 1 ? 'text-red-600' : 'text-[var(--muted-foreground)]'}`}>
+                              {idx === 0 ? '👑' : `0${idx + 1}`}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 relative">
+                            <div className="flex flex-col">
+                              <div className="flex items-center gap-2">
+                                <span className={`font-orbitron font-bold text-lg transition-colors 
+                                  ${idx === 0 ? 'text-yellow-400 group-hover:text-yellow-200' : 'text-[var(--foreground)] group-hover:text-[var(--accent-tertiary)]'}
+                                  ${idx === standings.length - 1 ? 'line-through decoration-red-900/50' : ''}
+                                `}>{team.name}</span>
+                                <div className="flex gap-1">
+                                  {team.protocols.map((p: string) => (
+                                    <span key={p} className={`text-[7px] px-1 border font-share-tech 
+                                      ${idx === 0 ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-500' : 'bg-[var(--accent)]/10 border-[var(--accent)]/30 text-[var(--accent)]'}
+                                    `}>{p}</span>
+                                  ))}
+                                  {idx === standings.length - 1 && <span className="text-[7px] px-1 bg-red-900/20 border border-red-900/40 text-red-500 font-share-tech uppercase animate-pulse">SYSTEM_FAILURE</span>}
+                                </div>
+                              </div>
+                              <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{team.full}</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
+                          <td className="px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
+                          <td className="px-6 py-4">
+                            <div className="flex flex-col items-center">
+                              <div className="flex justify-center gap-1 items-center">
+                                {team.form.slice(-5).map((r: string, i: number) => (
+                                  <span key={i} className={`w-1.5 h-1.5 rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_5px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
                                 ))}
+                                <span className="text-[10px] text-[var(--accent)] animate-pulse ml-1 opacity-70">→</span>
                               </div>
                             </div>
-                            <span className="text-[9px] text-[var(--muted-foreground)] uppercase tracking-widest mt-1">{team.full}</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
-                        <td className="px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
-                        <td className="px-6 py-4">
-                          <div className="flex flex-col items-center gap-1">
-                            <div className="flex justify-center gap-1">
-                              {team.form.slice(-5).map((r: string, i: number) => (
+                          </td>
+                          <td className="px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
+                        </tr>
+                        
+                        {intelTeam === team.name && (
+                          <tr className="bg-[var(--muted)]/5 border-l-4 border-[var(--accent-tertiary)] animate-in slide-in-from-left duration-300">
+                             <td colSpan={6} className="p-0">
+                                <div className="p-6 border-b border-[var(--border)] relative overflow-hidden">
+                                   <div className="absolute top-0 right-0 p-4">
+                                      <button onClick={(e) => { e.stopPropagation(); setIntelTeam(null); }} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-[10px] font-share-tech">[ COLLAPSE_X ]</button>
+                                   </div>
+                                   <div className="flex flex-col md:flex-row gap-8">
+                                      <div className="shrink-0 flex flex-col items-center">
+                                         <div className="w-16 h-16 border border-[var(--accent-tertiary)] cyber-chamfer grid place-items-center bg-[var(--background)] relative">
+                                            <span className="font-orbitron text-2xl font-black text-[var(--accent-tertiary)]">{team.name.substring(0, 3)}</span>
+                                         </div>
+                                         <div className="mt-4 text-center">
+                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">PLAYOFF_CHANCE</p>
+                                            <div className="font-orbitron text-lg font-black text-[var(--accent)]">{team.prob}%</div>
+                                         </div>
+                                      </div>
+                                      <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                         <div>
+                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">AVERAGE_SCORE</p>
+                                            <p className="font-orbitron text-lg font-bold text-[var(--foreground)]">{(team.runsScored / (team.p || 1)).toFixed(1)}</p>
+                                         </div>
+                                         <div>
+                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">RUNS_CONCEDED</p>
+                                            <p className="font-orbitron text-lg font-bold text-[var(--destructive)]">{team.runsConceded}</p>
+                                         </div>
+                                         <div>
+                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">BEST_SCORE</p>
+                                            <p className="font-orbitron text-lg font-bold text-[var(--accent-tertiary)]">
+                                               {Math.max(...matches.filter(m => m.team1 === team.name || m.team2 === team.name).map(m => m.team1 === team.name ? m.score1 : m.score2), 0)}
+                                            </p>
+                                         </div>
+                                         <div>
+                                            <p className="text-[8px] text-[var(--muted-foreground)] uppercase font-share-tech">WIN_RATE</p>
+                                            <p className="font-orbitron text-lg font-bold text-[var(--accent)]">
+                                               {(team.w / (team.p || 1) * 100).toFixed(0)}%
+                                            </p>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </div>
+                             </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </tbody>ing, i: number) => (
                                 <span key={i} className={`w-1.5 h-1.5 rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_5px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
                               ))}
                             </div>
@@ -601,61 +654,7 @@ function CricketApp() {
               </div>
             </div>
 
-            {/* TEAM INTEL DOSSIER */}
-            {intelTeam && (
-              <div className="bg-[var(--card)] border border-[var(--accent-tertiary)] p-6 cyber-chamfer relative animate-in slide-in-from-top duration-300">
-                <div className="absolute top-0 right-0 p-4">
-                  <button onClick={() => setIntelTeam(null)} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-xs font-share-tech">[ CLOSE_X ]</button>
-                </div>
-                
-                <div className="flex flex-col md:flex-row gap-8">
-                  <div className="shrink-0 flex flex-col items-center">
-                    <div className="w-24 h-24 border-2 border-[var(--accent-tertiary)] cyber-chamfer grid place-items-center bg-[var(--background)] relative">
-                      <div className="absolute inset-1 border border-[var(--accent-tertiary)]/30"></div>
-                      <span className="font-orbitron text-4xl font-black text-[var(--accent-tertiary)]">{intelTeam.substring(0, 3)}</span>
-                    </div>
-                    <div className="mt-4 text-center">
-                      <p className="text-[10px] text-[var(--muted-foreground)] uppercase font-share-tech">PLAYOFF_PROBABILITY</p>
-                      <div className="font-orbitron text-2xl font-black text-[var(--accent)]">{standings.find(s => s.name === intelTeam)?.prob}%</div>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div>
-                      <p className="text-[9px] text-[var(--muted-foreground)] uppercase font-share-tech">AVG_OUTPUT</p>
-                      <p className="font-orbitron text-xl font-bold">{((standings.find(s => s.name === intelTeam)?.runsScored || 0) / (standings.find(s => s.name === intelTeam)?.p || 1)).toFixed(1)}</p>
-                    </div>
-                    <div>
-                      <p className="text-[9px] text-[var(--muted-foreground)] uppercase font-share-tech">DAMAGE_SUSTAINED</p>
-                      <p className="font-orbitron text-xl font-bold text-[var(--destructive)]">{standings.find(s => s.name === intelTeam)?.runsConceded}</p>
-                    </div>
-                    <div>
-                      <p className="text-[9px] text-[var(--muted-foreground)] uppercase font-share-tech">MAX_PAYLOAD</p>
-                      <p className="font-orbitron text-xl font-bold text-[var(--accent-tertiary)]">
-                        {Math.max(...matches.filter(m => m.team1 === intelTeam || m.team2 === intelTeam).map(m => m.team1 === intelTeam ? m.score1 : m.score2), 0)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[9px] text-[var(--muted-foreground)] uppercase font-share-tech">WIN_RATIO</p>
-                      <p className="font-orbitron text-xl font-bold text-[var(--accent)]">
-                        {((standings.find(s => s.name === intelTeam)?.w || 0) / (standings.find(s => s.name === intelTeam)?.p || 1) * 100).toFixed(0)}%
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-4 border-t border-[var(--border)]">
-                  <div className="flex justify-between items-end">
-                    <div className="flex gap-1 h-8 items-end">
-                      {matches.filter(m => m.team1 === intelTeam || m.team2 === intelTeam).slice().reverse().map((m, i) => (
-                        <div key={i} className={`w-3 ${m.winner === intelTeam ? 'bg-[var(--accent)]' : 'bg-[var(--destructive)]'} hover:opacity-100 opacity-60 transition-opacity`} style={{ height: `${(m.team1 === intelTeam ? m.score1 : m.score2) / 2}px` }} title={`Score: ${m.team1 === intelTeam ? m.score1 : m.score2}`}></div>
-                      ))}
-                    </div>
-                    <p className="text-[8px] text-[var(--muted-foreground)] font-share-tech uppercase tracking-widest">OUTPUT_FLUCTUATION_INDEX</p>
-                  </div>
-                </div>
-              </div>
-            )}
+            </div>
 
             <div className="space-y-4 pt-4 border-t border-[var(--border)] border-dashed">
               <h3 className="font-share-tech text-sm text-[var(--muted-foreground)] uppercase tracking-[0.2em] flex items-center">
