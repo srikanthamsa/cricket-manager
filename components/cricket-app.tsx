@@ -166,7 +166,25 @@ function CricketApp() {
     Object.values(stats).forEach(t => {
       t.nrr = t.p > 0 ? ((t.runsScored - t.runsConceded) / (t.p * 5)).toFixed(2) : "0.00";
     });
-    return Object.values(stats).sort((a: any, b: any) => b.pts - a.pts || parseFloat(b.nrr) - parseFloat(a.nrr) || b.w - a.w);
+    return Object.values(stats).sort((a: any, b: any) => {
+      // 1. Points
+      if (b.pts !== a.pts) return b.pts - a.pts;
+      
+      // 2. Head-to-Head (Direct encounters)
+      const h2hMatches = matches.filter(m => 
+        (m.team1 === a.name && m.team2 === b.name) || 
+        (m.team1 === b.name && m.team2 === a.name)
+      );
+      const aWins = h2hMatches.filter(m => m.winner === a.name).length;
+      const bWins = h2hMatches.filter(m => m.winner === b.name).length;
+      if (aWins !== bWins) return bWins - aWins;
+      
+      // 3. Wins
+      if (b.w !== a.w) return b.w - a.w;
+      
+      // 4. Net Run Margin (Fallback)
+      return parseFloat(b.nrr) - parseFloat(a.nrr);
+    });
   }, [matches, teams]);
 
   const onFire = standings.find((t: any) => t.form.length >= 3 && t.form.slice(-3).every((r: string) => r === 'W'));
@@ -316,6 +334,33 @@ function CricketApp() {
                     </div>
                   )}
                 </div>
+
+                {nextFixture && (
+                  <div className="mt-6 bg-[var(--background)]/50 border border-[var(--border)] p-4 cyber-chamfer-sm relative overflow-hidden group/oracle">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent)]/5 to-transparent -translate-x-full group-hover/oracle:translate-x-full transition-transform duration-[2000ms]"></div>
+                    <div className="text-[9px] text-[var(--accent)] font-share-tech uppercase mb-3 flex items-center justify-between">
+                      <span className="flex items-center gap-2"><span className="w-1 h-1 bg-[var(--accent)] animate-ping"></span> // ORACLE_PREVIEW</span>
+                      <span className="opacity-50 tracking-[0.3em]">ANALYZING_SYSTEM_DATA...</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="flex-1">
+                        <div className="text-[10px] text-[var(--muted-foreground)] uppercase mb-1 font-share-tech">{nextFixture.team1}</div>
+                        <div className="h-1 bg-[var(--border)] overflow-hidden">
+                          <div className="h-full bg-[var(--accent)]" style={{ width: `${60 + (standings.findIndex(s => s.name === nextFixture.team1) < standings.findIndex(s => s.name === nextFixture.team2) ? 15 : -15)}%` }}></div>
+                        </div>
+                      </div>
+                      <div className="text-[10px] text-[var(--muted-foreground)] font-share-tech px-2">VS</div>
+                      <div className="flex-1">
+                        <div className="text-[10px] text-[var(--muted-foreground)] text-right uppercase mb-1 font-share-tech">{nextFixture.team2}</div>
+                        <div className="h-1 bg-[var(--border)] overflow-hidden">
+                          <div className="h-full bg-[var(--accent-secondary)] float-right" style={{ width: `${40 + (standings.findIndex(s => s.name === nextFixture.team2) < standings.findIndex(s => s.name === nextFixture.team1) ? 15 : -15)}%` }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
               </div>
             </div>
 
@@ -496,6 +541,7 @@ function CricketApp() {
                       <th className="px-6 py-4 font-normal">ENTITY_ID</th>
                       <th className="px-6 py-4 font-normal text-center">WIN</th>
                       <th className="px-6 py-4 font-normal text-center">LOSS</th>
+                      <th className="px-6 py-4 font-normal text-center">FORM</th>
                       <th className="px-6 py-4 font-normal text-center text-[var(--accent-secondary)]">NRR</th>
                       <th className="px-6 py-4 font-normal text-right text-[var(--accent)]">PWR</th>
                     </tr>
@@ -516,6 +562,13 @@ function CricketApp() {
                         </td>
                         <td className="px-6 py-4 text-center text-[var(--foreground)]">{team.w}</td>
                         <td className="px-6 py-4 text-center text-[var(--muted-foreground)]">{team.l}</td>
+                        <td className="px-6 py-4">
+                          <div className="flex justify-center gap-1">
+                            {team.form.slice(-5).map((r: string, i: number) => (
+                              <span key={i} className={`w-1.5 h-1.5 rounded-full ${r === 'W' ? 'bg-[var(--accent)] shadow-[0_0_5px_var(--accent)]' : 'bg-[var(--destructive)] opacity-50'}`}></span>
+                            ))}
+                          </div>
+                        </td>
                         <td className="px-6 py-4 text-center text-[var(--foreground)] opacity-80">{team.nrr > 0 ? `+${team.nrr}` : team.nrr}</td>
                         <td className="px-6 py-4 text-right font-bold text-xl text-[var(--accent)] drop-shadow-neon">{team.pts}</td>
                       </tr>
